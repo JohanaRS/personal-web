@@ -8,16 +8,16 @@ export function Services() {
       title: "Coaching Personal",
       subtitle: "Para vos",
       description:
-        "Para personas que buscan claridad, nuevos hábitos, foco, autoliderazgo y bienestar. Sesiones individuales donde trabajamos en lo que realmente importa para tu vida.",
+        "Para personas que buscan claridad, nuevos habitos, foco, autoliderazgo y bienestar. Sesiones individuales donde trabajamos en lo que realmente importa para tu vida.",
       features: [
-        "Claridad sobre lo que querés",
-        "Cambio de hábitos",
-        "Gestión emocional",
+        "Claridad sobre lo que queres",
+        "Cambio de habitos",
+        "Gestion emocional",
         "Autoliderazgo",
         "Bienestar integral",
       ],
       cta: {
-        label: "Agendar sesión",
+        label: "Agendar sesion",
         href: "https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha",
         external: true,
       },
@@ -25,13 +25,13 @@ export function Services() {
     {
       icon: Briefcase,
       title: "Coaching Profesional y Liderazgo",
-      subtitle: "Para líderes y profesionales",
+      subtitle: "Para lideres y profesionales",
       description:
-        "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicación, feedback, gestión del estrés, toma de decisiones y liderazgo consciente.",
+        "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicacion, feedback, gestion del estres, toma de decisiones y liderazgo consciente.",
       features: [
-        "Comunicación efectiva",
+        "Comunicacion efectiva",
         "Dar y recibir feedback",
-        "Gestión del estrés",
+        "Gestion del estres",
         "Toma de decisiones",
         "Liderazgo consciente",
       ],
@@ -47,9 +47,9 @@ export function Services() {
       title: "Talleres y Charlas",
       subtitle: "Para equipos y organizaciones",
       description:
-        "Instancias formativas con enfoque práctico, humano y aplicable. Diseñadas para generar impacto real en la cultura y dinámicas de trabajo.",
+        "Instancias formativas con enfoque practico, humano y aplicable. Disenadas para generar impacto real en la cultura y dinamicas de trabajo.",
       features: [
-        "Liderazgo y comunicación",
+        "Liderazgo y comunicacion",
         "Cultura de calidad",
         "Mejora continua",
         "Trabajo colaborativo",
@@ -72,10 +72,10 @@ export function Services() {
             Servicios
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Tres formas de acompañarte
+            Tres formas de acompanarte
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Cada persona y organización tiene necesidades únicas. Elegí el 
+            Cada persona y organizacion tiene necesidades unicas. Elegi el 
             formato que mejor se adapte a tu momento y objetivos.
           </p>
         </div>
@@ -85,29 +85,29 @@ export function Services() {
           {services.map((service) => (
             <div
               key={service.title}
-              className={`relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 ${
+              className={`relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group ${
                 service.featured
-                  ? "bg-primary text-primary-foreground border-primary shadow-xl scale-[1.02]"
-                  : "bg-card border-border hover:border-primary/30 hover:shadow-lg"
+                  ? "bg-primary text-primary-foreground border-primary shadow-xl scale-[1.02] hover:shadow-2xl hover:scale-[1.04]"
+                  : "bg-card border-border hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
               }`}
             >
               {service.featured && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-foreground text-background text-xs font-medium px-3 py-1 rounded-full">
-                    Más solicitado
+                    Mas solicitado
                   </span>
                 </div>
               )}
 
               <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${
+                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 ${
                   service.featured
                     ? "bg-primary-foreground/20"
-                    : "bg-primary/10"
+                    : "bg-primary/10 group-hover:bg-primary/20"
                 }`}
               >
                 <service.icon
-                  className={`w-6 h-6 ${
+                  className={`w-6 h-6 transition-transform duration-300 group-hover:scale-110 ${
                     service.featured ? "text-primary-foreground" : "text-primary"
                   }`}
                 />
@@ -152,7 +152,7 @@ export function Services() {
                     }`}
                   >
                     <span
-                      className={`w-1.5 h-1.5 rounded-full ${
+                      className={`w-1.5 h-1.5 rounded-full transition-transform duration-300 group-hover:scale-125 ${
                         service.featured
                           ? "bg-primary-foreground/60"
                           : "bg-primary"
@@ -166,10 +166,10 @@ export function Services() {
               <Button
                 asChild
                 variant={service.featured ? "secondary" : "default"}
-                className={`w-full ${
+                className={`w-full group/btn ${
                   service.featured
                     ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                    : "bg-primary hover:bg-primary/90"
+                    : ""
                 }`}
               >
                 {service.cta.external ? (
@@ -179,12 +179,12 @@ export function Services() {
                     rel="noopener noreferrer"
                   >
                     {service.cta.label}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </a>
                 ) : (
                   <a href={service.cta.href}>
                     {service.cta.label}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </a>
                 )}
               </Button>

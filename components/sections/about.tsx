@@ -8,28 +8,28 @@ export function About() {
           {/* Content */}
           <div>
             <span className="text-primary font-medium text-sm uppercase tracking-wider">
-              Sobre mí
+              Sobre mi
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-              Soy Johana Ríos
+              Soy Johana Rios
             </h2>
             
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 Coach certificada y facilitadora de procesos de cambio. Mi camino 
-                profesional me llevó desde la calidad de software y la gestión de 
-                equipos de tecnología hasta el acompañamiento de personas, líderes 
+                profesional me llevo desde la calidad de software y la gestion de 
+                equipos de tecnologia hasta el acompanamiento de personas, lideres 
                 y organizaciones.
               </p>
               <p>
                 Creo en un enfoque donde <strong className="text-foreground">lo humano y los procesos se integran</strong>,
                 donde el bienestar y los resultados no son opuestos, y donde cada 
-                desafío es una oportunidad de desarrollo.
+                desafio es una oportunidad de desarrollo.
               </p>
               <p>
-                Mi formación combina neurociencia aplicada, coaching ontológico y 
-                ejecutivo, PNL, comunicación no violenta y metodologías de mejora 
-                continua. Esta integración me permite acompañar desde una mirada 
+                Mi formacion combina neurociencia aplicada, coaching ontologico y 
+                ejecutivo, PNL, comunicacion no violenta y metodologias de mejora 
+                continua. Esta integracion me permite acompanar desde una mirada 
                 profunda, estructurada y siempre humana.
               </p>
             </div>
@@ -39,76 +39,59 @@ export function About() {
               {[
                 { icon: Heart, label: "Cuidado y escucha" },
                 { icon: Eye, label: "Claridad y foco" },
-                { icon: Lightbulb, label: "Propósito" },
-                { icon: Target, label: "Acción sostenible" },
+                { icon: Lightbulb, label: "Proposito" },
+                { icon: Target, label: "Accion sostenible" },
               ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-primary" />
+                <div 
+                  key={label} 
+                  className="flex items-center gap-3 group cursor-default"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                    <Icon className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="text-sm font-medium text-foreground">{label}</span>
+                  <span className="text-sm font-medium text-foreground transition-colors duration-300 group-hover:text-primary">{label}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* How I see challenges */}
-          <div className="bg-background rounded-2xl p-8 lg:p-10 border border-border">
+          <div className="bg-background rounded-2xl p-8 lg:p-10 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/20">
             <h3 className="text-xl font-semibold text-foreground mb-6">
-              Cómo miro los desafíos
+              Como miro los desafios
             </h3>
             
             <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-1 rounded-full bg-primary" />
-                <div>
-                  <p className="font-medium text-foreground">
-                    Los desafíos son oportunidades de desarrollo
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Cada dificultad contiene información valiosa para crecer.
-                  </p>
+              {[
+                {
+                  title: "Los desafios son oportunidades de desarrollo",
+                  desc: "Cada dificultad contiene informacion valiosa para crecer.",
+                },
+                {
+                  title: "Soy puente entre mundos",
+                  desc: "Entre lo humano y los procesos. Entre la emocion y la evidencia. Entre el bienestar y los resultados.",
+                },
+                {
+                  title: "Mirada integral de calidad",
+                  desc: "Aplico principios de mejora continua no solo a procesos, sino a la vida personal y profesional.",
+                },
+                {
+                  title: "Basado en neurociencia",
+                  desc: "Integro conocimientos de como funciona el cerebro para facilitar cambios reales y sostenibles.",
+                },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-4 group cursor-default">
+                  <div className="flex-shrink-0 w-1 rounded-full bg-primary transition-all duration-300 group-hover:bg-primary group-hover:w-1.5" />
+                  <div>
+                    <p className="font-medium text-foreground transition-colors duration-300 group-hover:text-primary">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-1 rounded-full bg-primary" />
-                <div>
-                  <p className="font-medium text-foreground">
-                    Soy puente entre mundos
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Entre lo humano y los procesos. Entre la emoción y la evidencia. 
-                    Entre el bienestar y los resultados.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-1 rounded-full bg-primary" />
-                <div>
-                  <p className="font-medium text-foreground">
-                    Mirada integral de calidad
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Aplico principios de mejora continua no solo a procesos, 
-                    sino a la vida personal y profesional.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-1 rounded-full bg-primary" />
-                <div>
-                  <p className="font-medium text-foreground">
-                    Basado en neurociencia
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Integro conocimientos de cómo funciona el cerebro para 
-                    facilitar cambios reales y sostenibles.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
