@@ -13,7 +13,7 @@ export function Hero() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
         <div className="max-w-3xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 transition-all duration-300 hover:bg-primary/20 hover:scale-105 cursor-default">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             Coaching basado en neurociencia
           </div>
@@ -26,20 +26,20 @@ export function Hero() {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-10 text-pretty">
-            Acompaño procesos de cambio personal, profesional y organizacional 
-            integrando liderazgo consciente, coaching, comunicación efectiva y 
+            Acompano procesos de cambio personal, profesional y organizacional 
+            integrando liderazgo consciente, coaching, comunicacion efectiva y 
             cultura de mejora continua desde lo humano.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-base px-8">
+            <Button asChild size="lg" className="text-base px-8 group">
               <a href="#como-acompano">
-                Conocer cómo acompaño
-                <ArrowRight className="ml-2 h-4 w-4" />
+                Conocer como acompano
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-base px-8 bg-transparent">
+            <Button asChild variant="outline" size="lg" className="text-base px-8">
               <a href="#contacto">
                 Contactarme
               </a>
@@ -49,19 +49,19 @@ export function Hero() {
           {/* Trust indicators */}
           <div className="mt-16 pt-10 border-t border-border/50">
             <p className="text-sm text-muted-foreground mb-6">
-              Para personas, líderes, equipos y organizaciones que buscan:
+              Para personas, lideres, equipos y organizaciones que buscan:
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-foreground/70">
               {[
                 "Claridad y foco",
                 "Bienestar sostenible",
-                "Comunicación efectiva",
+                "Comunicacion efectiva",
                 "Procesos claros",
                 "Resultados con cuidado humano",
               ].map((item) => (
                 <span
                   key={item}
-                  className="px-4 py-2 rounded-full bg-card border border-border"
+                  className="px-4 py-2 rounded-full bg-card border border-border transition-all duration-300 hover:border-primary/40 hover:bg-primary/5 hover:text-primary cursor-default"
                 >
                   {item}
                 </span>

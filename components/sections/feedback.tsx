@@ -9,21 +9,21 @@ import { Quote } from "lucide-react"
 const testimonials = [
   {
     quote:
-      "El proceso con Johana me ayudó a encontrar claridad en un momento de mucha confusión. Su forma de escuchar y hacer preguntas me permitió ver opciones que antes no veía.",
-    author: "María L.",
-    role: "Líder de equipo de tecnología",
+      "El proceso con Johana me ayudo a encontrar claridad en un momento de mucha confusion. Su forma de escuchar y hacer preguntas me permitio ver opciones que antes no veia.",
+    author: "Maria L.",
+    role: "Lider de equipo de tecnologia",
     placeholder: true,
   },
   {
     quote:
-      "Joha tiene esa capacidad única de integrar lo humano con lo técnico. Los talleres que facilitó para nuestro equipo generaron cambios reales en cómo nos comunicamos.",
+      "Joha tiene esa capacidad unica de integrar lo humano con lo tecnico. Los talleres que facilito para nuestro equipo generaron cambios reales en como nos comunicamos.",
     author: "Carlos R.",
     role: "Director de operaciones",
     placeholder: true,
   },
   {
     quote:
-      "Después de años trabajando sin parar, el coaching me ayudó a entender que el bienestar no es un lujo sino una necesidad. Hoy lidero mejor porque me cuido mejor.",
+      "Despues de anos trabajando sin parar, el coaching me ayudo a entender que el bienestar no es un lujo sino una necesidad. Hoy lidero mejor porque me cuido mejor.",
     author: "Ana P.",
     role: "Gerente de proyectos",
     placeholder: true,
@@ -70,19 +70,19 @@ export function Feedback() {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="relative bg-card rounded-xl p-6 lg:p-8 border border-border"
+              className="relative bg-card rounded-xl p-6 lg:p-8 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1 cursor-default group"
             >
               {testimonial.placeholder && (
-                <span className="absolute top-4 right-4 text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                <span className="absolute top-4 right-4 text-xs text-muted-foreground bg-muted px-2 py-1 rounded transition-colors duration-300 group-hover:bg-primary/10 group-hover:text-primary">
                   Ejemplo
                 </span>
               )}
-              <Quote className="w-8 h-8 text-primary/30 mb-4" />
+              <Quote className="w-8 h-8 text-primary/30 mb-4 transition-colors duration-300 group-hover:text-primary/50" />
               <p className="text-foreground/90 leading-relaxed mb-6">
                 {testimonial.quote}
               </p>
               <div className="border-t border-border pt-4">
-                <p className="font-semibold text-foreground">
+                <p className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">
                   {testimonial.author}
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -95,18 +95,18 @@ export function Feedback() {
 
         {/* Feedback Form */}
         <div className="max-w-2xl mx-auto">
-          <div className="bg-card rounded-2xl p-8 lg:p-10 border border-border">
+          <div className="bg-card rounded-2xl p-8 lg:p-10 border border-border transition-all duration-300 hover:shadow-lg">
             <h3 className="text-xl font-semibold text-foreground mb-2 text-center">
-              ¿Trabajamos juntos?
+              Trabajamos juntos?
             </h3>
             <p className="text-muted-foreground text-center mb-8">
-              Me encantaría conocer tu experiencia. Tu feedback ayuda a mejorar 
+              Me encantaria conocer tu experiencia. Tu feedback ayuda a mejorar 
               y a que otros puedan decidir con confianza.
             </p>
 
             {isSubmitted ? (
               <div className="text-center py-8">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 animate-in zoom-in-50 duration-300">
                   <svg
                     className="w-8 h-8 text-primary"
                     fill="none"
@@ -122,7 +122,7 @@ export function Feedback() {
                   </svg>
                 </div>
                 <h4 className="text-lg font-semibold text-foreground mb-2">
-                  ¡Gracias por tu feedback!
+                  Gracias por tu feedback!
                 </h4>
                 <p className="text-muted-foreground">
                   Tu mensaje fue enviado correctamente.
@@ -146,7 +146,7 @@ export function Feedback() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30"
                       placeholder="Tu nombre"
                     />
                   </div>
@@ -165,7 +165,7 @@ export function Feedback() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30"
                       placeholder="tu@email.com"
                     />
                   </div>
@@ -186,8 +186,8 @@ export function Feedback() {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors resize-none"
-                    placeholder="Contame cómo fue tu experiencia..."
+                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none hover:border-primary/30"
+                    placeholder="Contame como fue tu experiencia..."
                   />
                 </div>
 
@@ -199,13 +199,13 @@ export function Feedback() {
                     onChange={(e) =>
                       setFormData({ ...formData, authorize: e.target.checked })
                     }
-                    className="mt-1 w-4 h-4 rounded border-border text-primary focus:ring-primary/50"
+                    className="mt-1 w-4 h-4 rounded border-border text-primary focus:ring-primary/50 transition-colors duration-300 cursor-pointer"
                   />
                   <label
                     htmlFor="authorize"
-                    className="text-sm text-muted-foreground"
+                    className="text-sm text-muted-foreground cursor-pointer"
                   >
-                    Autorizo a publicar este comentario de forma anónima o con mi 
+                    Autorizo a publicar este comentario de forma anonima o con mi 
                     nombre en el sitio web.
                   </label>
                 </div>
@@ -213,7 +213,7 @@ export function Feedback() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-primary hover:bg-primary/90"
+                  className="w-full"
                 >
                   {isSubmitting ? "Enviando..." : "Enviar feedback"}
                 </Button>

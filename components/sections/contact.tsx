@@ -14,9 +14,9 @@ export function Contact() {
             El primer paso es conversar
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Si algo de lo que leíste resonó con vos, escribime. No hay 
-            compromiso, solo una conversación para conocernos y ver si puedo 
-            acompañarte en lo que necesitás.
+            Si algo de lo que leiste resono con vos, escribime. No hay 
+            compromiso, solo una conversacion para conocernos y ver si puedo 
+            acompanarte en lo que necesitas.
           </p>
 
           {/* Contact Options */}
@@ -24,12 +24,12 @@ export function Contact() {
             {/* Email */}
             <a
               href="mailto:johanapaolarios@gmail.com"
-              className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg"
+              className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-2"
             >
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                <Mail className="w-5 h-5 text-primary" />
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                <Mail className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <p className="font-semibold text-foreground mb-1">Email</p>
+              <p className="font-semibold text-foreground mb-1 transition-colors duration-300 group-hover:text-primary">Email</p>
               <p className="text-sm text-muted-foreground break-all">
                 johanapaolarios@gmail.com
               </p>
@@ -40,12 +40,12 @@ export function Contact() {
               href="https://instagram.com/johana.rioss"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg"
+              className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-2"
             >
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                <Instagram className="w-5 h-5 text-primary" />
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                <Instagram className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <p className="font-semibold text-foreground mb-1">Instagram</p>
+              <p className="font-semibold text-foreground mb-1 transition-colors duration-300 group-hover:text-primary">Instagram</p>
               <p className="text-sm text-muted-foreground">@johana.rioss</p>
             </a>
 
@@ -54,12 +54,12 @@ export function Contact() {
               href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg"
+              className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-2"
             >
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                <Calendar className="w-5 h-5 text-primary" />
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                <Calendar className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <p className="font-semibold text-foreground mb-1">Agendar</p>
+              <p className="font-semibold text-foreground mb-1 transition-colors duration-300 group-hover:text-primary">Agendar</p>
               <p className="text-sm text-muted-foreground">
                 Ver disponibilidad
               </p>
@@ -71,7 +71,7 @@ export function Contact() {
             <Button
               asChild
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-base px-10"
+              className="text-base px-10"
             >
               <a
                 href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
@@ -79,11 +79,11 @@ export function Contact() {
                 rel="noopener noreferrer"
               >
                 <Calendar className="mr-2 h-5 w-5" />
-                Agendar sesión exploratoria
+                Agendar sesion exploratoria
               </a>
             </Button>
             <p className="mt-4 text-sm text-muted-foreground">
-              Sin compromiso. Es una primera conversación para conocernos.
+              Sin compromiso. Es una primera conversacion para conocernos.
             </p>
           </div>
         </div>

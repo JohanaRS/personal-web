@@ -20,11 +20,11 @@ export function Blog() {
 
         {/* Empty State / Coming Soon */}
         <div className="max-w-md mx-auto text-center">
-          <div className="bg-background rounded-xl p-8 border border-border">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-              <BookOpen className="w-8 h-8 text-primary" />
+          <div className="bg-background rounded-xl p-8 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg group cursor-default">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6 transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+              <BookOpen className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <h3 className="text-lg font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">
               Proximamente
             </h3>
             <p className="text-sm text-muted-foreground">

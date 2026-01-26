@@ -20,7 +20,7 @@ export function StartingPoint() {
 
         {/* Wheel of Life Card */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-card rounded-2xl p-8 lg:p-12 border border-border">
+          <div className="bg-card rounded-2xl p-8 lg:p-12 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/20">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               {/* Left Content */}
               <div>
@@ -41,16 +41,16 @@ export function StartingPoint() {
                   mas atencion.
                 </p>
                 
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                <Button asChild size="lg" className="group">
                   <a href="/rueda-de-la-vida">
                     Ve tu Rueda de la Vida
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                 </Button>
               </div>
 
               {/* Right Content - Info Box */}
-              <div className="bg-background rounded-xl p-6 border border-border">
+              <div className="bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-md">
                 <div className="space-y-6">
                   <div>
                     <p className="text-sm font-medium text-primary mb-2">
@@ -67,7 +67,7 @@ export function StartingPoint() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Queres explorar tus resultados con acompanamiento profesional?
                     </p>
-                    <Button asChild variant="outline" size="sm">
+                    <Button asChild variant="outline" size="sm" className="group">
                       <a
                         href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
                         target="_blank"
