@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Johana Ríos | Coaching, Liderazgo y Mejora Continua',
-  description: 'Acompaño procesos de cambio personal, profesional y organizacional. Liderazgo consciente, coaching basado en neurociencia, comunicación efectiva y cultura de calidad.',
+  title: 'Liderar, comunicar y mejorar...   sin romperte en el intento',
+  description: 'Acompano procesos de cambio personal, profesional y organizacional. Liderazgo consciente, coaching basado en neurociencia, comunicacion efectiva y cultura de calidad.',
   keywords: ['coaching', 'liderazgo', 'mejora continua', 'desarrollo personal', 'coaching organizacional', 'neurociencia', 'comunicación efectiva'],
   authors: [{ name: 'Johana Ríos' }],
   openGraph: {

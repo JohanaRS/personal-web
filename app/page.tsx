@@ -4,7 +4,9 @@ import { About } from "@/components/sections/about"
 import { Process } from "@/components/sections/process"
 import { Experience } from "@/components/sections/experience"
 import { Services } from "@/components/sections/services"
+import { StartingPoint } from "@/components/sections/starting-point"
 import { Workshops } from "@/components/sections/workshops"
+import { Blog } from "@/components/sections/blog"
 import { Feedback } from "@/components/sections/feedback"
 import { Contact } from "@/components/sections/contact"
 import { Footer } from "@/components/footer"
@@ -19,7 +21,9 @@ export default function Home() {
         <Process />
         <Experience />
         <Services />
+        <StartingPoint />
         <Workshops />
+        <Blog />
         <Feedback />
         <Contact />
       </main>
