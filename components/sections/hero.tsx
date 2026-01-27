@@ -15,20 +15,27 @@ export function Hero() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 transition-all duration-300 hover:bg-primary/20 hover:scale-105 cursor-default">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Coaching basado en neurociencia
+            Coaching con PNL
           </div>
 
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-foreground leading-tight tracking-tight text-balance mb-6">
-            Liderar, comunicar y mejorar…{" "}
-            <span className="text-primary">sin romperte en el intento</span>
+            Claridad para avanzar,{" "}
+            <span className="text-primary">consciencia para sostener el camino</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-10 text-pretty">
-            Acompano procesos de cambio personal, profesional y organizacional 
-            integrando liderazgo consciente, coaching, comunicacion efectiva y 
-            cultura de mejora continua desde lo humano.
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-6 text-pretty">
+            Coaching con Programacion Neurolinguistica para acompanarte en tus 
+            procesos personales y profesionales, con un enfoque humano, consciente 
+            y sostenible.
+          </p>
+
+          {/* Supporting text */}
+          <p className="text-base text-muted-foreground/80 leading-relaxed max-w-xl mx-auto mb-10 text-pretty">
+            Te acompano en procesos de cambio, toma de decisiones, desarrollo 
+            personal, liderazgo y trabajo en equipo. Cada camino es unico, y 
+            estoy aqui para recorrerlo contigo.
           </p>
 
           {/* CTAs */}
@@ -41,7 +48,7 @@ export function Hero() {
             </Button>
             <Button asChild variant="outline" size="lg" className="text-base px-8">
               <a href="#contacto">
-                Contactarme
+                Conversemos
               </a>
             </Button>
           </div>
@@ -49,15 +56,15 @@ export function Hero() {
           {/* Trust indicators */}
           <div className="mt-16 pt-10 border-t border-border/50">
             <p className="text-sm text-muted-foreground mb-6">
-              Para personas, lideres, equipos y organizaciones que buscan:
+              Para quienes buscan:
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-foreground/70">
               {[
-                "Claridad y foco",
+                "Claridad interior",
+                "Transitar cambios",
+                "Crecer con consciencia",
+                "Liderar desde el ser",
                 "Bienestar sostenible",
-                "Comunicacion efectiva",
-                "Procesos claros",
-                "Resultados con cuidado humano",
               ].map((item) => (
                 <span
                   key={item}
