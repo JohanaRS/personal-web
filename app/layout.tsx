@@ -10,16 +10,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Liderar, comunicar y mejorar...   sin romperte en el intento',
-  description: 'Acompano procesos de cambio personal, profesional y organizacional. Liderazgo consciente, coaching basado en neurociencia, comunicacion efectiva y cultura de calidad.',
+  title: 'Johana Ríos | Liderar, comunicar y mejorar sin romperte en el intento',
+  description: 'Acompaño procesos de cambio personal, profesional y organizacional. Liderazgo consciente, coaching basado en neurociencia, comunicación efectiva y cultura de calidad.',
   keywords: ['coaching', 'liderazgo', 'mejora continua', 'desarrollo personal', 'coaching organizacional', 'neurociencia', 'comunicación efectiva'],
   authors: [{ name: 'Johana Ríos' }],
+  metadataBase: new URL('https://johanarios.com'),
   openGraph: {
     title: 'Johana Ríos | Coaching, Liderazgo y Mejora Continua',
     description: 'Acompaño procesos de cambio personal, profesional y organizacional desde un enfoque humano e integral.',
     type: 'website',
+    url: 'https://johanarios.com',
+    siteName: 'Johana Ríos',
   },
-    generator: 'v0.app'
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Johana Ríos | Coaching, Liderazgo y Mejora Continua',
+    description: 'Acompaño procesos de cambio personal, profesional y organizacional desde un enfoque humano e integral.',
+  },
+  generator: 'v0.app'
 }
 
 export const viewport: Viewport = {
