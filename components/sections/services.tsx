@@ -40,7 +40,7 @@ export function Services() {
         href: "#contacto",
         external: false,
       },
-      featured: true,
+
     },
     {
       icon: UsersRound,
@@ -85,59 +85,21 @@ export function Services() {
           {services.map((service) => (
             <div
               key={service.title}
-              className={`relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group ${
-                service.featured
-                  ? "bg-primary text-primary-foreground border-primary shadow-xl scale-[1.02] hover:shadow-2xl hover:scale-[1.04]"
-                  : "bg-card border-border hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
-              }`}
+              className="relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group bg-card border-border hover:border-primary hover:shadow-xl hover:-translate-y-2 hover:bg-primary/5"
             >
-              {service.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-foreground text-background text-xs font-medium px-3 py-1 rounded-full">
-                    Mas solicitado
-                  </span>
-                </div>
-              )}
-
-              <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 ${
-                  service.featured
-                    ? "bg-primary-foreground/20"
-                    : "bg-primary/10 group-hover:bg-primary/20"
-                }`}
-              >
-                <service.icon
-                  className={`w-6 h-6 transition-transform duration-300 group-hover:scale-110 ${
-                    service.featured ? "text-primary-foreground" : "text-primary"
-                  }`}
-                />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110">
+                <service.icon className="w-6 h-6 transition-transform duration-300 text-primary group-hover:scale-110" />
               </div>
 
-              <p
-                className={`text-sm font-medium mb-2 ${
-                  service.featured
-                    ? "text-primary-foreground/80"
-                    : "text-muted-foreground"
-                }`}
-              >
+              <p className="text-sm font-medium mb-2 text-muted-foreground group-hover:text-primary transition-colors duration-300">
                 {service.subtitle}
               </p>
               
-              <h3
-                className={`text-xl font-semibold mb-3 ${
-                  service.featured ? "text-primary-foreground" : "text-foreground"
-                }`}
-              >
+              <h3 className="text-xl font-semibold mb-3 text-foreground">
                 {service.title}
               </h3>
               
-              <p
-                className={`text-sm leading-relaxed mb-6 ${
-                  service.featured
-                    ? "text-primary-foreground/90"
-                    : "text-muted-foreground"
-                }`}
-              >
+              <p className="text-sm leading-relaxed mb-6 text-muted-foreground">
                 {service.description}
               </p>
 
@@ -145,33 +107,15 @@ export function Services() {
                 {service.features.map((feature) => (
                   <li
                     key={feature}
-                    className={`flex items-center gap-2 text-sm ${
-                      service.featured
-                        ? "text-primary-foreground/90"
-                        : "text-foreground/80"
-                    }`}
+                    className="flex items-center gap-2 text-sm text-foreground/80"
                   >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full transition-transform duration-300 group-hover:scale-125 ${
-                        service.featured
-                          ? "bg-primary-foreground/60"
-                          : "bg-primary"
-                      }`}
-                    />
+                    <span className="w-1.5 h-1.5 rounded-full transition-transform duration-300 bg-primary group-hover:scale-125" />
                     {feature}
                   </li>
                 ))}
               </ul>
 
-              <Button
-                asChild
-                variant={service.featured ? "secondary" : "default"}
-                className={`w-full group/btn ${
-                  service.featured
-                    ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                    : ""
-                }`}
-              >
+              <Button asChild className="w-full group/btn">
                 {service.cta.external ? (
                   <a
                     href={service.cta.href}
