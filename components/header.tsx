@@ -93,14 +93,14 @@ export function Header() {
                   <NavigationMenuTrigger className="bg-transparent text-sm font-medium text-foreground/80 hover:text-primary hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-primary data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent transition-colors duration-300">
                     Sobre mi
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
+                  <NavigationMenuContent className="bg-background border border-border shadow-lg rounded-md">
                     <ul className="grid w-48 gap-1 p-2">
                       {sobreMiItems.map((item) => (
                         <li key={item.href}>
                           <NavigationMenuLink asChild>
                             <Link
                               href={item.href}
-                              className="block select-none rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-all duration-300 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              className="block select-none rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-all duration-300 text-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                             >
                               {item.label}
                             </Link>
