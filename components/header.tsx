@@ -1,18 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+import { Menu, X, ChevronDown } from "lucide-react"
 
 const navItems = [
   { label: "Inicio", href: "#inicio" },
@@ -43,6 +35,8 @@ const mobileNavItems = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [sobreMiOpen, setSobreMiOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +44,16 @@ export function Header() {
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setSobreMiOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   return (
@@ -87,31 +91,36 @@ export function Header() {
             ))}
             
             {/* Sobre mi dropdown */}
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>
-                    Sobre mi
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-background border border-border shadow-lg rounded-md">
-                    <ul className="grid w-48 gap-1 p-2">
-                      {sobreMiItems.map((item) => (
-                        <li key={item.href}>
-                          <NavigationMenuLink asChild>
-                            <Link
-                              href={item.href}
-                              className="block select-none rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-all duration-300 text-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                            >
-                              {item.label}
-                            </Link>
-                          </NavigationMenuLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            <div 
+              ref={dropdownRef}
+              className="relative"
+              onMouseEnter={() => setSobreMiOpen(true)}
+              onMouseLeave={() => setSobreMiOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setSobreMiOpen(!sobreMiOpen)}
+                className="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground/80 transition-all duration-300 hover:text-primary rounded-md"
+              >
+                Sobre mi
+                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${sobreMiOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {sobreMiOpen && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-background border border-border rounded-md shadow-lg py-2 z-50">
+                  {sobreMiItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2 text-sm text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-200"
+                      onClick={() => setSobreMiOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <Link
               href="#talleres"
