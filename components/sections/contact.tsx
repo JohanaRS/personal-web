@@ -37,7 +37,7 @@ export function Contact() {
 
             {/* Instagram */}
             <a
-              href="https://instagram.com/johana.rioss"
+              href="https://instagram.com/joharios.coach"
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-2"
@@ -46,7 +46,7 @@ export function Contact() {
                 <Instagram className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
               </div>
               <p className="font-semibold text-foreground mb-1 transition-colors duration-300 group-hover:text-primary">Instagram</p>
-              <p className="text-sm text-muted-foreground">@johana.rioss</p>
+              <p className="text-sm text-muted-foreground">@joharios.coach</p>
             </a>
 
             {/* Calendly */}

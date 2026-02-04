@@ -42,7 +42,7 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg" className="text-base px-8 group">
               <a href="#como-acompano">
-                Conocer como acompano
+                Conocer como acompaño
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </Button>
