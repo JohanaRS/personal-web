@@ -257,7 +257,7 @@ export function Contact() {
 
               {/* Calendly */}
               <a
-                href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
+                href="https://calendly.com/johanapaolarios/coaching-con-joha"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 bg-background rounded-xl p-5 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
@@ -285,7 +285,7 @@ export function Contact() {
                 className="w-full sm:w-auto"
               >
                 <a
-                  href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
+                  href="https://calendly.com/johanapaolarios/coaching-con-joha"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

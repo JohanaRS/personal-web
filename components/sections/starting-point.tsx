@@ -69,7 +69,7 @@ export function StartingPoint() {
                     </p>
                     <Button asChild variant="outline" size="sm" className="group">
                       <a
-                        href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
+                        href="https://calendly.com/johanapaolarios/coaching-con-joha"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

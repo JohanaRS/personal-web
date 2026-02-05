@@ -139,7 +139,7 @@ export function Header() {
           <div className="hidden lg:block">
             <Button asChild>
               <a
-                href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
+                href="https://calendly.com/johanapaolarios/coaching-con-joha"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -180,7 +180,7 @@ export function Header() {
           <div className="pt-4">
             <Button asChild className="w-full">
               <a
-                href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
+                href="https://calendly.com/johanapaolarios/coaching-con-joha"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -18,7 +18,7 @@ export function Services() {
       ],
       cta: {
         label: "Agendar sesión",
-        href: "https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha",
+        href: "https://calendly.com/johanapaolarios/coaching-con-joha",
         external: true,
       },
     },
