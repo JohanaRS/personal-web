@@ -26,23 +26,23 @@ export function Hero() {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-6 text-pretty">
-            Coaching con Programacion Neurolinguistica para acompanarte en tus 
+            Coaching con Programación Neurolingüística para acompañarte en tus 
             procesos personales y profesionales, con un enfoque humano, consciente 
             y sostenible.
           </p>
 
           {/* Supporting text */}
           <p className="text-base text-muted-foreground/80 leading-relaxed max-w-xl mx-auto mb-10 text-pretty">
-            Te acompano en procesos de cambio, toma de decisiones, desarrollo 
-            personal, liderazgo y trabajo en equipo. Cada camino es unico, y 
-            estoy aqui para recorrerlo contigo.
+            Te acompaño en procesos de cambio, toma de decisiones, desarrollo 
+            personal, liderazgo y trabajo en equipo. Cada camino es único, y 
+            estoy aquí para recorrerlo contigo.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg" className="text-base px-8 group">
               <a href="#como-acompano">
-                Conocer como acompano
+                Conocer cómo acompaño
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </Button>

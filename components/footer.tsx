@@ -8,7 +8,6 @@ const quickLinks = [
   { label: "Cómo acompaño", href: "#como-acompano" },
   { label: "Servicios", href: "#servicios" },
   { label: "Talleres & Charlas", href: "#talleres" },
-  { label: "Feedback", href: "#feedback" },
   { label: "Contacto", href: "#contacto" },
 ]
 
@@ -66,13 +65,13 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/johana.rioss"
+                  href="https://instagram.com/joharios.coach"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   <Instagram className="w-4 h-4" />
-                  @johana.rioss
+                  @joharios.coach
                 </a>
               </li>
             </ul>

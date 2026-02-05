@@ -8,30 +8,30 @@ export function Services() {
       title: "Coaching Personal",
       subtitle: "Para vos",
       description:
-        "Para personas que buscan claridad, nuevos habitos, foco, autoliderazgo y bienestar. Sesiones individuales donde trabajamos en lo que realmente importa para tu vida.",
+        "Para personas que buscan claridad, nuevos hábitos, foco, autoliderazgo y bienestar. Sesiones individuales donde trabajamos en lo que realmente importa para tu vida.",
       features: [
-        "Claridad sobre lo que queres",
-        "Cambio de habitos",
-        "Gestion emocional",
+        "Claridad sobre lo que querés",
+        "Cambio de hábitos",
+        "Gestión emocional",
         "Autoliderazgo",
         "Bienestar integral",
       ],
       cta: {
-        label: "Agendar sesion",
-        href: "https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha",
+        label: "Agendar sesión",
+        href: "https://calendly.com/johanapaolarios/coaching-con-joha",
         external: true,
       },
     },
     {
       icon: Briefcase,
       title: "Coaching Profesional y Liderazgo",
-      subtitle: "Para lideres y profesionales",
+      subtitle: "Para líderes y profesionales",
       description:
-        "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicacion, feedback, gestion del estres, toma de decisiones y liderazgo consciente.",
+        "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicación, feedback, gestión del estrés, toma de decisiones y liderazgo consciente.",
       features: [
-        "Comunicacion efectiva",
+        "Comunicación efectiva",
         "Dar y recibir feedback",
-        "Gestion del estres",
+        "Gestión del estrés",
         "Toma de decisiones",
         "Liderazgo consciente",
       ],
@@ -40,16 +40,16 @@ export function Services() {
         href: "#contacto",
         external: false,
       },
-      featured: true,
+
     },
     {
       icon: UsersRound,
       title: "Talleres y Charlas",
       subtitle: "Para equipos y organizaciones",
       description:
-        "Instancias formativas con enfoque practico, humano y aplicable. Disenadas para generar impacto real en la cultura y dinamicas de trabajo.",
+        "Instancias formativas con enfoque práctico, humano y aplicable. Diseñadas para generar impacto real en la cultura y dinámicas de trabajo.",
       features: [
-        "Liderazgo y comunicacion",
+        "Liderazgo y comunicación",
         "Cultura de calidad",
         "Mejora continua",
         "Trabajo colaborativo",
@@ -72,10 +72,10 @@ export function Services() {
             Servicios
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Tres formas de acompanarte
+            Tres formas de acompañarte
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Cada persona y organizacion tiene necesidades unicas. Elegi el 
+            Cada persona y organización tiene necesidades únicas. Elegí el 
             formato que mejor se adapte a tu momento y objetivos.
           </p>
         </div>
@@ -85,59 +85,21 @@ export function Services() {
           {services.map((service) => (
             <div
               key={service.title}
-              className={`relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group ${
-                service.featured
-                  ? "bg-primary text-primary-foreground border-primary shadow-xl scale-[1.02] hover:shadow-2xl hover:scale-[1.04]"
-                  : "bg-card border-border hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
-              }`}
+              className="relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group bg-card border-border hover:border-primary hover:shadow-xl hover:-translate-y-2 hover:bg-primary/5"
             >
-              {service.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-foreground text-background text-xs font-medium px-3 py-1 rounded-full">
-                    Mas solicitado
-                  </span>
-                </div>
-              )}
-
-              <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 ${
-                  service.featured
-                    ? "bg-primary-foreground/20"
-                    : "bg-primary/10 group-hover:bg-primary/20"
-                }`}
-              >
-                <service.icon
-                  className={`w-6 h-6 transition-transform duration-300 group-hover:scale-110 ${
-                    service.featured ? "text-primary-foreground" : "text-primary"
-                  }`}
-                />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110">
+                <service.icon className="w-6 h-6 transition-transform duration-300 text-primary group-hover:scale-110" />
               </div>
 
-              <p
-                className={`text-sm font-medium mb-2 ${
-                  service.featured
-                    ? "text-primary-foreground/80"
-                    : "text-muted-foreground"
-                }`}
-              >
+              <p className="text-sm font-medium mb-2 text-muted-foreground group-hover:text-primary transition-colors duration-300">
                 {service.subtitle}
               </p>
               
-              <h3
-                className={`text-xl font-semibold mb-3 ${
-                  service.featured ? "text-primary-foreground" : "text-foreground"
-                }`}
-              >
+              <h3 className="text-xl font-semibold mb-3 text-foreground">
                 {service.title}
               </h3>
               
-              <p
-                className={`text-sm leading-relaxed mb-6 ${
-                  service.featured
-                    ? "text-primary-foreground/90"
-                    : "text-muted-foreground"
-                }`}
-              >
+              <p className="text-sm leading-relaxed mb-6 text-muted-foreground">
                 {service.description}
               </p>
 
@@ -145,33 +107,15 @@ export function Services() {
                 {service.features.map((feature) => (
                   <li
                     key={feature}
-                    className={`flex items-center gap-2 text-sm ${
-                      service.featured
-                        ? "text-primary-foreground/90"
-                        : "text-foreground/80"
-                    }`}
+                    className="flex items-center gap-2 text-sm text-foreground/80"
                   >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full transition-transform duration-300 group-hover:scale-125 ${
-                        service.featured
-                          ? "bg-primary-foreground/60"
-                          : "bg-primary"
-                      }`}
-                    />
+                    <span className="w-1.5 h-1.5 rounded-full transition-transform duration-300 bg-primary group-hover:scale-125" />
                     {feature}
                   </li>
                 ))}
               </ul>
 
-              <Button
-                asChild
-                variant={service.featured ? "secondary" : "default"}
-                className={`w-full group/btn ${
-                  service.featured
-                    ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                    : ""
-                }`}
-              >
+              <Button asChild className="w-full group/btn">
                 {service.cta.external ? (
                   <a
                     href={service.cta.href}

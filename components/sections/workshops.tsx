@@ -14,17 +14,17 @@ export function Workshops() {
       icon: Heart,
       title: "Liderar desde el cuidado",
       description:
-        "Como construir equipos sostenibles donde el bienestar y los resultados convivan.",
+        "Cómo construir equipos sostenibles donde el bienestar y los resultados convivan.",
     },
     {
       icon: Bug,
       title: "Debugging organizacional",
       description:
-        "Encontrar y resolver los 'bugs' que frenan a tu equipo: comunicacion, procesos, dinamicas.",
+        "Encontrar y resolver los 'bugs' que frenan a tu equipo: comunicación, procesos, dinámicas.",
     },
     {
       icon: MessageCircle,
-      title: "Comunicacion en equipos diversos",
+      title: "Comunicación en equipos diversos",
       description:
         "Herramientas para comunicarse mejor en contextos multiculturales y multidisciplinarios.",
     },
@@ -32,19 +32,19 @@ export function Workshops() {
       icon: Award,
       title: "Calidad como cultura",
       description:
-        "Integrar la mentalidad de mejora continua en el ADN del equipo, mas alla de los procesos.",
+        "Integrar la mentalidad de mejora continua en el ADN del equipo, más allá de los procesos.",
     },
     {
       icon: TrendingUp,
-      title: "Mejora continua aplicada al dia a dia",
+      title: "Mejora continua aplicada al día a día",
       description:
-        "Pequenos cambios, grandes resultados. Metodologias simples para mejorar constantemente.",
+        "Pequeños cambios, grandes resultados. Metodologías simples para mejorar constantemente.",
     },
     {
       icon: Cpu,
       title: "IA como acelerador del trabajo humano",
       description:
-        "Como usar inteligencia artificial para potenciar (no reemplazar) el talento humano.",
+        "Cómo usar inteligencia artificial para potenciar (no reemplazar) el talento humano.",
     },
   ]
 
@@ -57,11 +57,11 @@ export function Workshops() {
             Talleres & Charlas
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Formacion practica para equipos y organizaciones
+            Formación práctica para equipos y organizaciones
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Cada taller esta disenado para generar impacto inmediato. 
-            Combino teoria con ejercicios practicos y herramientas aplicables.
+            Cada taller está diseñado para generar impacto inmediato. 
+            Combino teoría con ejercicios prácticos y herramientas aplicables.
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export function Workshops() {
         {/* CTA */}
         <div className="mt-12 text-center">
           <p className="text-muted-foreground mb-6">
-            Buscas un taller a medida para tu equipo?
+            ¿Buscás un taller a medida para tu equipo?
           </p>
           <Button asChild size="lg">
             <a href="#contacto">Solicitar propuesta personalizada</a>

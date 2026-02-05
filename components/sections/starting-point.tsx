@@ -11,10 +11,10 @@ export function StartingPoint() {
             Punto de partida
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Empeza por aca
+            Empezá por acá
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            El primer paso hacia tu transformacion comienza con autoconocimiento
+            El primer paso hacia tu transformación comienza con autoconocimiento
           </p>
         </div>
 
@@ -29,16 +29,16 @@ export function StartingPoint() {
                 </h3>
                 <p className="text-muted-foreground leading-relaxed mb-6">
                   La rueda de la vida es una herramienta visual de desarrollo 
-                  personal que representa, en forma de circulo dividido en 
-                  secciones, las areas mas importantes de la vida: 
+                  personal que representa, en forma de círculo dividido en 
+                  secciones, las áreas más importantes de la vida: 
                   <span className="text-foreground font-medium">
                     salud, trabajo, finanzas, relaciones, ocio, crecimiento 
-                    personal, proposito y amor.
+                    personal, propósito y amor.
                   </span>
                 </p>
                 <p className="text-muted-foreground leading-relaxed mb-8">
-                  Descubri como esta tu equilibrio actual y que areas necesitan 
-                  mas atencion.
+                  Descubrí cómo está tu equilibrio actual y qué áreas necesitan 
+                  más atención.
                 </p>
                 
                 <Button asChild size="lg" className="group">
@@ -54,27 +54,27 @@ export function StartingPoint() {
                 <div className="space-y-6">
                   <div>
                     <p className="text-sm font-medium text-primary mb-2">
-                      Para que sirve?
+                      ¿Para qué sirve?
                     </p>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       La rueda de la vida te permite evaluar tu nivel de 
-                      satisfaccion en distintas areas de tu vida y detectar 
-                      cuales necesitan mas atencion.
+                      satisfacción en distintas áreas de tu vida y detectar 
+                      cuáles necesitan más atención.
                     </p>
                   </div>
 
                   <div className="border-t border-border pt-6">
                     <p className="text-sm text-muted-foreground mb-4">
-                      Queres explorar tus resultados con acompanamiento profesional?
+                      ¿Querés explorar tus resultados con acompañamiento profesional?
                     </p>
                     <Button asChild variant="outline" size="sm" className="group">
                       <a
-                        href="https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha"
+                        href="https://calendly.com/johanapaolarios/coaching-con-joha"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <Calendar className="mr-2 h-4 w-4" />
-                        Agendar sesion
+                        Agendar sesión
                       </a>
                     </Button>
                   </div>

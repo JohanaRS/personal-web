@@ -25,11 +25,11 @@ export function Blog() {
               <BookOpen className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
             </div>
             <h3 className="text-lg font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">
-              Proximamente
+              Próximamente
             </h3>
             <p className="text-sm text-muted-foreground">
               Estoy preparando contenido para compartir contigo. 
-              Pronto encontraras articulos y reflexiones aqui.
+              Pronto encontrarás artículos y reflexiones aquí.
             </p>
           </div>
         </div>
