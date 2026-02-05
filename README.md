@@ -14,7 +14,7 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 Your project is live at:
 
-**[https://personal-web-coaching-m3rilailx-johanapaolarios-3649s-projects.vercel.app/]([https://vercel.com/enzo-natus-projects/v0-untitled-project](https://personal-web-coaching-m3rilailx-johanapaolarios-3649s-projects.vercel.app/))**
+**[[https://personal-web-coaching-m3rilailx-johanapaolarios-3649s-projects.vercel.app/]([https://v0-https-github-com-johana-rs-perso.vercel.app/])]**
 
 ## Build your app
 
