@@ -28,9 +28,9 @@ export function About() {
               </p>
               <p>
                 Mi formación combina neurociencia aplicada, coaching ontológico y 
-                ejecutivo, PNL, comunicación no violenta y metodologías de mejora 
-                continua. Esta integración me permite acompañar desde una mirada 
-                profunda, estructurada y siempre humana.
+                ejecutivo, programación neurolingüística (PNL), liderazgo y metodologías 
+                de mejora continua. Esta integración me permite acompañar desde una 
+                mirada profunda, estructurada y siempre humana.
               </p>
             </div>
 
