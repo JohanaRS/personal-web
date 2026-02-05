@@ -7,7 +7,7 @@ import { Services } from "@/components/sections/services"
 import { StartingPoint } from "@/components/sections/starting-point"
 import { Workshops } from "@/components/sections/workshops"
 import { Blog } from "@/components/sections/blog"
-import { Feedback } from "@/components/sections/feedback"
+
 import { Contact } from "@/components/sections/contact"
 import { Footer } from "@/components/footer"
 
@@ -24,7 +24,6 @@ export default function Home() {
         <StartingPoint />
         <Workshops />
         <Blog />
-        <Feedback />
         <Contact />
       </main>
       <Footer />
