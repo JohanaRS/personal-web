@@ -8,16 +8,16 @@ export function Services() {
       title: "Coaching Personal",
       subtitle: "Para vos",
       description:
-        "Para personas que buscan claridad, nuevos habitos, foco, autoliderazgo y bienestar. Sesiones individuales donde trabajamos en lo que realmente importa para tu vida.",
+        "Para personas que buscan claridad, nuevos hábitos, foco, autoliderazgo y bienestar. Sesiones individuales donde trabajamos en lo que realmente importa para tu vida.",
       features: [
-        "Claridad sobre lo que queres",
-        "Cambio de habitos",
-        "Gestion emocional",
+        "Claridad sobre lo que querés",
+        "Cambio de hábitos",
+        "Gestión emocional",
         "Autoliderazgo",
         "Bienestar integral",
       ],
       cta: {
-        label: "Agendar sesion",
+        label: "Agendar sesión",
         href: "https://calendly.com/d/cxhn-dzx-p6y/coaching-con-joha",
         external: true,
       },
@@ -25,13 +25,13 @@ export function Services() {
     {
       icon: Briefcase,
       title: "Coaching Profesional y Liderazgo",
-      subtitle: "Para lideres y profesionales",
+      subtitle: "Para líderes y profesionales",
       description:
-        "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicacion, feedback, gestion del estres, toma de decisiones y liderazgo consciente.",
+        "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicación, feedback, gestión del estrés, toma de decisiones y liderazgo consciente.",
       features: [
-        "Comunicacion efectiva",
+        "Comunicación efectiva",
         "Dar y recibir feedback",
-        "Gestion del estres",
+        "Gestión del estrés",
         "Toma de decisiones",
         "Liderazgo consciente",
       ],
@@ -47,9 +47,9 @@ export function Services() {
       title: "Talleres y Charlas",
       subtitle: "Para equipos y organizaciones",
       description:
-        "Instancias formativas con enfoque practico, humano y aplicable. Disenadas para generar impacto real en la cultura y dinamicas de trabajo.",
+        "Instancias formativas con enfoque práctico, humano y aplicable. Diseñadas para generar impacto real en la cultura y dinámicas de trabajo.",
       features: [
-        "Liderazgo y comunicacion",
+        "Liderazgo y comunicación",
         "Cultura de calidad",
         "Mejora continua",
         "Trabajo colaborativo",
@@ -72,10 +72,10 @@ export function Services() {
             Servicios
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Tres formas de acompanarte
+            Tres formas de acompañarte
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Cada persona y organizacion tiene necesidades unicas. Elegi el 
+            Cada persona y organización tiene necesidades únicas. Elegí el 
             formato que mejor se adapte a tu momento y objetivos.
           </p>
         </div>

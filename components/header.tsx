@@ -12,23 +12,20 @@ const navItems = [
 ]
 
 const sobreMiItems = [
-  { label: "Sobre mi", href: "#sobre-mi" },
-  { label: "Como acompano", href: "#como-acompano" },
-  { label: "Empeza por aca", href: "#empeza-por-aca" },
+  { label: "Sobre mí", href: "#sobre-mi" },
+  { label: "Cómo acompaño", href: "#como-acompano" },
+  { label: "Empezá por acá", href: "#empeza-por-aca" },
   { label: "Blog", href: "#blog" },
-  { label: "Recursos", href: "#recursos" },
-  { label: "Feedback", href: "#feedback" },
 ]
 
 const mobileNavItems = [
   { label: "Inicio", href: "#inicio" },
   { label: "Servicios", href: "#servicios" },
-  { label: "Sobre mi", href: "#sobre-mi" },
-  { label: "Como acompano", href: "#como-acompano" },
-  { label: "Empeza por aca", href: "#empeza-por-aca" },
+  { label: "Sobre mí", href: "#sobre-mi" },
+  { label: "Cómo acompaño", href: "#como-acompano" },
+  { label: "Empezá por acá", href: "#empeza-por-aca" },
   { label: "Blog", href: "#blog" },
   { label: "Talleres & Charlas", href: "#talleres" },
-  { label: "Feedback", href: "#feedback" },
   { label: "Contacto", href: "#contacto" },
 ]
 
@@ -70,7 +67,7 @@ export function Header() {
           <Link href="#inicio" className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
             <Image
               src="/images/image.png"
-              alt="Johana Rios - JR Logo"
+              alt="Johana Ríos - JR Logo"
               width={48}
               height={48}
               className="h-10 w-10 lg:h-12 lg:w-12"
@@ -102,7 +99,7 @@ export function Header() {
                 onClick={() => setSobreMiOpen(!sobreMiOpen)}
                 className="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground/80 transition-all duration-300 hover:text-primary rounded-md"
               >
-                Sobre mi
+                Sobre mí
                 <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${sobreMiOpen ? 'rotate-180' : ''}`} />
               </button>
               
@@ -146,7 +143,7 @@ export function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Agendar sesion
+                Agendar sesión
               </a>
             </Button>
           </div>
@@ -156,7 +153,7 @@ export function Header() {
             type="button"
             className="lg:hidden p-2 text-foreground transition-all duration-300 hover:text-primary hover:bg-primary/10 rounded-md"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Cerrar menu" : "Abrir menu"}
+            aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -187,7 +184,7 @@ export function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Agendar sesion
+                Agendar sesión
               </a>
             </Button>
           </div>

@@ -43,7 +43,7 @@ export function Contact() {
       setIsSubmitted(true)
       setFormData({ name: "", email: "", reason: "", message: "" })
     } catch {
-      setError("Hubo un error al enviar el mensaje. Por favor intenta nuevamente.")
+      setError("Hubo un error al enviar el mensaje. Por favor intentá nuevamente.")
     } finally {
       setIsSubmitting(false)
     }
@@ -61,9 +61,9 @@ export function Contact() {
             El primer paso es conversar
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Si algo de lo que leiste resono con vos, escribime. No hay 
-            compromiso, solo una conversacion para conocernos y ver si puedo 
-            acompanarte en lo que necesitas.
+            Si algo de lo que leíste resonó con vos, escribime. No hay 
+            compromiso, solo una conversación para conocernos y ver si puedo 
+            acompañarte en lo que necesitás.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export function Contact() {
               Contactame
             </h3>
             <p className="text-muted-foreground mb-8">
-              Contame un poco sobre vos y en que te gustaria trabajar.
+              Contame un poco sobre vos y en qué te gustaría trabajar.
             </p>
 
             {isSubmitted ? (
@@ -95,10 +95,10 @@ export function Contact() {
                   </svg>
                 </div>
                 <h4 className="text-lg font-semibold text-foreground mb-2">
-                  Mensaje enviado!
+                  ¡Mensaje enviado!
                 </h4>
                 <p className="text-muted-foreground">
-                  Gracias por escribirme. Te respondere a la brevedad.
+                  Gracias por escribirme. Te responderé a la brevedad.
                 </p>
                 <Button
                   variant="outline"
@@ -156,7 +156,7 @@ export function Contact() {
                     htmlFor="contact-reason"
                     className="block text-sm font-medium text-foreground mb-2"
                   >
-                    Por que me buscas?
+                    ¿Por qué me buscás?
                   </label>
                   <select
                     id="contact-reason"
@@ -167,7 +167,7 @@ export function Contact() {
                     }
                     className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30 cursor-pointer"
                   >
-                    <option value="">Selecciona una opcion</option>
+                    <option value="">Seleccioná una opción</option>
                     {contactReasons.map((reason) => (
                       <option key={reason} value={reason}>
                         {reason}
@@ -181,7 +181,7 @@ export function Contact() {
                     htmlFor="contact-message"
                     className="block text-sm font-medium text-foreground mb-2"
                   >
-                    Que te gustaria trabajar?
+                    ¿Qué te gustaría trabajar?
                   </label>
                   <textarea
                     id="contact-message"
@@ -192,7 +192,7 @@ export function Contact() {
                       setFormData({ ...formData, message: e.target.value })
                     }
                     className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none hover:border-primary/30"
-                    placeholder="Contame un poco sobre tu situacion actual y en que te gustaria que te acompane..."
+                    placeholder="Contame un poco sobre tu situación actual y en qué te gustaría que te acompañe..."
                   />
                 </div>
 
@@ -266,7 +266,7 @@ export function Contact() {
                   <Calendar className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">Agendar sesion</p>
+                  <p className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">Agendar sesión</p>
                   <p className="text-sm text-muted-foreground">
                     Ver disponibilidad
                   </p>
@@ -277,7 +277,7 @@ export function Contact() {
             {/* Main CTA */}
             <div className="bg-primary/5 rounded-xl p-6 border border-primary/20 text-center">
               <p className="text-foreground font-medium mb-4">
-                Prefieres una llamada directa?
+                ¿Preferís una llamada directa?
               </p>
               <Button
                 asChild
@@ -290,11 +290,11 @@ export function Contact() {
                   rel="noopener noreferrer"
                 >
                   <Calendar className="mr-2 h-5 w-5" />
-                  Agendar sesion exploratoria
+                  Agendar sesión exploratoria
                 </a>
               </Button>
               <p className="mt-3 text-xs text-muted-foreground">
-                Sin compromiso. Es una primera conversacion para conocernos.
+                Sin compromiso. Es una primera conversación para conocernos.
               </p>
             </div>
           </div>

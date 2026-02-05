@@ -6,25 +6,25 @@ export function Process() {
       icon: MessageCircleQuestion,
       title: "Preguntas que abren",
       description:
-        "Empiezo por escuchar y hacer preguntas que iluminan lo que no se ve. No doy respuestas rapidas; construyo claridad contigo.",
+        "Empiezo por escuchar y hacer preguntas que iluminan lo que no se ve. No doy respuestas rápidas; construyo claridad contigo.",
     },
     {
       icon: Layers,
       title: "Estructura y orden",
       description:
-        "Organizo el ruido interno. Trabajo con metodologias claras que dan sosten al proceso sin rigidez.",
+        "Organizo el ruido interno. Trabajo con metodologías claras que dan sostén al proceso sin rigidez.",
     },
     {
       icon: Focus,
       title: "Foco y prioridad",
       description:
-        "Identificamos que es realmente importante. No se trata de hacer mas, sino de hacer lo que importa.",
+        "Identificamos qué es realmente importante. No se trata de hacer más, sino de hacer lo que importa.",
     },
     {
       icon: Footprints,
-      title: "Accion sostenible",
+      title: "Acción sostenible",
       description:
-        "Cada sesion termina con pasos concretos. Avanzamos de forma progresiva, cuidando tu energia y bienestar.",
+        "Cada sesión termina con pasos concretos. Avanzamos de forma progresiva, cuidando tu energía y bienestar.",
     },
   ]
 
@@ -34,15 +34,15 @@ export function Process() {
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
           <span className="text-primary font-medium text-sm uppercase tracking-wider">
-            Como acompano
+            Cómo acompaño
           </span>
           <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Acompano procesos de cambio, no soluciones magicas
+            Acompaño procesos de cambio, no soluciones mágicas
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
             Mi trabajo es ayudarte a ver lo que no ves, ordenar lo que te abruma 
             y construir un camino que tenga sentido para vos. Integro coaching, 
-            comunicacion, procesos y calidad de forma personalizada.
+            comunicación, procesos y calidad de forma personalizada.
           </p>
         </div>
 
@@ -78,16 +78,16 @@ export function Process() {
                 No doy recetas, construyo caminos personalizados
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Cada persona, equipo u organizacion tiene su historia, sus 
-                recursos y sus desafios unicos. Mi rol es acompanarte a descubrir 
-                tus propias respuestas, no imponerte las mias.
+                Cada persona, equipo u organización tiene su historia, sus 
+                recursos y sus desafíos únicos. Mi rol es acompañarte a descubrir 
+                tus propias respuestas, no imponerte las mías.
               </p>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               {[
                 { label: "Coaching", desc: "Personal y profesional" },
-                { label: "Comunicacion", desc: "Efectiva y consciente" },
+                { label: "Comunicación", desc: "Efectiva y consciente" },
                 { label: "Procesos", desc: "Claros y sostenibles" },
                 { label: "Neurociencia", desc: "Aplicada al cambio" },
               ].map((item) => (

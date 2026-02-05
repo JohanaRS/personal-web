@@ -8,7 +8,6 @@ const quickLinks = [
   { label: "Cómo acompaño", href: "#como-acompano" },
   { label: "Servicios", href: "#servicios" },
   { label: "Talleres & Charlas", href: "#talleres" },
-  { label: "Feedback", href: "#feedback" },
   { label: "Contacto", href: "#contacto" },
 ]
 

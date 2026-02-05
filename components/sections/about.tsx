@@ -8,28 +8,28 @@ export function About() {
           {/* Content */}
           <div>
             <span className="text-primary font-medium text-sm uppercase tracking-wider">
-              Sobre mi
+              Sobre mí
             </span>
             <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-              Soy Johana Rios
+              Soy Johana Ríos
             </h2>
             
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 Coach certificada y facilitadora de procesos de cambio. Mi camino 
-                profesional me llevo desde la calidad de software y la gestion de 
-                equipos de tecnologia hasta el acompanamiento de personas, lideres 
+                profesional me llevó desde la calidad de software y la gestión de 
+                equipos de tecnología hasta el acompañamiento de personas, líderes 
                 y organizaciones.
               </p>
               <p>
                 Creo en un enfoque donde <strong className="text-foreground">lo humano y los procesos se integran</strong>,
                 donde el bienestar y los resultados no son opuestos, y donde cada 
-                desafio es una oportunidad de desarrollo.
+                desafío es una oportunidad de desarrollo.
               </p>
               <p>
-                Mi formacion combina neurociencia aplicada, coaching ontologico y 
-                ejecutivo, PNL, comunicacion no violenta y metodologias de mejora 
-                continua. Esta integracion me permite acompanar desde una mirada 
+                Mi formación combina neurociencia aplicada, coaching ontológico y 
+                ejecutivo, PNL, comunicación no violenta y metodologías de mejora 
+                continua. Esta integración me permite acompañar desde una mirada 
                 profunda, estructurada y siempre humana.
               </p>
             </div>
@@ -39,8 +39,8 @@ export function About() {
               {[
                 { icon: Heart, label: "Cuidado y escucha" },
                 { icon: Eye, label: "Claridad y foco" },
-                { icon: Lightbulb, label: "Proposito" },
-                { icon: Target, label: "Accion sostenible" },
+                { icon: Lightbulb, label: "Propósito" },
+                { icon: Target, label: "Acción sostenible" },
               ].map(({ icon: Icon, label }) => (
                 <div 
                   key={label} 
@@ -58,18 +58,18 @@ export function About() {
           {/* How I see challenges */}
           <div className="bg-background rounded-2xl p-8 lg:p-10 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/20">
             <h3 className="text-xl font-semibold text-foreground mb-6">
-              Como miro los desafios
+              Cómo miro los desafíos
             </h3>
             
             <div className="space-y-6">
               {[
                 {
-                  title: "Los desafios son oportunidades de desarrollo",
-                  desc: "Cada dificultad contiene informacion valiosa para crecer.",
+                  title: "Los desafíos son oportunidades de desarrollo",
+                  desc: "Cada dificultad contiene información valiosa para crecer.",
                 },
                 {
                   title: "Soy puente entre mundos",
-                  desc: "Entre lo humano y los procesos. Entre la emocion y la evidencia. Entre el bienestar y los resultados.",
+                  desc: "Entre lo humano y los procesos. Entre la emoción y la evidencia. Entre el bienestar y los resultados.",
                 },
                 {
                   title: "Mirada integral de calidad",
@@ -77,7 +77,7 @@ export function About() {
                 },
                 {
                   title: "Basado en neurociencia",
-                  desc: "Integro conocimientos de como funciona el cerebro para facilitar cambios reales y sostenibles.",
+                  desc: "Integro conocimientos de cómo funciona el cerebro para facilitar cambios reales y sostenibles.",
                 },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4 group cursor-default">
