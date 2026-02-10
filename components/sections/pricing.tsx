@@ -200,7 +200,6 @@ export function Pricing() {
               {[
                 "Este es el valor de un espacio profesional, cuidado y transformador.",
                 "Este precio sostiene mi energía y la calidad del acompañamiento.",
-                "No es para todo el mundo, y eso está bien.",
               ].map((phrase) => (
                 <div
                   key={phrase}
@@ -245,7 +244,7 @@ export function Pricing() {
             </Button>
             <Button asChild variant="outline" size="lg" className="w-full sm:w-auto group">
               <a
-                href="https://wa.me/59899123456"
+                href="https://wa.me/59898493203"
                 target="_blank"
                 rel="noopener noreferrer"
               >
