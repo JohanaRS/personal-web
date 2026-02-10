@@ -20,9 +20,9 @@ export default function Home() {
         <Hero />
         <About />
         <Process />
-        <Pricing />
         <Experience />
         <Services />
+        <Pricing />
         <StartingPoint />
         <Workshops />
         <Blog />
