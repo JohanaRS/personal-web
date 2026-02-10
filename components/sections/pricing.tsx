@@ -21,6 +21,7 @@ export function Pricing() {
     { icon: Ear, text: "Escucha entrenada" },
     { icon: HelpCircle, text: "Preguntas que ayudan a ordenar el caos interno" },
     { icon: Wrench, text: "Herramientas de PNL, neurociencia aplicada y coaching" },
+    { icon: Sparkles, text: "Ejercicios y recomendaciones basadas en neurociencia, adaptadas a cada persona" },
     { icon: Heart, text: "Contención emocional" },
     { icon: Lightbulb, text: "Claridad que muchas veces no se logra en soledad" },
     { icon: Zap, text: "Un cambio de estado interno que impacta decisiones reales" },
@@ -157,55 +158,63 @@ export function Pricing() {
         {/* Block 2 - Transparencia y valor */}
         <div className="max-w-4xl mx-auto mb-20">
           <div className="bg-card rounded-2xl p-8 lg:p-12 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/20">
-            <h3 className="text-2xl font-semibold text-foreground mb-6 text-center lg:text-left">
+            <h3 className="text-2xl font-semibold text-foreground mb-8 text-center lg:text-left">
               Sobre el valor de una sesión
             </h3>
 
-            <div className="grid lg:grid-cols-2 gap-10">
-              {/* Left - Editorial text */}
-              <div>
-                <blockquote className="text-lg text-foreground font-medium leading-relaxed mb-6 pl-4 border-l-2 border-primary">
-                  No cobro por hablar una hora.
-                  <br />
-                  Cobro por el espacio que sostengo en cada sesión.
-                </blockquote>
+            {/* Quote */}
+            <blockquote className="text-lg text-foreground font-medium leading-relaxed mb-8 pl-4 border-l-2 border-primary">
+              No cobro por hablar una hora.
+              <br />
+              Cobro por el espacio que sostengo en cada sesión.
+            </blockquote>
 
-                <div className="grid grid-cols-1 gap-3">
-                  {valuePoints.map((point) => (
-                    <div
-                      key={point.text}
-                      className="flex items-start gap-3 text-sm text-muted-foreground"
-                    >
-                      <point.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      {point.text}
-                    </div>
-                  ))}
+            {/* Value points */}
+            <div className="grid sm:grid-cols-2 gap-3 mb-8">
+              {valuePoints.map((point) => (
+                <div
+                  key={point.text}
+                  className="flex items-start gap-3 text-sm text-muted-foreground"
+                >
+                  <point.icon className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  {point.text}
                 </div>
-              </div>
+              ))}
+            </div>
 
-              {/* Right - Closing statements */}
-              <div className="flex flex-col gap-6">
-                <p className="text-muted-foreground leading-relaxed text-sm">
-                  Este espacio no es común, ni improvisado, ni automático. Es el resultado de formación, práctica, observación y análisis cuidadoso de cada persona, cada contexto y cada proceso.
-                </p>
+            {/* Intermediate paragraphs */}
+            <div className="flex flex-col gap-4 mb-8">
+              <p className="text-muted-foreground leading-relaxed text-sm">
+                Los ejercicios, reflexiones y propuestas que surgen en sesión no son aleatorios. Se apoyan en principios de neurociencia aplicada al comportamiento, la atención, la regulación emocional y la toma de decisiones, siempre adaptados a tu contexto y momento vital.
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-sm">
+                Cada persona se va de la sesión con reflexiones, ideas o puntos de acción concretos para integrar lo trabajado en su vida cotidiana, respetando su ritmo y su proceso.
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-sm">
+                Este espacio no es común, ni improvisado, ni automático. Es el resultado de formación, práctica, observación y análisis cuidadoso de cada persona, cada contexto y cada proceso.
+              </p>
+            </div>
 
-                <div className="flex flex-col gap-4">
-                  {[
-                    "Este es el valor de un espacio profesional, cuidado y transformador.",
-                    "Este precio sostiene mi energía y la calidad del acompañamiento.",
-                    "No es para todo el mundo, y eso está bien.",
-                  ].map((phrase) => (
-                    <div
-                      key={phrase}
-                      className="bg-background rounded-lg p-4 border border-border"
-                    >
-                      <p className="text-sm font-medium text-foreground italic">
-                        {`"${phrase}"`}
-                      </p>
-                    </div>
-                  ))}
+            {/* Highlighted personal quotes */}
+            <div className="flex flex-col gap-4">
+              {[
+                "Este es el valor de un espacio profesional, cuidado y transformador.",
+                "Este precio sostiene mi energía y la calidad del acompañamiento.",
+                "No es para todo el mundo, y eso está bien.",
+              ].map((phrase) => (
+                <div
+                  key={phrase}
+                  className="bg-primary/5 rounded-xl px-5 py-4 border border-primary/15 flex items-start gap-3"
+                >
+                  <span className="text-primary text-xl leading-none mt-0.5 shrink-0" aria-hidden="true">
+                    {'"'}
+                  </span>
+                  <p className="text-sm font-medium text-foreground leading-relaxed">
+                    {phrase}
+                  </p>
+                  <span className="sr-only">{"Cita personal de Johana"}</span>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
