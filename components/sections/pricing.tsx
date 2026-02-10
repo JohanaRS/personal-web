@@ -195,7 +195,7 @@ export function Pricing() {
               </p>
             </div>
 
-            {/* Highlighted personal quotes */}
+            {/* Highlighted personal phrases */}
             <div className="flex flex-col gap-4">
               {[
                 "Este es el valor de un espacio profesional, cuidado y transformador.",
@@ -203,15 +203,11 @@ export function Pricing() {
               ].map((phrase) => (
                 <div
                   key={phrase}
-                  className="bg-primary/5 rounded-xl px-5 py-4 border border-primary/15 flex items-start gap-3"
+                  className="bg-primary/5 rounded-xl px-5 py-4 border border-primary/15"
                 >
-                  <span className="text-primary text-xl leading-none mt-0.5 shrink-0" aria-hidden="true">
-                    {'"'}
-                  </span>
                   <p className="text-sm font-medium text-foreground leading-relaxed">
                     {phrase}
                   </p>
-                  <span className="sr-only">{"Cita personal de Johana"}</span>
                 </div>
               ))}
             </div>
