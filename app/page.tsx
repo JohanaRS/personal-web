@@ -2,6 +2,7 @@ import { Header } from "@/components/header"
 import { Hero } from "@/components/sections/hero"
 import { About } from "@/components/sections/about"
 import { Process } from "@/components/sections/process"
+import { Pricing } from "@/components/sections/pricing"
 import { Experience } from "@/components/sections/experience"
 import { Services } from "@/components/sections/services"
 import { StartingPoint } from "@/components/sections/starting-point"
@@ -21,6 +22,7 @@ export default function Home() {
         <Process />
         <Experience />
         <Services />
+        <Pricing />
         <StartingPoint />
         <Workshops />
         <Blog />

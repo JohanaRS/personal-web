@@ -14,6 +14,7 @@ const navItems = [
 const sobreMiItems = [
   { label: "Sobre mí", href: "#sobre-mi" },
   { label: "Cómo acompaño", href: "#como-acompano" },
+  { label: "Precios", href: "#precios" },
   { label: "Empezá por acá", href: "#empeza-por-aca" },
   { label: "Blog", href: "#blog" },
 ]
@@ -23,6 +24,7 @@ const mobileNavItems = [
   { label: "Servicios", href: "#servicios" },
   { label: "Sobre mí", href: "#sobre-mi" },
   { label: "Cómo acompaño", href: "#como-acompano" },
+  { label: "Precios", href: "#precios" },
   { label: "Empezá por acá", href: "#empeza-por-aca" },
   { label: "Blog", href: "#blog" },
   { label: "Talleres & Charlas", href: "#talleres" },

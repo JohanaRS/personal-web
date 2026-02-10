@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Instagram } from "lucide-react"
+import { Mail, Instagram, MessageCircle } from "lucide-react"
 
 const quickLinks = [
   { label: "Inicio", href: "#inicio" },
@@ -72,6 +72,17 @@ export function Footer() {
                 >
                   <Instagram className="w-4 h-4" />
                   @joharios.coach
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/59898493203"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  +598 98 493 203
                 </a>
               </li>
             </ul>

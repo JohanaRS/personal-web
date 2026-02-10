@@ -4,7 +4,6 @@ export async function POST(request: Request) {
   try {
     const { name, email, reason, message } = await request.json()
 
-    // Validate required fields
     if (!name || !email || !reason || !message) {
       return NextResponse.json(
         { error: "Todos los campos son requeridos" },
@@ -12,27 +11,37 @@ export async function POST(request: Request) {
       )
     }
 
-    // Send email using a simple fetch to a mail service
-    // For now, we'll use Formspree as a simple solution
-    const formspreeEndpoint = "https://formspree.io/f/xwpkvpvp" // Replace with actual endpoint
-    
-    const response = await fetch(formspreeEndpoint, {
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY
+    if (!accessKey) {
+      console.error("WEB3FORMS_ACCESS_KEY is not set")
+      return NextResponse.json(
+        { error: "Error de configuración del servidor" },
+        { status: 500 }
+      )
+    }
+
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
       body: JSON.stringify({
+        access_key: accessKey,
+        subject: `Nuevo contacto desde joharios.com: ${reason}`,
+        from_name: "Formulario joharios.com",
         name,
         email,
         reason,
         message,
-        _replyto: email,
-        _subject: `Nuevo contacto de ${name}: ${reason}`,
+        replyto: email,
       }),
     })
 
-    if (!response.ok) {
+    const result = await response.json()
+
+    if (!result.success) {
+      console.error("Web3Forms error:", result)
       throw new Error("Error al enviar el mensaje")
     }
 

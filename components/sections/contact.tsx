@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react"
 import { Button } from "@/components/ui/button"
-import { Mail, Instagram, Calendar, Send } from "lucide-react"
+import { Mail, Instagram, Calendar, Send, MessageCircle } from "lucide-react"
 
 const contactReasons = [
   "Coaching individual",
@@ -255,23 +255,22 @@ export function Contact() {
                 </div>
               </a>
 
-              {/* Calendly */}
+              {/* WhatsApp */}
               <a
-                href="https://calendly.com/johanapaolarios/coaching-con-joha"
+                href="https://wa.me/59898493203"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 bg-background rounded-xl p-5 border border-border transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1"
               >
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
-                  <Calendar className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+                  <MessageCircle className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">Agendar sesión</p>
-                  <p className="text-sm text-muted-foreground">
-                    Ver disponibilidad
-                  </p>
+                  <p className="font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">WhatsApp</p>
+                  <p className="text-sm text-muted-foreground">+598 98 493 203</p>
                 </div>
               </a>
+
             </div>
 
             {/* Main CTA */}
