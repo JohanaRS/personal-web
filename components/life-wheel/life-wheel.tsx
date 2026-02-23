@@ -159,38 +159,12 @@ function IntroView({ onStart }: { onStart: () => void }) {
     <div className="flex flex-col items-center gap-8 max-w-2xl mx-auto text-center">
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl sm:text-3xl font-bold text-foreground text-balance">
-          Punto de partida
+          ¿Cómo funciona?
         </h2>
-        <p className="text-lg text-muted-foreground font-medium">Empezá por acá</p>
-      </div>
-
-      <div className="text-muted-foreground text-sm sm:text-base leading-relaxed text-left space-y-3 max-w-xl">
-        <p className="font-medium text-foreground text-pretty">
-          La Rueda de la Vida es una herramienta simple, pero muy potente.
-        </p>
-        <p className="text-pretty">
-          Te permite visualizar cómo estás hoy en las áreas que sostienen tu vida: salud, vínculos, trabajo, finanzas, crecimiento, propósito y más.
-        </p>
-        <p className="text-pretty">
-          Cuando ponemos algo en forma visual, el cerebro lo procesa distinto. Deja de ser una sensación difusa y se convierte en información concreta.
-        </p>
-        <p className="text-pretty">
-          {'Muchas veces decimos "estoy bien" o "no estoy tan bien", pero no sabemos exactamente en qué. La rueda ordena eso.'}
-        </p>
-        <p className="text-pretty">
-          Desde la neurociencia, sabemos que el cerebro necesita claridad para tomar decisiones. Cuando identificás qué áreas están fuertes y cuáles están más bajas, activás algo clave: conciencia.
-        </p>
-        <p className="font-medium text-foreground text-pretty">
-          Y la conciencia es el primer paso para el cambio.
-        </p>
-        <p className="text-pretty">
-          No es un examen. No es un juicio. Es una fotografía honesta de tu momento actual.
-        </p>
-        <p className="text-pretty">
-          Y cuando sabés dónde estás, podés elegir con más intención hacia dónde querés ir.
-        </p>
-        <p className="font-medium text-foreground text-pretty">
-          Si querés empezar a ordenar tu presente, esta es una muy buena manera.
+        <p className="text-muted-foreground leading-relaxed text-pretty">
+          La Rueda de la Vida es una herramienta de coaching que te invita a evaluar
+          8 áreas fundamentales de tu vida. Para cada área vas a reflexionar
+          con preguntas guía y asignar un puntaje del 1 al 10.
         </p>
       </div>
 
