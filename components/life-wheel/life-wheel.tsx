@@ -1,109 +1,98 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
-import { WheelChart } from "./wheel-chart"
-import { CategoryControls } from "./category-controls"
+import { useState, useEffect, useCallback, useRef } from "react"
+import { AssessmentWizard } from "./assessment-wizard"
+import { ResultsView } from "./results-view"
 import { DeepWork } from "./deep-work"
-import { Button } from "@/components/ui/button"
-import { RotateCcw, Download, ArrowRight } from "lucide-react"
+import { generatePdf } from "./pdf-download"
+import {
+  loadAssessment,
+  saveAssessment,
+  clearAssessment,
+  emptyResponses,
+  emptyDeepWork,
+  type AssessmentState,
+  type AreaResponse,
+  type DeepWorkData,
+} from "./life-wheel-data"
 
-const DEFAULT_CATEGORIES = [
-  { name: "Salud y Bienestar", value: 5 },
-  { name: "Crecimiento Personal", value: 5 },
-  { name: "Relaciones", value: 5 },
-  { name: "Amor y Pareja", value: 5 },
-  { name: "Carrera y Proposito", value: 5 },
-  { name: "Finanzas", value: 5 },
-  { name: "Diversion y Ocio", value: 5 },
-  { name: "Entorno", value: 5 },
-]
+/* ------------------------------------------------------------------ */
+/*  Phase management                                                   */
+/* ------------------------------------------------------------------ */
 
-const STORAGE_KEY = "rueda-de-la-vida-data"
+type Phase = "intro" | "assessment" | "results" | "deep-work"
 
-function loadFromStorage() {
-  if (typeof window === "undefined") return null
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return null
-    const parsed = JSON.parse(raw)
-    if (
-      Array.isArray(parsed) &&
-      parsed.length === 8 &&
-      parsed.every(
-        (c: unknown) =>
-          typeof c === "object" &&
-          c !== null &&
-          "name" in c &&
-          "value" in c &&
-          typeof (c as { name: string }).name === "string" &&
-          typeof (c as { value: number }).value === "number" &&
-          (c as { value: number }).value >= 1 &&
-          (c as { value: number }).value <= 10
-      )
-    ) {
-      return parsed as { name: string; value: number }[]
-    }
-  } catch {
-    // ignore
-  }
-  return null
+function resolvePhase(state: AssessmentState): Phase {
+  // If assessment is completed, show results
+  if (state.completedAt) return "results"
+  // If any score is set, resume assessment
+  if (state.responses.some((r) => r.score > 0)) return "assessment"
+  return "intro"
 }
 
-function saveToStorage(data: { name: string; value: number }[]) {
-  if (typeof window === "undefined") return
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  } catch {
-    // ignore
-  }
-}
+/* ------------------------------------------------------------------ */
+/*  Main component                                                     */
+/* ------------------------------------------------------------------ */
 
 export function LifeWheel() {
-  const [categories, setCategories] = useState(DEFAULT_CATEGORIES)
+  const [responses, setResponses] = useState<AreaResponse[]>(emptyResponses())
+  const [deepWork, setDeepWork] = useState<DeepWorkData>(emptyDeepWork())
+  const [phase, setPhase] = useState<Phase>("intro")
   const [loaded, setLoaded] = useState(false)
-  const [showDeepWork, setShowDeepWork] = useState(false)
-  const [deepWorkCompleted, setDeepWorkCompleted] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
-  // Load from localStorage on mount
+  // Load from localStorage
   useEffect(() => {
-    const saved = loadFromStorage()
-    if (saved) setCategories(saved)
+    const saved = loadAssessment()
+    if (saved) {
+      setResponses(saved.responses)
+      if (saved.deepWork) setDeepWork(saved.deepWork)
+      setPhase(resolvePhase(saved))
+    }
     setLoaded(true)
   }, [])
 
-  // Persist on changes (after initial load)
-  useEffect(() => {
-    if (loaded) saveToStorage(categories)
-  }, [categories, loaded])
+  // Persist to localStorage on changes (after initial load)
+  const persist = useCallback(
+    (r: AreaResponse[], dw: DeepWorkData, completedAt: string | null) => {
+      saveAssessment({ responses: r, deepWork: dw, completedAt })
+    },
+    []
+  )
 
-  const handleValueChange = useCallback((index: number, value: number) => {
-    setCategories((prev) =>
-      prev.map((c, i) => (i === index ? { ...c, value } : c))
-    )
+  useEffect(() => {
+    if (!loaded) return
+    const completedAt =
+      phase === "results" || phase === "deep-work"
+        ? new Date().toISOString()
+        : null
+    persist(responses, deepWork, completedAt)
+  }, [responses, deepWork, phase, loaded, persist])
+
+  const handleUpdateResponses = useCallback((newResponses: AreaResponse[]) => {
+    setResponses(newResponses)
   }, [])
 
-  const handleNameChange = useCallback((index: number, name: string) => {
-    setCategories((prev) =>
-      prev.map((c, i) => (i === index ? { ...c, name } : c))
-    )
+  const handleUpdateDeepWork = useCallback((newDW: DeepWorkData) => {
+    setDeepWork(newDW)
   }, [])
 
   const handleReset = useCallback(() => {
-    setCategories(DEFAULT_CATEGORIES)
+    setResponses(emptyResponses())
+    setDeepWork(emptyDeepWork())
+    setPhase("intro")
+    clearAssessment()
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }, [])
 
-  const average = (
-    categories.reduce((sum, c) => sum + c.value, 0) / categories.length
-  ).toFixed(1)
-
-  const handleDownload = useCallback(() => {
+  const handleDownloadPdf = useCallback(async () => {
     const canvas = document.querySelector("canvas") as HTMLCanvasElement | null
-    if (!canvas) return
-    const link = document.createElement("a")
-    link.download = "rueda-de-la-vida.png"
-    link.href = canvas.toDataURL("image/png")
-    link.click()
-  }, [])
+    await generatePdf({
+      responses,
+      deepWork: deepWork.selectedAreas.length > 0 ? deepWork : null,
+      canvasElement: canvas,
+    })
+  }, [responses, deepWork])
 
   if (!loaded) {
     return (
@@ -113,89 +102,127 @@ export function LifeWheel() {
     )
   }
 
+  /* ----- INTRO ----- */
+  if (phase === "intro") {
+    return <IntroView onStart={() => setPhase("assessment")} />
+  }
+
+  /* ----- ASSESSMENT WIZARD ----- */
+  if (phase === "assessment") {
+    return (
+      <AssessmentWizard
+        responses={responses}
+        onUpdate={handleUpdateResponses}
+        onComplete={() => {
+          setPhase("results")
+          window.scrollTo({ top: 0, behavior: "smooth" })
+        }}
+        onBack={() => setPhase("intro")}
+      />
+    )
+  }
+
+  /* ----- RESULTS ----- */
+  if (phase === "results") {
+    return (
+      <ResultsView
+        responses={responses}
+        onContinueWorking={() => {
+          setPhase("deep-work")
+          window.scrollTo({ top: 0, behavior: "smooth" })
+        }}
+        onRestart={handleReset}
+        onDownloadPdf={handleDownloadPdf}
+      />
+    )
+  }
+
+  /* ----- DEEP WORK ----- */
   return (
-    <div className="flex flex-col gap-8">
-      {/* Score summary */}
-      <div className="flex items-center justify-center gap-3 flex-wrap">
-        <div className="flex items-center gap-2 bg-card border border-border rounded-lg px-4 py-2">
-          <span className="text-sm text-muted-foreground">Promedio general</span>
-          <span className="text-xl font-bold text-primary">{average}</span>
-          <span className="text-sm text-muted-foreground">/ 10</span>
-        </div>
+    <DeepWork
+      responses={responses}
+      deepWork={deepWork}
+      onUpdate={handleUpdateDeepWork}
+      onComplete={() => {
+        // Stay in deep-work phase; the component shows the summary
+      }}
+      onBack={() => {
+        setPhase("results")
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      }}
+    />
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Intro View                                                         */
+/* ------------------------------------------------------------------ */
+
+function IntroView({ onStart }: { onStart: () => void }) {
+  return (
+    <div className="flex flex-col items-center gap-8 max-w-2xl mx-auto text-center">
+      <div className="flex flex-col gap-3">
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground text-balance">
+          Como funciona
+        </h2>
+        <p className="text-muted-foreground leading-relaxed text-pretty">
+          La Rueda de la Vida es una herramienta de coaching que te invita a evaluar
+          8 areas fundamentales de tu vida. Para cada area vas a reflexionar
+          con preguntas guia y asignar un puntaje del 1 al 10.
+        </p>
       </div>
 
-      {/* Main layout: chart + controls */}
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-        {/* Chart */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center">
-          <WheelChart categories={categories} />
-        </div>
-
-        {/* Controls */}
-        <div className="w-full lg:w-1/2">
-          <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-base font-semibold text-foreground mb-5">
-              Ajusta tus valores
-            </h3>
-            <CategoryControls
-              categories={categories}
-              onValueChange={handleValueChange}
-              onNameChange={handleNameChange}
-            />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-left">
+        {[
+          {
+            step: "1",
+            title: "Reflexiona",
+            desc: "Responderas preguntas guia para cada una de las 8 areas de tu vida.",
+          },
+          {
+            step: "2",
+            title: "Evalua",
+            desc: "Asignaras un puntaje del 1 al 10 segun como te sentis hoy en cada area.",
+          },
+          {
+            step: "3",
+            title: "Visualiza",
+            desc: "Veras tu rueda completa con las areas mas fuertes y las que necesitan atencion.",
+          },
+          {
+            step: "4",
+            title: "Profundiza",
+            desc: "Podras elegir areas para trabajar en profundidad y disenar acciones concretas.",
+          },
+        ].map((item) => (
+          <div
+            key={item.step}
+            className="flex gap-3 bg-card border border-border rounded-xl p-4"
+          >
+            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold shrink-0">
+              {item.step}
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-foreground">{item.title}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed mt-1">
+                {item.desc}
+              </p>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
 
-      {/* Action buttons */}
-      <div className="flex items-center justify-center gap-3 flex-wrap">
-        <Button variant="outline" onClick={handleReset}>
-          <RotateCcw className="w-4 h-4" />
-          Reiniciar valores
-        </Button>
-        <Button variant="secondary" onClick={handleDownload}>
-          <Download className="w-4 h-4" />
-          Descargar imagen
-        </Button>
-        <Button onClick={() => setShowDeepWork(true)}>
-          Continuar trabajando
-          <ArrowRight className="w-4 h-4" />
-        </Button>
-      </div>
+      <p className="text-xs text-muted-foreground">
+        Tiempo estimado: 15 - 25 minutos. Tu progreso se guarda automaticamente.
+      </p>
 
-      {/* Deep work section */}
-      {showDeepWork && (
-        <div className="pt-4 border-t border-border">
-          <DeepWork
-            categories={categories}
-            onComplete={() => setDeepWorkCompleted(true)}
-            onBack={() => setShowDeepWork(false)}
-          />
-        </div>
-      )}
-
-      {/* Deep work completed CTA */}
-      {deepWorkCompleted && !showDeepWork && (
-        <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center">
-          <p className="text-sm text-foreground font-medium mb-2">Proceso de profundizacion completado</p>
-          <p className="text-sm text-muted-foreground mb-4">
-            Podes volver a revisar tu trabajo profundo o agendar una sesion de coaching personalizado.
-          </p>
-          <div className="flex items-center justify-center gap-3 flex-wrap">
-            <Button variant="outline" onClick={() => setShowDeepWork(true)}>
-              Ver mi trabajo profundo
-            </Button>
-            <Button asChild>
-              <a
-                href="https://calendly.com/johanapaolarios/coaching-con-joha"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Agendar sesion de coaching
-              </a>
-            </Button>
-          </div>
-        </div>
-      )}
+      <button
+        type="button"
+        onClick={onStart}
+        className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all duration-500 ease-out h-12 px-8 bg-gradient-to-br from-primary via-primary to-[oklch(0.35_0.06_125)] text-primary-foreground hover:from-[oklch(0.35_0.06_125)] hover:via-primary hover:to-[oklch(0.55_0.10_125)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(85,107,47,0.4)] active:scale-[0.98] cursor-pointer"
+      >
+        Hacer mi Rueda de la Vida
+      </button>
     </div>
   )
 }

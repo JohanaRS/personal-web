@@ -1,67 +1,19 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp } from "lucide-react"
+import {
+  AREAS,
+  CATEGORY_COLORS,
+  type AreaResponse,
+  type DeepWorkData,
+  type DeepWorkAreaData,
+  emptyDeepWorkArea,
+} from "./life-wheel-data"
 
 /* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
-
-export interface CategoryData {
-  name: string
-  value: number
-}
-
-export interface DeepWorkData {
-  selectedAreas: number[]
-  // Step 2 answers per selected area index
-  currentState: Record<number, string>
-  desiredState: Record<number, string>
-  beliefs: Record<number, string>
-  action: Record<number, string>
-  desiredScore: Record<number, number>
-  // Step 3 closure
-  closure: {
-    takeaway: string
-    emotion: string
-    symbol: string
-    reminder: string
-  }
-}
-
-const DEEP_WORK_KEY = "rueda-deep-work-data"
-
-function loadDeepWork(): DeepWorkData | null {
-  if (typeof window === "undefined") return null
-  try {
-    const raw = localStorage.getItem(DEEP_WORK_KEY)
-    if (!raw) return null
-    return JSON.parse(raw) as DeepWorkData
-  } catch {
-    return null
-  }
-}
-
-function saveDeepWork(data: DeepWorkData) {
-  if (typeof window === "undefined") return
-  try {
-    localStorage.setItem(DEEP_WORK_KEY, JSON.stringify(data))
-  } catch { /* ignore */ }
-}
-
-const EMPTY_DEEP_WORK: DeepWorkData = {
-  selectedAreas: [],
-  currentState: {},
-  desiredState: {},
-  beliefs: {},
-  action: {},
-  desiredScore: {},
-  closure: { takeaway: "", emotion: "", symbol: "", reminder: "" },
-}
-
-/* ------------------------------------------------------------------ */
-/*  Sub-step config                                                    */
+/*  Sub-step config for the deep check                                 */
 /* ------------------------------------------------------------------ */
 
 const AREA_SELECTION_QUESTIONS = [
@@ -89,47 +41,22 @@ function getDesiredStateQuestions(name: string) {
   ]
 }
 
-function getBeliefsQuestions(_name: string) {
+function getBeliefsQuestions() {
   return [
-    `Que creencias tenes sobre esta area?`,
+    "Que creencias tenes sobre esta area?",
     "Que te esta impidiendo avanzar?",
     "Que sabes que podrias activar en vos para mejorarla?",
     "Que personas o apoyos podrian ayudarte?",
   ]
 }
 
-function getActionQuestions(_name: string) {
+function getActionQuestions() {
   return [
     "Que microaccion podrias tomar esta semana para mejorar esto?",
     "Que habito podrias sumar o modificar?",
     "Como vas a medir tu avance?",
     "Que podrias hacer si te trabas?",
   ]
-}
-
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
-/* ------------------------------------------------------------------ */
-
-const CATEGORY_COLORS = [
-  "oklch(0.55 0.12 145)",
-  "oklch(0.55 0.12 200)",
-  "oklch(0.55 0.12 260)",
-  "oklch(0.55 0.10 310)",
-  "oklch(0.55 0.12 350)",
-  "oklch(0.60 0.15 30)",
-  "oklch(0.60 0.15 85)",
-  "oklch(0.50 0.10 125)",
-]
-
-/* ------------------------------------------------------------------ */
-/*  Component                                                          */
-/* ------------------------------------------------------------------ */
-
-interface DeepWorkProps {
-  categories: CategoryData[]
-  onComplete: () => void
-  onBack: () => void
 }
 
 type DeepStep = "select" | "deep-check" | "closure" | "done"
@@ -142,54 +69,57 @@ const DEEP_SUB_LABELS: Record<DeepSubStep, string> = {
   action: "Accion",
 }
 
-export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
-  const [data, setData] = useState<DeepWorkData>(EMPTY_DEEP_WORK)
-  const [step, setStep] = useState<DeepStep>("select")
+/* ------------------------------------------------------------------ */
+/*  Props                                                              */
+/* ------------------------------------------------------------------ */
+
+interface DeepWorkProps {
+  responses: AreaResponse[]
+  deepWork: DeepWorkData
+  onUpdate: (data: DeepWorkData) => void
+  onComplete: () => void
+  onBack: () => void
+}
+
+export function DeepWork({
+  responses,
+  deepWork,
+  onUpdate,
+  onComplete,
+  onBack,
+}: DeepWorkProps) {
+  const [step, setStep] = useState<DeepStep>(() => {
+    if (deepWork.closure.takeaway) return "done"
+    if (deepWork.selectedAreas.length > 0 && Object.keys(deepWork.areas).length > 0)
+      return "deep-check"
+    return "select"
+  })
   const [currentAreaIdx, setCurrentAreaIdx] = useState(0)
   const [subStep, setSubStep] = useState<DeepSubStep>("current")
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    const saved = loadDeepWork()
-    if (saved) {
-      setData(saved)
-      // resume where they left off
-      if (saved.closure.takeaway) {
-        setStep("done")
-      } else if (saved.selectedAreas.length > 0 && Object.keys(saved.currentState).length > 0) {
-        setStep("deep-check")
-      } else if (saved.selectedAreas.length > 0) {
-        setStep("deep-check")
-      }
-    }
-    setLoaded(true)
-  }, [])
-
-  useEffect(() => {
-    if (loaded) saveDeepWork(data)
-  }, [data, loaded])
 
   const update = (partial: Partial<DeepWorkData>) => {
-    setData((prev) => ({ ...prev, ...partial }))
+    onUpdate({ ...deepWork, ...partial })
+  }
+
+  const updateArea = (areaIdx: number, partial: Partial<DeepWorkAreaData>) => {
+    const existing = deepWork.areas[areaIdx] || emptyDeepWorkArea()
+    update({
+      areas: {
+        ...deepWork.areas,
+        [areaIdx]: { ...existing, ...partial },
+      },
+    })
   }
 
   /* Sorted by lowest score */
-  const sortedByLowest = [...categories]
-    .map((c, i) => ({ ...c, originalIndex: i }))
-    .sort((a, b) => a.value - b.value)
-
-  if (!loaded) {
-    return (
-      <div className="flex items-center justify-center min-h-[200px]">
-        <div className="animate-pulse text-muted-foreground">Cargando...</div>
-      </div>
-    )
-  }
+  const sortedByLowest = [...responses]
+    .map((r, i) => ({ score: r.score, originalIndex: i, name: AREAS[i].name }))
+    .sort((a, b) => a.score - b.score)
 
   /* ----- STEP: Area Selection ----- */
   if (step === "select") {
     const toggleArea = (idx: number) => {
-      const current = data.selectedAreas
+      const current = deepWork.selectedAreas
       if (current.includes(idx)) {
         update({ selectedAreas: current.filter((a) => a !== idx) })
       } else if (current.length < 2) {
@@ -198,7 +128,7 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
     }
 
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         <StepHeader
           step={2}
           title="Eleccion del area a trabajar"
@@ -208,8 +138,11 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
         <div className="bg-card border border-border rounded-xl p-6">
           <ul className="flex flex-col gap-2 mb-6">
             {AREA_SELECTION_QUESTIONS.map((q, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed">
-                <span className="text-primary mt-0.5 shrink-0">&#8226;</span>
+              <li
+                key={i}
+                className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed"
+              >
+                <span className="text-primary mt-0.5 shrink-0">{"•"}</span>
                 {q}
               </li>
             ))}
@@ -221,7 +154,7 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {sortedByLowest.map((cat) => {
-              const selected = data.selectedAreas.includes(cat.originalIndex)
+              const selected = deepWork.selectedAreas.includes(cat.originalIndex)
               return (
                 <button
                   key={cat.originalIndex}
@@ -235,10 +168,16 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
                 >
                   <span
                     className="w-3 h-3 rounded-full shrink-0"
-                    style={{ backgroundColor: CATEGORY_COLORS[cat.originalIndex % CATEGORY_COLORS.length] }}
+                    style={{
+                      backgroundColor: CATEGORY_COLORS[cat.originalIndex],
+                    }}
                   />
-                  <span className="flex-1 text-sm font-medium text-foreground truncate">{cat.name}</span>
-                  <span className="text-sm font-bold tabular-nums text-primary">{cat.value}</span>
+                  <span className="flex-1 text-sm font-medium text-foreground truncate">
+                    {cat.name}
+                  </span>
+                  <span className="text-sm font-bold tabular-nums text-primary">
+                    {cat.score}
+                  </span>
                   {selected && <Check className="w-4 h-4 text-primary shrink-0" />}
                 </button>
               )
@@ -249,15 +188,21 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
         <div className="flex items-center justify-between">
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="w-4 h-4" />
-            Volver a la rueda
+            Volver a resultados
           </Button>
           <Button
             onClick={() => {
+              // Ensure areas have data objects
+              const newAreas = { ...deepWork.areas }
+              deepWork.selectedAreas.forEach((idx) => {
+                if (!newAreas[idx]) newAreas[idx] = emptyDeepWorkArea()
+              })
+              update({ areas: newAreas })
               setCurrentAreaIdx(0)
               setSubStep("current")
               setStep("deep-check")
             }}
-            disabled={data.selectedAreas.length === 0}
+            disabled={deepWork.selectedAreas.length === 0}
           >
             Continuar
             <ArrowRight className="w-4 h-4" />
@@ -269,8 +214,11 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
 
   /* ----- STEP: Deep Check ----- */
   if (step === "deep-check") {
-    const areaIdx = data.selectedAreas[currentAreaIdx]
-    const area = categories[areaIdx]
+    const areaIdx = deepWork.selectedAreas[currentAreaIdx]
+    const area = AREAS[areaIdx]
+    const areaData = deepWork.areas[areaIdx] || emptyDeepWorkArea()
+    const areaScore = responses[areaIdx]?.score ?? 0
+
     if (!area) {
       setStep("select")
       return null
@@ -282,10 +230,10 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
         : subStep === "desired"
           ? getDesiredStateQuestions(area.name)
           : subStep === "beliefs"
-            ? getBeliefsQuestions(area.name)
-            : getActionQuestions(area.name)
+            ? getBeliefsQuestions()
+            : getActionQuestions()
 
-    const dataKey =
+    const fieldKey: keyof DeepWorkAreaData =
       subStep === "current"
         ? "currentState"
         : subStep === "desired"
@@ -294,11 +242,11 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
             ? "beliefs"
             : "action"
 
-    const currentValue = data[dataKey][areaIdx] || ""
+    const currentValue = (areaData[fieldKey] as string) || ""
 
     const subStepIndex = DEEP_SUB_STEPS.indexOf(subStep)
     const totalSubSteps = DEEP_SUB_STEPS.length
-    const isLastArea = currentAreaIdx >= data.selectedAreas.length - 1
+    const isLastArea = currentAreaIdx >= deepWork.selectedAreas.length - 1
     const isLastSubStep = subStepIndex === totalSubSteps - 1
 
     const handleNext = () => {
@@ -310,6 +258,7 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
       } else {
         setStep("closure")
       }
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     const handlePrev = () => {
@@ -321,17 +270,18 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
       } else {
         setStep("select")
       }
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
-    const progressTotal = data.selectedAreas.length * totalSubSteps
+    const progressTotal = deepWork.selectedAreas.length * totalSubSteps
     const progressCurrent = currentAreaIdx * totalSubSteps + subStepIndex + 1
 
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         <StepHeader
           step={3}
           title="Checkeo profundo"
-          description={`Trabajando en: ${area.name} (${area.value}/10)`}
+          description={`Trabajando en: ${area.name} (${areaScore}/10)`}
         />
 
         {/* Progress */}
@@ -374,19 +324,26 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
         <div className="flex items-center gap-2">
           <span
             className="w-3 h-3 rounded-full shrink-0"
-            style={{ backgroundColor: CATEGORY_COLORS[areaIdx % CATEGORY_COLORS.length] }}
+            style={{ backgroundColor: CATEGORY_COLORS[areaIdx] }}
           />
           <span className="text-sm font-semibold text-foreground">{area.name}</span>
-          <span className="text-xs text-muted-foreground">Puntaje actual: {area.value}/10</span>
+          <span className="text-xs text-muted-foreground">
+            Puntaje actual: {areaScore}/10
+          </span>
         </div>
 
         {/* Questions */}
         <div className="bg-card border border-border rounded-xl p-6">
-          <p className="text-sm font-medium text-foreground mb-3">{DEEP_SUB_LABELS[subStep]}</p>
+          <p className="text-sm font-medium text-foreground mb-3">
+            {DEEP_SUB_LABELS[subStep]}
+          </p>
           <ul className="flex flex-col gap-1.5 mb-5">
             {questions.map((q, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed">
-                <span className="text-primary mt-0.5 shrink-0">&#8226;</span>
+              <li
+                key={i}
+                className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed"
+              >
+                <span className="text-primary mt-0.5 shrink-0">{"•"}</span>
                 {q}
               </li>
             ))}
@@ -394,9 +351,7 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
 
           <textarea
             value={currentValue}
-            onChange={(e) =>
-              update({ [dataKey]: { ...data[dataKey], [areaIdx]: e.target.value } })
-            }
+            onChange={(e) => updateArea(areaIdx, { [fieldKey]: e.target.value })}
             rows={5}
             className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
             placeholder="Escribi tu reflexion aqui..."
@@ -404,18 +359,16 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
 
           {/* Desired score selector in desired state sub-step */}
           {subStep === "desired" && (
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-3 flex-wrap">
               <span className="text-sm text-muted-foreground">Puntaje deseado:</span>
-              <div className="flex gap-1.5">
+              <div className="flex gap-1.5 flex-wrap">
                 {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
                   <button
                     key={n}
                     type="button"
-                    onClick={() =>
-                      update({ desiredScore: { ...data.desiredScore, [areaIdx]: n } })
-                    }
+                    onClick={() => updateArea(areaIdx, { desiredScore: n })}
                     className={`w-7 h-7 rounded-md text-xs font-semibold transition-colors ${
-                      (data.desiredScore[areaIdx] || 0) === n
+                      areaData.desiredScore === n
                         ? "bg-primary text-primary-foreground"
                         : "bg-secondary text-muted-foreground hover:bg-primary/10"
                     }`}
@@ -446,15 +399,27 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
   if (step === "closure") {
     const closureQuestions = [
       { key: "takeaway" as const, label: "Que te llevas de este ejercicio?" },
-      { key: "emotion" as const, label: "Que emocion o mensaje interno aparecio?" },
-      { key: "symbol" as const, label: "Con que palabra, imagen o simbolo cerrarias este momento?" },
-      { key: "reminder" as const, label: "Queres escribirte un recordatorio, frase o anclaje para sostener esto?" },
+      {
+        key: "emotion" as const,
+        label: "Que emocion o mensaje interno aparecio?",
+      },
+      {
+        key: "symbol" as const,
+        label: "Con que palabra, imagen o simbolo cerrarias este momento?",
+      },
+      {
+        key: "reminder" as const,
+        label:
+          "Queres escribirte un recordatorio, frase o anclaje para sostener esto?",
+      },
     ]
 
-    const allFilled = closureQuestions.every((q) => data.closure[q.key].trim() !== "")
+    const allFilled = closureQuestions.every(
+      (q) => deepWork.closure[q.key].trim() !== ""
+    )
 
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         <StepHeader
           step={4}
           title="Cierre reflexivo"
@@ -468,10 +433,10 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
                 {q.label}
               </label>
               <textarea
-                value={data.closure[q.key]}
+                value={deepWork.closure[q.key]}
                 onChange={(e) =>
                   update({
-                    closure: { ...data.closure, [q.key]: e.target.value },
+                    closure: { ...deepWork.closure, [q.key]: e.target.value },
                   })
                 }
                 rows={3}
@@ -486,7 +451,7 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
           <Button
             variant="outline"
             onClick={() => {
-              const lastAreaIdx = data.selectedAreas.length - 1
+              const lastAreaIdx = deepWork.selectedAreas.length - 1
               setCurrentAreaIdx(lastAreaIdx)
               setSubStep("action")
               setStep("deep-check")
@@ -511,36 +476,55 @@ export function DeepWork({ categories, onComplete, onBack }: DeepWorkProps) {
   }
 
   /* ----- STEP: Done (summary) ----- */
-  return <DeepWorkSummary data={data} categories={categories} onRestart={() => {
-    setData(EMPTY_DEEP_WORK)
-    setStep("select")
-    localStorage.removeItem(DEEP_WORK_KEY)
-  }} />
+  return (
+    <DeepWorkSummary
+      data={deepWork}
+      responses={responses}
+      onRestart={() => {
+        update({
+          selectedAreas: [],
+          areas: {},
+          closure: { takeaway: "", emotion: "", symbol: "", reminder: "" },
+        })
+        setStep("select")
+      }}
+    />
+  )
 }
 
 /* ------------------------------------------------------------------ */
 /*  Sub-components                                                     */
 /* ------------------------------------------------------------------ */
 
-function StepHeader({ step, title, description }: { step: number; title: string; description: string }) {
+function StepHeader({
+  step,
+  title,
+  description,
+}: {
+  step: number
+  title: string
+  description: string
+}) {
   return (
     <div className="text-center">
       <span className="inline-block text-xs font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 mb-3">
         Paso {step}
       </span>
       <h2 className="text-2xl font-bold text-foreground text-balance">{title}</h2>
-      <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty">{description}</p>
+      <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty">
+        {description}
+      </p>
     </div>
   )
 }
 
 function DeepWorkSummary({
   data,
-  categories,
+  responses,
   onRestart,
 }: {
   data: DeepWorkData
-  categories: CategoryData[]
+  responses: AreaResponse[]
   onRestart: () => void
 }) {
   const [expandedAreas, setExpandedAreas] = useState<Record<number, boolean>>({})
@@ -550,7 +534,7 @@ function DeepWorkSummary({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 max-w-3xl mx-auto">
       <div className="text-center">
         <span className="inline-block text-xs font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 mb-3">
           Proceso completado
@@ -559,18 +543,23 @@ function DeepWorkSummary({
           Resumen de tu trabajo profundo
         </h2>
         <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty">
-          Aqui tenes un resumen de todo lo que reflexionaste. Podes volver a este material cuando lo necesites.
+          Aqui tenes un resumen de todo lo que reflexionaste. Podes volver a
+          este material cuando lo necesites.
         </p>
       </div>
 
       {/* Area summaries */}
       {data.selectedAreas.map((areaIdx) => {
-        const area = categories[areaIdx]
-        if (!area) return null
+        const areaData = data.areas[areaIdx]
+        if (!areaData) return null
+        const score = responses[areaIdx]?.score ?? 0
         const expanded = expandedAreas[areaIdx] ?? true
 
         return (
-          <div key={areaIdx} className="bg-card border border-border rounded-xl overflow-hidden">
+          <div
+            key={areaIdx}
+            className="bg-card border border-border rounded-xl overflow-hidden"
+          >
             <button
               type="button"
               onClick={() => toggleExpand(areaIdx)}
@@ -579,12 +568,16 @@ function DeepWorkSummary({
               <div className="flex items-center gap-3">
                 <span
                   className="w-3 h-3 rounded-full shrink-0"
-                  style={{ backgroundColor: CATEGORY_COLORS[areaIdx % CATEGORY_COLORS.length] }}
+                  style={{ backgroundColor: CATEGORY_COLORS[areaIdx] }}
                 />
-                <span className="font-semibold text-foreground">{area.name}</span>
+                <span className="font-semibold text-foreground">
+                  {AREAS[areaIdx].name}
+                </span>
                 <span className="text-sm text-muted-foreground">
-                  {area.value}/10
-                  {data.desiredScore[areaIdx] ? ` → ${data.desiredScore[areaIdx]}/10` : ""}
+                  {score}/10
+                  {areaData.desiredScore > 0
+                    ? ` → ${areaData.desiredScore}/10`
+                    : ""}
                 </span>
               </div>
               {expanded ? (
@@ -595,10 +588,16 @@ function DeepWorkSummary({
             </button>
             {expanded && (
               <div className="px-6 pb-6 flex flex-col gap-4">
-                <SummaryBlock label="Estado actual" text={data.currentState[areaIdx]} />
-                <SummaryBlock label="Estado deseado" text={data.desiredState[areaIdx]} />
-                <SummaryBlock label="Creencias y recursos" text={data.beliefs[areaIdx]} />
-                <SummaryBlock label="Accion" text={data.action[areaIdx]} />
+                <SummaryBlock label="Estado actual" text={areaData.currentState} />
+                <SummaryBlock
+                  label="Estado deseado"
+                  text={areaData.desiredState}
+                />
+                <SummaryBlock
+                  label="Creencias y recursos"
+                  text={areaData.beliefs}
+                />
+                <SummaryBlock label="Accion" text={areaData.action} />
               </div>
             )}
           </div>
@@ -608,14 +607,24 @@ function DeepWorkSummary({
       {/* Closure */}
       {data.closure.takeaway && (
         <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-base font-semibold text-foreground mb-4">Cierre reflexivo</h3>
+          <h3 className="text-base font-semibold text-foreground mb-4">
+            Cierre reflexivo
+          </h3>
           <div className="flex flex-col gap-4">
             <SummaryBlock label="Lo que me llevo" text={data.closure.takeaway} />
-            <SummaryBlock label="Emocion o mensaje" text={data.closure.emotion} />
-            <SummaryBlock label="Palabra o simbolo" text={data.closure.symbol} />
+            <SummaryBlock
+              label="Emocion o mensaje"
+              text={data.closure.emotion}
+            />
+            <SummaryBlock
+              label="Palabra o simbolo"
+              text={data.closure.symbol}
+            />
             {data.closure.reminder && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                <p className="text-xs font-medium text-primary mb-1">Mi recordatorio</p>
+                <p className="text-xs font-medium text-primary mb-1">
+                  Mi recordatorio
+                </p>
                 <p className="text-sm text-foreground leading-relaxed italic">
                   {`"${data.closure.reminder}"`}
                 </p>
@@ -649,7 +658,9 @@ function SummaryBlock({ label, text }: { label: string; text?: string }) {
   return (
     <div>
       <p className="text-xs font-medium text-muted-foreground mb-1">{label}</p>
-      <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{text}</p>
+      <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+        {text}
+      </p>
     </div>
   )
 }
