@@ -28,6 +28,7 @@ const mobileNavItems = [
   { label: "Empezá por acá", href: "#empeza-por-aca" },
   { label: "Blog", href: "#blog" },
   { label: "Talleres & Charlas", href: "#talleres" },
+  { label: "Rueda de la Vida", href: "/rueda-de-la-vida" },
   { label: "Contacto", href: "#contacto" },
 ]
 
@@ -126,6 +127,13 @@ export function Header() {
               className="relative px-4 py-2 text-sm font-medium text-foreground/80 transition-all duration-300 hover:text-primary rounded-md group"
             >
               Talleres & Charlas
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 group-hover:left-[12.5%]" />
+            </Link>
+            <Link
+              href="/rueda-de-la-vida"
+              className="relative px-4 py-2 text-sm font-medium text-foreground/80 transition-all duration-300 hover:text-primary rounded-md group"
+            >
+              Rueda de la Vida
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4 group-hover:left-[12.5%]" />
             </Link>
             <Link
