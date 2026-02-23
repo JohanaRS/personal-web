@@ -10,7 +10,7 @@ import {
 } from "./life-wheel-data"
 
 /* ------------------------------------------------------------------ */
-/*  Slider sub-component (reused pattern from category-controls)       */
+/*  Slider sub-component                                               */
 /* ------------------------------------------------------------------ */
 
 function ScoreSlider({
@@ -68,7 +68,7 @@ function ScoreSlider({
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-2.5 rounded-full appearance-none cursor-pointer"
         style={{ background: trackBg }}
-        aria-label="Puntaje del area"
+        aria-label="Puntaje del \u00e1rea"
       />
     </>
   )
@@ -98,12 +98,49 @@ export function AssessmentWizard({
   const color = CATEGORY_COLORS[currentArea]
   const resp = responses[currentArea]
 
+  const hasConditional = !!area.conditionalBlock
+  const showConditionalQuestions =
+    hasConditional && resp.conditionalAnswer === "S\u00ed"
+
   const updateAnswer = useCallback(
     (qIdx: number, text: string) => {
       const updated = [...responses]
       const newAnswers = [...updated[currentArea].answers]
       newAnswers[qIdx] = text
       updated[currentArea] = { ...updated[currentArea], answers: newAnswers }
+      onUpdate(updated)
+      setValidationError("")
+    },
+    [responses, currentArea, onUpdate]
+  )
+
+  const updateConditionalAnswer = useCallback(
+    (option: string) => {
+      const updated = [...responses]
+      updated[currentArea] = {
+        ...updated[currentArea],
+        conditionalAnswer: option,
+        // Clear conditional answers if not "Si"
+        conditionalAnswers:
+          option === "S\u00ed"
+            ? updated[currentArea].conditionalAnswers
+            : area.conditionalBlock!.questions.map(() => ""),
+      }
+      onUpdate(updated)
+      setValidationError("")
+    },
+    [responses, currentArea, onUpdate, area]
+  )
+
+  const updateConditionalQuestionAnswer = useCallback(
+    (qIdx: number, text: string) => {
+      const updated = [...responses]
+      const newCAnswers = [...(updated[currentArea].conditionalAnswers || [])]
+      newCAnswers[qIdx] = text
+      updated[currentArea] = {
+        ...updated[currentArea],
+        conditionalAnswers: newCAnswers,
+      }
       onUpdate(updated)
       setValidationError("")
     },
@@ -122,14 +159,14 @@ export function AssessmentWizard({
 
   const canAdvance = () => {
     if (resp.score === 0) return false
-    const hasAtLeastOneAnswer = resp.answers.some((a) => a.trim().length > 0)
-    return hasAtLeastOneAnswer
+    const hasAtLeastOneMainAnswer = resp.answers.some((a) => a.trim().length > 0)
+    return hasAtLeastOneMainAnswer
   }
 
   const handleNext = () => {
     if (!canAdvance()) {
       setValidationError(
-        "Completa tu puntaje (1-10) y responde al menos una pregunta para continuar."
+        "Complet\u00e1 tu puntaje (1\u201310) y respond\u00e9 al menos una pregunta para continuar."
       )
       return
     }
@@ -160,7 +197,7 @@ export function AssessmentWizard({
       <div>
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <span className="font-medium">
-            Area {currentArea + 1} de {AREAS.length}
+            {"\u00c1rea"} {currentArea + 1} de {AREAS.length}
           </span>
           <span>{Math.round(progressPct)}%</span>
         </div>
@@ -177,7 +214,7 @@ export function AssessmentWizard({
               key={i}
               type="button"
               onClick={() => {
-                if (i < currentArea || (i === currentArea)) {
+                if (i <= currentArea) {
                   setCurrentArea(i)
                   setValidationError("")
                 }
@@ -189,7 +226,7 @@ export function AssessmentWizard({
                     ? "bg-primary/60"
                     : "bg-secondary"
               }`}
-              aria-label={`Ir a area ${i + 1}: ${AREAS[i].name}`}
+              aria-label={`Ir a \u00e1rea ${i + 1}: ${AREAS[i].name}`}
               disabled={i > currentArea}
             />
           ))}
@@ -208,10 +245,94 @@ export function AssessmentWizard({
         </h2>
       </div>
 
+      {/* Conditional block (Amor y Vinculos) */}
+      {hasConditional && (
+        <div className="bg-card border border-border rounded-xl p-6">
+          <p className="text-sm font-medium text-foreground mb-4">
+            {area.conditionalBlock!.triggerQuestion}
+          </p>
+          <div className="flex gap-3 flex-wrap">
+            {area.conditionalBlock!.options.map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => updateConditionalAnswer(opt)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium border-2 transition-all ${
+                  resp.conditionalAnswer === opt
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border bg-background text-foreground hover:border-primary/40"
+                }`}
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
+
+          {/* Conditional questions (only if "Si") */}
+          {showConditionalQuestions && (
+            <div className="flex flex-col gap-5 mt-6 pt-6 border-t border-border">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                V\u00ednculos amorosos / pareja
+              </p>
+              {area.conditionalBlock!.questions.map((question, qIdx) => (
+                <div key={qIdx}>
+                  <label
+                    htmlFor={`cq-${currentArea}-${qIdx}`}
+                    className="block text-sm text-foreground leading-relaxed mb-3"
+                  >
+                    {question}
+                  </label>
+                  <textarea
+                    id={`cq-${currentArea}-${qIdx}`}
+                    value={resp.conditionalAnswers?.[qIdx] || ""}
+                    onChange={(e) =>
+                      updateConditionalQuestionAnswer(qIdx, e.target.value)
+                    }
+                    rows={2}
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
+                    placeholder="Escrib\u00ed tu reflexi\u00f3n aqu\u00ed..."
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Main questions (always shown - Amor propio block for this area) */}
+      <div className="flex flex-col gap-5">
+        {hasConditional && (
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            Amor propio y autovalor
+          </p>
+        )}
+        <p className="text-sm font-semibold text-foreground">
+          Reflexion\u00e1 sobre estas preguntas:
+        </p>
+        {area.questions.map((question, qIdx) => (
+          <div key={qIdx} className="bg-card border border-border rounded-xl p-5">
+            <label
+              htmlFor={`q-${currentArea}-${qIdx}`}
+              className="block text-sm text-foreground leading-relaxed mb-3"
+            >
+              {question}
+            </label>
+            <textarea
+              id={`q-${currentArea}-${qIdx}`}
+              value={resp.answers[qIdx] || ""}
+              onChange={(e) => updateAnswer(qIdx, e.target.value)}
+              rows={2}
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
+              placeholder="Escrib\u00ed tu reflexi\u00f3n aqu\u00ed..."
+            />
+          </div>
+        ))}
+      </div>
+
       {/* Score selector */}
       <div className="bg-card border border-border rounded-xl p-6">
         <label className="block text-sm font-semibold text-foreground mb-2">
-          Tu puntaje para esta area
+          Tu puntaje para esta \u00e1rea
         </label>
         <p className="text-xs text-muted-foreground mb-4">
           Del 1 (muy insatisfecho) al 10 (plenamente satisfecho)
@@ -228,7 +349,7 @@ export function AssessmentWizard({
             className="text-2xl font-bold tabular-nums min-w-[3ch] text-center"
             style={{ color: resp.score > 0 ? color : undefined }}
           >
-            {resp.score > 0 ? resp.score : "—"}
+            {resp.score > 0 ? resp.score : "\u2014"}
           </span>
         </div>
 
@@ -254,31 +375,6 @@ export function AssessmentWizard({
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Questions */}
-      <div className="flex flex-col gap-5">
-        <p className="text-sm font-semibold text-foreground">
-          Reflexiona sobre estas preguntas:
-        </p>
-        {area.questions.map((question, qIdx) => (
-          <div key={qIdx} className="bg-card border border-border rounded-xl p-5">
-            <label
-              htmlFor={`q-${currentArea}-${qIdx}`}
-              className="block text-sm text-foreground leading-relaxed mb-3"
-            >
-              {question}
-            </label>
-            <textarea
-              id={`q-${currentArea}-${qIdx}`}
-              value={resp.answers[qIdx] || ""}
-              onChange={(e) => updateAnswer(qIdx, e.target.value)}
-              rows={2}
-              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
-              placeholder="Escribi tu reflexion aqui..."
-            />
-          </div>
-        ))}
       </div>
 
       {/* Validation error */}

@@ -176,7 +176,7 @@ export function WheelChart({ categories }: WheelChartProps) {
         ref={canvasRef}
         className="max-w-full"
         role="img"
-        aria-label="Rueda de la Vida mostrando valores de cada categoria"
+        aria-label="Rueda de la Vida mostrando valores de cada categor\u00eda"
       />
     </div>
   )

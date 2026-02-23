@@ -5,17 +5,35 @@ import { AREAS, CATEGORY_COLORS, type AreaResponse, type DeepWorkData } from "./
 /* ------------------------------------------------------------------ */
 
 const BRAND = {
-  cream: [245, 240, 232] as [number, number, number],         // warm background
-  sand: [232, 224, 213] as [number, number, number],           // section bg
-  charcoal: [50, 46, 42] as [number, number, number],          // body text
-  olive: [97, 117, 68] as [number, number, number],            // primary / accent
-  oliveLight: [97, 117, 68, 0.12] as [number, number, number, number],
-  muted: [140, 130, 118] as [number, number, number],          // captions
-  divider: [210, 200, 188] as [number, number, number],        // line
+  cream: [245, 240, 232] as [number, number, number],
+  sand: [232, 224, 213] as [number, number, number],
+  charcoal: [50, 46, 42] as [number, number, number],
+  olive: [97, 117, 68] as [number, number, number],
+  muted: [140, 130, 118] as [number, number, number],
+  divider: [210, 200, 188] as [number, number, number],
   white: [255, 255, 255] as [number, number, number],
 }
 
 const CLOSING_PHRASE = "La claridad es el primer paso hacia el cambio."
+
+/* ------------------------------------------------------------------ */
+/*  Load logo as base64                                                */
+/* ------------------------------------------------------------------ */
+
+async function loadLogoBase64(): Promise<string | null> {
+  try {
+    const resp = await fetch("/images/logo-joha.png")
+    const blob = await resp.blob()
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = () => resolve(null)
+      reader.readAsDataURL(blob)
+    })
+  } catch {
+    return null
+  }
+}
 
 /* ------------------------------------------------------------------ */
 /*  PDF generation using jsPDF                                         */
@@ -31,6 +49,7 @@ export async function generatePdf({
   canvasElement: HTMLCanvasElement | null
 }) {
   const { default: jsPDF } = await import("jspdf")
+  const logoBase64 = await loadLogoBase64()
 
   const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" })
   const pageW = pdf.internal.pageSize.getWidth()
@@ -46,7 +65,6 @@ export async function generatePdf({
     month: "long",
     day: "numeric",
   })
-  // Capitalize first letter
   const formattedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1)
 
   /* ---- Helpers ---- */
@@ -63,13 +81,33 @@ export async function generatePdf({
     pdf.line(x, atY, x + w, atY)
   }
 
+  function drawBrandHeader() {
+    const headerY = margin - 4
+    const logoSize = 8
+
+    if (logoBase64) {
+      try {
+        pdf.addImage(logoBase64, "PNG", margin, headerY - 3, logoSize, logoSize)
+      } catch {
+        // skip
+      }
+    }
+
+    const textX = logoBase64 ? margin + logoSize + 3 : margin
+    pdf.setFontSize(8)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.muted)
+    pdf.text("Johana Rios \u2013 Coaching con PNL", textX, headerY + 1)
+    pdf.text("@joharios.coach", textX, headerY + 5)
+  }
+
   function addFooter() {
     const footerY = pageH - 10
     drawDivider(footerY - 4, contentW)
     pdf.setFontSize(7)
     pdf.setFont("helvetica", "normal")
     setColor(BRAND.muted)
-    pdf.text("Johana Rios  \u2013  Coaching con PNL  \u2013  joharios.com", pageW / 2, footerY, {
+    pdf.text("Johana Rios \u2013 Coaching con PNL \u2013 @joharios.coach", pageW / 2, footerY, {
       align: "center",
     })
   }
@@ -122,7 +160,6 @@ export async function generatePdf({
     if (!answer?.trim()) return
     checkPage(14)
 
-    // Question (italic, muted)
     pdf.setFontSize(8)
     pdf.setFont("helvetica", "italic")
     setColor(BRAND.muted)
@@ -133,7 +170,6 @@ export async function generatePdf({
       y += 3.6
     })
 
-    // Answer
     pdf.setFontSize(9)
     pdf.setFont("helvetica", "normal")
     setColor(BRAND.charcoal)
@@ -162,14 +198,8 @@ export async function generatePdf({
   /*  PAGE 1 - Cover / Header + Chart                                 */
   /* ================================================================ */
 
-  y = margin + 4
-
-  // Brand name at top
-  pdf.setFontSize(8)
-  pdf.setFont("helvetica", "normal")
-  setColor(BRAND.muted)
-  pdf.text("Johana Rios  \u2013  Coaching con PNL", margin, y)
-  y += 8
+  drawBrandHeader()
+  y = margin + 14
 
   // Main title
   pdf.setFontSize(24)
@@ -182,7 +212,7 @@ export async function generatePdf({
   pdf.setFontSize(10)
   pdf.setFont("helvetica", "italic")
   setColor(BRAND.muted)
-  pdf.text("Una fotografia de tu momento actual", margin, y)
+  pdf.text("Una fotograf\u00eda de tu momento actual", margin, y)
   y += 6
 
   // Date
@@ -192,7 +222,6 @@ export async function generatePdf({
   pdf.text(formattedDate, margin, y)
   y += 3
 
-  // Elegant divider
   drawDivider(y)
   y += 10
 
@@ -229,10 +258,10 @@ export async function generatePdf({
   y += 8
 
   /* ================================================================ */
-  /*  Scores per area (visual blocks)                                  */
+  /*  Scores per area                                                  */
   /* ================================================================ */
 
-  drawSectionTitle("Puntajes por area")
+  drawSectionTitle("Puntajes por \u00e1rea")
 
   const colW = contentW / 2
   let col = 0
@@ -242,18 +271,15 @@ export async function generatePdf({
     const x = margin + col * colW
     checkPage(12)
 
-    // Color dot
     const color = hexFromOklch(CATEGORY_COLORS[i])
     pdf.setFillColor(color[0], color[1], color[2])
     pdf.circle(x + 3, y - 1.5, 1.5, "F")
 
-    // Name
     pdf.setFontSize(9)
     pdf.setFont("helvetica", "normal")
     setColor(BRAND.charcoal)
     pdf.text(AREAS[i].name, x + 7, y)
 
-    // Score
     pdf.setFontSize(9)
     pdf.setFont("helvetica", "bold")
     setColor(BRAND.olive)
@@ -277,7 +303,6 @@ export async function generatePdf({
   const low2 = sorted.slice(0, 2)
   const high2 = sorted.slice(-2).reverse()
 
-  // Strength & Opportunity boxes side by side
   checkPage(26)
   const boxW = (contentW - 6) / 2
 
@@ -330,9 +355,10 @@ export async function generatePdf({
   pdf.addPage()
   y = margin
 
-  drawSectionTitle("Respuestas por area")
+  drawSectionTitle("Respuestas por \u00e1rea")
 
   responses.forEach((resp, i) => {
+    const area = AREAS[i]
     checkPage(18)
 
     // Area header with colored accent bar
@@ -343,7 +369,7 @@ export async function generatePdf({
     pdf.setFontSize(11)
     pdf.setFont("helvetica", "bold")
     setColor(BRAND.charcoal)
-    pdf.text(AREAS[i].name, margin + 6, y + 4)
+    pdf.text(area.name, margin + 6, y + 4)
 
     pdf.setFontSize(10)
     pdf.setFont("helvetica", "bold")
@@ -352,8 +378,36 @@ export async function generatePdf({
 
     y += 12
 
-    // Questions & Answers
-    AREAS[i].questions.forEach((q, qIdx) => {
+    // Conditional block answers (Amor y V\u00ednculos)
+    const hasConditional = !!area.conditionalBlock
+    const showConditional = hasConditional && resp.conditionalAnswer === "S\u00ed"
+
+    if (showConditional) {
+      checkPage(8)
+      pdf.setFontSize(8)
+      pdf.setFont("helvetica", "bold")
+      setColor(BRAND.olive)
+      pdf.text("V\u00cdNCULOS AMOROSOS / PAREJA", margin + 4, y)
+      y += 4
+
+      area.conditionalBlock!.questions.forEach((q, qIdx) => {
+        const answer = resp.conditionalAnswers?.[qIdx] || ""
+        drawQuestionAnswer(q, answer)
+      })
+      y += 2
+    }
+
+    if (hasConditional) {
+      checkPage(8)
+      pdf.setFontSize(8)
+      pdf.setFont("helvetica", "bold")
+      setColor(BRAND.olive)
+      pdf.text("AMOR PROPIO Y AUTOVALOR", margin + 4, y)
+      y += 4
+    }
+
+    // Main questions & answers
+    area.questions.forEach((q, qIdx) => {
       const answer = resp.answers[qIdx]
       drawQuestionAnswer(q, answer)
     })
@@ -363,36 +417,29 @@ export async function generatePdf({
     y += 6
   })
 
-  // Closing phrase at end of rueda section
   drawClosingPhrase()
-
   addFooter()
 
   /* ================================================================ */
-  /*  Deep Work / Reflexion section                                    */
+  /*  Reflexi\u00f3n section                                               */
   /* ================================================================ */
 
   if (deepWork && deepWork.selectedAreas.length > 0) {
     pdf.addPage()
-    y = margin + 4
 
-    // Header
-    pdf.setFontSize(8)
-    pdf.setFont("helvetica", "normal")
-    setColor(BRAND.muted)
-    pdf.text("Johana Rios  \u2013  Coaching con PNL", margin, y)
-    y += 8
+    drawBrandHeader()
+    y = margin + 14
 
     pdf.setFontSize(20)
     pdf.setFont("helvetica", "bold")
     setColor(BRAND.charcoal)
-    pdf.text("Reflexion sobre mi Rueda", margin, y)
+    pdf.text("Reflexi\u00f3n sobre mi Rueda", margin, y)
     y += 7
 
     pdf.setFontSize(9)
     pdf.setFont("helvetica", "italic")
     setColor(BRAND.muted)
-    pdf.text("Profundizacion y Plan de Accion", margin, y)
+    pdf.text("Profundizaci\u00f3n y Plan de Acci\u00f3n", margin, y)
     y += 5
 
     pdf.setFontSize(8)
@@ -433,7 +480,7 @@ export async function generatePdf({
         { label: "Estado actual", text: areaData.currentState },
         { label: "Estado deseado", text: areaData.desiredState },
         { label: "Creencias y recursos", text: areaData.beliefs },
-        { label: "Accion / Microaccion", text: areaData.action },
+        { label: "Acci\u00f3n / Microacci\u00f3n", text: areaData.action },
       ]
 
       sections.forEach(({ label, text }) => {
@@ -456,8 +503,8 @@ export async function generatePdf({
 
       const closureItems: { label: string; text: string }[] = [
         { label: "Lo que me llevo", text: deepWork.closure.takeaway },
-        { label: "Emocion o mensaje", text: deepWork.closure.emotion },
-        { label: "Palabra o simbolo", text: deepWork.closure.symbol },
+        { label: "Emoci\u00f3n o mensaje", text: deepWork.closure.emotion },
+        { label: "Palabra o s\u00edmbolo", text: deepWork.closure.symbol },
         { label: "Mi recordatorio", text: deepWork.closure.reminder },
       ]
 
@@ -469,7 +516,7 @@ export async function generatePdf({
         y += 2
       })
 
-      // Highlight the reminder if present
+      // Highlight the reminder
       if (deepWork.closure.reminder?.trim()) {
         checkPage(16)
         y += 4
@@ -493,9 +540,7 @@ export async function generatePdf({
       }
     }
 
-    // Closing phrase at end of reflexion
     drawClosingPhrase()
-
     addFooter()
   }
 
@@ -509,10 +554,8 @@ export async function generatePdf({
 /* ------------------------------------------------------------------ */
 
 function hexFromOklch(oklchStr: string): [number, number, number] {
-  const match = oklchStr.match(
-    /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/
-  )
-  if (!match) return [97, 117, 68] // fallback to olive
+  const match = oklchStr.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/)
+  if (!match) return [97, 117, 68]
 
   const L = parseFloat(match[1])
   const C = parseFloat(match[2])
@@ -521,7 +564,6 @@ function hexFromOklch(oklchStr: string): [number, number, number] {
   const a = C * Math.cos(hRad)
   const b = C * Math.sin(hRad)
 
-  // OKLab to linear sRGB
   const l_ = L + 0.3963377774 * a + 0.2158037573 * b
   const m_ = L - 0.1055613458 * a - 0.0638541728 * b
   const s_ = L - 0.0894841775 * a - 1.291485548 * b

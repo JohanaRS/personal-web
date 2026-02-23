@@ -17,45 +17,45 @@ import {
 /* ------------------------------------------------------------------ */
 
 const AREA_SELECTION_QUESTIONS = [
-  "Que areas tienen el puntaje mas bajo?",
-  "Cual de ellas te genera mas malestar hoy?",
-  "Que area, si la mejoraras, impactaria positivamente en otras?",
-  "Cual te genera mas ganas de transformarla?",
+  "\u00bfQu\u00e9 \u00e1reas tienen el puntaje m\u00e1s bajo?",
+  "\u00bfCu\u00e1l de ellas te genera m\u00e1s malestar hoy?",
+  "\u00bfQu\u00e9 \u00e1rea, si la mejoraras, impactar\u00eda positivamente en otras?",
+  "\u00bfCu\u00e1l te genera m\u00e1s ganas de transformarla?",
 ]
 
 function getCurrentStateQuestions(name: string) {
   return [
-    `Que esta pasando hoy en ${name}?`,
-    "Que te llevo a ponerle ese puntaje?",
-    "Que cosas si estan funcionando?",
-    "Que te molesta o limita?",
+    `\u00bfQu\u00e9 est\u00e1 pasando hoy en ${name}?`,
+    "\u00bfQu\u00e9 te llev\u00f3 a ponerle ese puntaje?",
+    "\u00bfQu\u00e9 cosas s\u00ed est\u00e1n funcionando?",
+    "\u00bfQu\u00e9 te molesta o limita?",
   ]
 }
 
 function getDesiredStateQuestions(name: string) {
   return [
-    `A que puntaje te gustaria llegar en ${name}?`,
-    "Que seria distinto si estuvieras ahi?",
-    "Como lo notarias?",
-    "Que verias, sentirias, oirias?",
+    `\u00bfA qu\u00e9 puntaje te gustar\u00eda llegar en ${name}?`,
+    "\u00bfQu\u00e9 ser\u00eda distinto si estuvieras ah\u00ed?",
+    "\u00bfC\u00f3mo lo notar\u00edas?",
+    "\u00bfQu\u00e9 ver\u00edas, sentir\u00edas, oir\u00edas?",
   ]
 }
 
 function getBeliefsQuestions() {
   return [
-    "Que creencias tenes sobre esta area?",
-    "Que te esta impidiendo avanzar?",
-    "Que sabes que podrias activar en vos para mejorarla?",
-    "Que personas o apoyos podrian ayudarte?",
+    "\u00bfQu\u00e9 creencias ten\u00e9s sobre esta \u00e1rea?",
+    "\u00bfQu\u00e9 te est\u00e1 impidiendo avanzar?",
+    "\u00bfQu\u00e9 sab\u00e9s que podr\u00edas activar en vos para mejorarla?",
+    "\u00bfQu\u00e9 personas o apoyos podr\u00edan ayudarte?",
   ]
 }
 
 function getActionQuestions() {
   return [
-    "Que microaccion podrias tomar esta semana para mejorar esto?",
-    "Que habito podrias sumar o modificar?",
-    "Como vas a medir tu avance?",
-    "Que podrias hacer si te trabas?",
+    "\u00bfQu\u00e9 microacci\u00f3n podr\u00edas tomar esta semana para mejorar esto?",
+    "\u00bfQu\u00e9 h\u00e1bito podr\u00edas sumar o modificar?",
+    "\u00bfC\u00f3mo vas a medir tu avance?",
+    "\u00bfQu\u00e9 podr\u00edas hacer si te trab\u00e1s?",
   ]
 }
 
@@ -66,7 +66,7 @@ const DEEP_SUB_LABELS: Record<DeepSubStep, string> = {
   current: "Estado actual",
   desired: "Estado deseado",
   beliefs: "Creencias y recursos",
-  action: "Accion",
+  action: "Acci\u00f3n",
 }
 
 /* ------------------------------------------------------------------ */
@@ -133,8 +133,8 @@ export function DeepWork({
       <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         <StepHeader
           step={2}
-          title="Eleccion del area a trabajar"
-          description="Observa tu rueda y reflexiona sobre las siguientes preguntas antes de elegir:"
+          title={"Elecci\u00f3n del \u00e1rea a trabajar"}
+          description={"Observ\u00e1 tu rueda y reflexion\u00e1 sobre las siguientes preguntas antes de elegir:"}
         />
 
         <div className="bg-card border border-border rounded-xl p-6">
@@ -144,14 +144,14 @@ export function DeepWork({
                 key={i}
                 className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed"
               >
-                <span className="text-primary mt-0.5 shrink-0">{"•"}</span>
+                <span className="text-primary mt-0.5 shrink-0">{"\u2022"}</span>
                 {q}
               </li>
             ))}
           </ul>
 
           <p className="text-sm font-medium text-foreground mb-4">
-            Elegi una (maximo dos) area para trabajar hoy:
+            {"Eleg\u00ed una (m\u00e1ximo dos) \u00e1rea para trabajar hoy:"}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -194,7 +194,6 @@ export function DeepWork({
           </Button>
           <Button
             onClick={() => {
-              // Ensure areas have data objects
               const newAreas = { ...deepWork.areas }
               deepWork.selectedAreas.forEach((idx) => {
                 if (!newAreas[idx]) newAreas[idx] = emptyDeepWorkArea()
@@ -282,7 +281,7 @@ export function DeepWork({
       <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         <StepHeader
           step={3}
-          title="Reflexion sobre mi rueda"
+          title={"Reflexi\u00f3n sobre mi rueda"}
           description={`Trabajando en: ${area.name} (${areaScore}/10)`}
         />
 
@@ -345,7 +344,7 @@ export function DeepWork({
                 key={i}
                 className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed"
               >
-                <span className="text-primary mt-0.5 shrink-0">{"•"}</span>
+                <span className="text-primary mt-0.5 shrink-0">{"\u2022"}</span>
                 {q}
               </li>
             ))}
@@ -356,7 +355,7 @@ export function DeepWork({
             onChange={(e) => updateArea(areaIdx, { [fieldKey]: e.target.value })}
             rows={5}
             className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
-            placeholder="Escribi tu reflexion aqui..."
+            placeholder={"Escrib\u00ed tu reflexi\u00f3n aqu\u00ed..."}
           />
 
           {/* Desired score selector in desired state sub-step */}
@@ -400,19 +399,19 @@ export function DeepWork({
   /* ----- STEP: Closure ----- */
   if (step === "closure") {
     const closureQuestions = [
-      { key: "takeaway" as const, label: "Que te llevas de este ejercicio?" },
+      { key: "takeaway" as const, label: "\u00bfQu\u00e9 te llev\u00e1s de este ejercicio?" },
       {
         key: "emotion" as const,
-        label: "Que emocion o mensaje interno aparecio?",
+        label: "\u00bfQu\u00e9 emoci\u00f3n o mensaje interno apareci\u00f3?",
       },
       {
         key: "symbol" as const,
-        label: "Con que palabra, imagen o simbolo cerrarias este momento?",
+        label: "\u00bfCon qu\u00e9 palabra, imagen o s\u00edmbolo cerrar\u00edas este momento?",
       },
       {
         key: "reminder" as const,
         label:
-          "Queres escribirte un recordatorio, frase o anclaje para sostener esto?",
+          "\u00bfQuer\u00e9s escribirte un recordatorio, frase o anclaje para sostener esto?",
       },
     ]
 
@@ -425,7 +424,7 @@ export function DeepWork({
         <StepHeader
           step={4}
           title="Cierre reflexivo"
-          description="Tomate un momento para cerrar este proceso con presencia."
+          description={"Tomate un momento para cerrar este proceso con presencia."}
         />
 
         <div className="flex flex-col gap-6">
@@ -443,7 +442,7 @@ export function DeepWork({
                 }
                 rows={3}
                 className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
-                placeholder="Escribi tu reflexion aqui..."
+                placeholder={"Escrib\u00ed tu reflexi\u00f3n aqu\u00ed..."}
               />
             </div>
           ))}
@@ -545,11 +544,10 @@ function DeepWorkSummary({
           Proceso completado
         </span>
         <h2 className="text-2xl font-bold text-foreground text-balance">
-          Resumen de tu reflexion
+          {"Resumen de tu reflexi\u00f3n"}
         </h2>
         <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty">
-          Aqui tenes un resumen de toda tu reflexion. Podes volver a
-          este material cuando lo necesites o descargarlo como PDF.
+          {"Aqu\u00ed ten\u00e9s un resumen de toda tu reflexi\u00f3n. Pod\u00e9s volver a este material cuando lo necesites o descargarlo como PDF."}
         </p>
       </div>
 
@@ -581,7 +579,7 @@ function DeepWorkSummary({
                 <span className="text-sm text-muted-foreground">
                   {score}/10
                   {areaData.desiredScore > 0
-                    ? ` → ${areaData.desiredScore}/10`
+                    ? ` \u2192 ${areaData.desiredScore}/10`
                     : ""}
                 </span>
               </div>
@@ -602,7 +600,7 @@ function DeepWorkSummary({
                   label="Creencias y recursos"
                   text={areaData.beliefs}
                 />
-                <SummaryBlock label="Accion" text={areaData.action} />
+                <SummaryBlock label={"Acci\u00f3n"} text={areaData.action} />
               </div>
             )}
           </div>
@@ -616,13 +614,13 @@ function DeepWorkSummary({
             Cierre reflexivo
           </h3>
           <div className="flex flex-col gap-4">
-            <SummaryBlock label="Lo que me llevo" text={data.closure.takeaway} />
+            <SummaryBlock label={"Lo que me llevo"} text={data.closure.takeaway} />
             <SummaryBlock
-              label="Emocion o mensaje"
+              label={"Emoci\u00f3n o mensaje"}
               text={data.closure.emotion}
             />
             <SummaryBlock
-              label="Palabra o simbolo"
+              label={"Palabra o s\u00edmbolo"}
               text={data.closure.symbol}
             />
             {data.closure.reminder && (
@@ -649,7 +647,7 @@ function DeepWorkSummary({
       {/* Actions */}
       <div className="flex items-center justify-center gap-3 flex-wrap">
         <Button variant="outline" onClick={onRestart}>
-          Reiniciar reflexion
+          {"Reiniciar reflexi\u00f3n"}
         </Button>
         <Button variant="secondary" onClick={onDownloadPdf}>
           <Download className="w-4 h-4" />
@@ -661,7 +659,7 @@ function DeepWorkSummary({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Agendar sesion de coaching
+            {"Agendar sesi\u00f3n de coaching"}
           </a>
         </Button>
       </div>
