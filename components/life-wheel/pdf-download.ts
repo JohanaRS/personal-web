@@ -1,7 +1,24 @@
 import { AREAS, CATEGORY_COLORS, type AreaResponse, type DeepWorkData } from "./life-wheel-data"
 
 /* ------------------------------------------------------------------ */
-/*  PDF generation using jsPDF + html2canvas                           */
+/*  Brand constants for PDF styling                                    */
+/* ------------------------------------------------------------------ */
+
+const BRAND = {
+  cream: [245, 240, 232] as [number, number, number],         // warm background
+  sand: [232, 224, 213] as [number, number, number],           // section bg
+  charcoal: [50, 46, 42] as [number, number, number],          // body text
+  olive: [97, 117, 68] as [number, number, number],            // primary / accent
+  oliveLight: [97, 117, 68, 0.12] as [number, number, number, number],
+  muted: [140, 130, 118] as [number, number, number],          // captions
+  divider: [210, 200, 188] as [number, number, number],        // line
+  white: [255, 255, 255] as [number, number, number],
+}
+
+const CLOSING_PHRASE = "La claridad es el primer paso hacia el cambio."
+
+/* ------------------------------------------------------------------ */
+/*  PDF generation using jsPDF                                         */
 /* ------------------------------------------------------------------ */
 
 export async function generatePdf({
@@ -13,235 +30,520 @@ export async function generatePdf({
   deepWork: DeepWorkData | null
   canvasElement: HTMLCanvasElement | null
 }) {
-  const [{ default: jsPDF }, html2canvas] = await Promise.all([
-    import("jspdf"),
-    import("html2canvas"),
-  ])
+  const { default: jsPDF } = await import("jspdf")
 
   const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" })
   const pageW = pdf.internal.pageSize.getWidth()
-  const margin = 15
+  const pageH = pdf.internal.pageSize.getHeight()
+  const margin = 20
   const contentW = pageW - margin * 2
-  let y = margin
+  let y = 0
 
-  // Helper: add new page if needed
-  const checkPage = (needed: number) => {
-    if (y + needed > pdf.internal.pageSize.getHeight() - margin) {
+  const now = new Date()
+  const dateStr = now.toLocaleDateString("es-AR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+  // Capitalize first letter
+  const formattedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1)
+
+  /* ---- Helpers ---- */
+
+  function setColor(c: [number, number, number]) {
+    pdf.setTextColor(c[0], c[1], c[2])
+  }
+
+  function drawDivider(atY: number, width?: number) {
+    const w = width ?? contentW
+    const x = margin + (contentW - w) / 2
+    pdf.setDrawColor(BRAND.divider[0], BRAND.divider[1], BRAND.divider[2])
+    pdf.setLineWidth(0.3)
+    pdf.line(x, atY, x + w, atY)
+  }
+
+  function addFooter() {
+    const footerY = pageH - 10
+    drawDivider(footerY - 4, contentW)
+    pdf.setFontSize(7)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.muted)
+    pdf.text("Johana Rios  \u2013  Coaching con PNL  \u2013  joharios.com", pageW / 2, footerY, {
+      align: "center",
+    })
+  }
+
+  function checkPage(needed: number) {
+    if (y + needed > pageH - 20) {
+      addFooter()
       pdf.addPage()
       y = margin
     }
   }
 
-  // ---- Title ----
-  const now = new Date()
-  const dateStr = now.toLocaleDateString("es-AR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  function wrapText(text: string, maxWidth: number, fontSize: number): string[] {
+    pdf.setFontSize(fontSize)
+    return pdf.splitTextToSize(text, maxWidth)
+  }
 
-  pdf.setFontSize(20)
-  pdf.setFont("helvetica", "bold")
-  pdf.text("Rueda de la Vida", margin, y)
+  function drawSectionTitle(title: string) {
+    checkPage(16)
+    pdf.setFontSize(13)
+    pdf.setFont("helvetica", "bold")
+    setColor(BRAND.olive)
+    pdf.text(title.toUpperCase(), margin, y)
+    y += 2
+    drawDivider(y, 40)
+    y += 6
+  }
+
+  function drawLabel(label: string) {
+    pdf.setFontSize(8)
+    pdf.setFont("helvetica", "bold")
+    setColor(BRAND.olive)
+    pdf.text(label.toUpperCase(), margin + 2, y)
+    y += 4
+  }
+
+  function drawBodyText(text: string, indent = 0) {
+    pdf.setFontSize(9)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.charcoal)
+    const lines = wrapText(text, contentW - 4 - indent, 9)
+    lines.forEach((line) => {
+      checkPage(5)
+      pdf.text(line, margin + 2 + indent, y)
+      y += 4.2
+    })
+  }
+
+  function drawQuestionAnswer(question: string, answer: string) {
+    if (!answer?.trim()) return
+    checkPage(14)
+
+    // Question (italic, muted)
+    pdf.setFontSize(8)
+    pdf.setFont("helvetica", "italic")
+    setColor(BRAND.muted)
+    const qLines = wrapText(question, contentW - 6, 8)
+    qLines.forEach((line) => {
+      checkPage(4)
+      pdf.text(line, margin + 4, y)
+      y += 3.6
+    })
+
+    // Answer
+    pdf.setFontSize(9)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.charcoal)
+    const aLines = wrapText(answer, contentW - 6, 9)
+    aLines.forEach((line) => {
+      checkPage(4.5)
+      pdf.text(line, margin + 4, y)
+      y += 4.2
+    })
+    y += 2
+  }
+
+  function drawClosingPhrase() {
+    checkPage(20)
+    y += 6
+    drawDivider(y, 60)
+    y += 8
+    pdf.setFontSize(10)
+    pdf.setFont("helvetica", "italic")
+    setColor(BRAND.olive)
+    pdf.text(CLOSING_PHRASE, pageW / 2, y, { align: "center" })
+    y += 8
+  }
+
+  /* ================================================================ */
+  /*  PAGE 1 - Cover / Header + Chart                                 */
+  /* ================================================================ */
+
+  y = margin + 4
+
+  // Brand name at top
+  pdf.setFontSize(8)
+  pdf.setFont("helvetica", "normal")
+  setColor(BRAND.muted)
+  pdf.text("Johana Rios  \u2013  Coaching con PNL", margin, y)
   y += 8
 
+  // Main title
+  pdf.setFontSize(24)
+  pdf.setFont("helvetica", "bold")
+  setColor(BRAND.charcoal)
+  pdf.text("Mi Rueda de la Vida", margin, y)
+  y += 8
+
+  // Subtitle
   pdf.setFontSize(10)
+  pdf.setFont("helvetica", "italic")
+  setColor(BRAND.muted)
+  pdf.text("Una fotografia de tu momento actual", margin, y)
+  y += 6
+
+  // Date
+  pdf.setFontSize(8)
   pdf.setFont("helvetica", "normal")
-  pdf.setTextColor(120, 120, 120)
-  pdf.text(dateStr, margin, y)
-  y += 4
-  pdf.text("Johana Rios - johanarios.com", margin, y)
-  pdf.setTextColor(0, 0, 0)
+  setColor(BRAND.muted)
+  pdf.text(formattedDate, margin, y)
+  y += 3
+
+  // Elegant divider
+  drawDivider(y)
   y += 10
 
   // ---- Chart image ----
   if (canvasElement) {
     try {
-      const chartImg = canvasElement.toDataURL("image/png")
-      const imgW = contentW * 0.6
-      const imgH = imgW // square
+      const chartImg = canvasElement.toDataURL("image/png", 1.0)
+      const imgW = contentW * 0.55
+      const imgH = imgW
       const imgX = margin + (contentW - imgW) / 2
-      checkPage(imgH + 5)
+      checkPage(imgH + 8)
       pdf.addImage(chartImg, "PNG", imgX, y, imgW, imgH)
-      y += imgH + 8
+      y += imgH + 6
     } catch {
-      // if canvas fails, just skip
+      // skip
     }
   }
 
   // ---- Average ----
   const avg = (responses.reduce((s, r) => s + r.score, 0) / responses.length).toFixed(1)
-  pdf.setFontSize(12)
+  checkPage(14)
+  pdf.setFontSize(9)
+  pdf.setFont("helvetica", "normal")
+  setColor(BRAND.muted)
+  pdf.text("Promedio general", pageW / 2, y, { align: "center" })
+  y += 6
+  pdf.setFontSize(18)
   pdf.setFont("helvetica", "bold")
-  checkPage(10)
-  pdf.text(`Promedio general: ${avg} / 10`, margin, y)
+  setColor(BRAND.olive)
+  pdf.text(`${avg} / 10`, pageW / 2, y, { align: "center" })
   y += 10
 
-  // ---- Scores per area ----
-  pdf.setFontSize(14)
-  pdf.setFont("helvetica", "bold")
-  checkPage(10)
-  pdf.text("Puntajes por area", margin, y)
-  y += 7
+  drawDivider(y)
+  y += 8
+
+  /* ================================================================ */
+  /*  Scores per area (visual blocks)                                  */
+  /* ================================================================ */
+
+  drawSectionTitle("Puntajes por area")
+
+  const colW = contentW / 2
+  let col = 0
+  let rowStartY = y
 
   responses.forEach((resp, i) => {
-    checkPage(7)
-    pdf.setFontSize(10)
+    const x = margin + col * colW
+    checkPage(12)
+
+    // Color dot
+    const color = hexFromOklch(CATEGORY_COLORS[i])
+    pdf.setFillColor(color[0], color[1], color[2])
+    pdf.circle(x + 3, y - 1.5, 1.5, "F")
+
+    // Name
+    pdf.setFontSize(9)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.charcoal)
+    pdf.text(AREAS[i].name, x + 7, y)
+
+    // Score
+    pdf.setFontSize(9)
     pdf.setFont("helvetica", "bold")
-    pdf.text(`${AREAS[i].name}: ${resp.score}/10`, margin + 2, y)
-    y += 6
+    setColor(BRAND.olive)
+    pdf.text(`${resp.score}/10`, x + colW - 8, y, { align: "right" })
+
+    if (col === 0) {
+      rowStartY = y
+      col = 1
+    } else {
+      col = 0
+      y = rowStartY + 7
+    }
   })
 
+  if (col === 1) y = rowStartY + 7
   y += 4
 
-  // ---- Highlights ----
+  /* ---- Highlights ---- */
   const scored = responses.map((r, i) => ({ index: i, score: r.score }))
   const sorted = [...scored].sort((a, b) => a.score - b.score)
   const low2 = sorted.slice(0, 2)
   const high2 = sorted.slice(-2).reverse()
 
-  pdf.setFontSize(12)
-  pdf.setFont("helvetica", "bold")
-  checkPage(16)
-  pdf.text("Areas con menor puntaje", margin, y)
-  y += 6
-  pdf.setFontSize(10)
-  pdf.setFont("helvetica", "normal")
-  low2.forEach((item) => {
-    pdf.text(`- ${AREAS[item.index].name} (${item.score}/10)`, margin + 2, y)
-    y += 5
-  })
-  y += 3
+  // Strength & Opportunity boxes side by side
+  checkPage(26)
+  const boxW = (contentW - 6) / 2
 
-  pdf.setFontSize(12)
+  // Strength box
+  const boxX1 = margin
+  pdf.setFillColor(BRAND.sand[0], BRAND.sand[1], BRAND.sand[2])
+  pdf.roundedRect(boxX1, y, boxW, 22, 2, 2, "F")
+  pdf.setFontSize(8)
   pdf.setFont("helvetica", "bold")
-  checkPage(16)
-  pdf.text("Areas con mayor puntaje", margin, y)
-  y += 6
-  pdf.setFontSize(10)
+  setColor(BRAND.olive)
+  pdf.text("MAYOR FORTALEZA", boxX1 + 4, y + 6)
+  pdf.setFontSize(8.5)
   pdf.setFont("helvetica", "normal")
-  high2.forEach((item) => {
-    pdf.text(`- ${AREAS[item.index].name} (${item.score}/10)`, margin + 2, y)
-    y += 5
+  setColor(BRAND.charcoal)
+  high2.forEach((item, idx) => {
+    pdf.text(
+      `${AREAS[item.index].name} (${item.score}/10)`,
+      boxX1 + 4,
+      y + 12 + idx * 5
+    )
   })
-  y += 6
 
-  // ---- Answers per area ----
-  pdf.setFontSize(14)
+  // Opportunity box
+  const boxX2 = margin + boxW + 6
+  pdf.setFillColor(BRAND.sand[0], BRAND.sand[1], BRAND.sand[2])
+  pdf.roundedRect(boxX2, y, boxW, 22, 2, 2, "F")
+  pdf.setFontSize(8)
   pdf.setFont("helvetica", "bold")
-  checkPage(12)
-  pdf.text("Respuestas por area", margin, y)
-  y += 8
+  setColor(BRAND.olive)
+  pdf.text("OPORTUNIDAD DE MEJORA", boxX2 + 4, y + 6)
+  pdf.setFontSize(8.5)
+  pdf.setFont("helvetica", "normal")
+  setColor(BRAND.charcoal)
+  low2.forEach((item, idx) => {
+    pdf.text(
+      `${AREAS[item.index].name} (${item.score}/10)`,
+      boxX2 + 4,
+      y + 12 + idx * 5
+    )
+  })
+
+  y += 28
+
+  addFooter()
+
+  /* ================================================================ */
+  /*  PAGE 2+ - Detailed responses per area                            */
+  /* ================================================================ */
+
+  pdf.addPage()
+  y = margin
+
+  drawSectionTitle("Respuestas por area")
 
   responses.forEach((resp, i) => {
-    checkPage(12)
+    checkPage(18)
+
+    // Area header with colored accent bar
+    const color = hexFromOklch(CATEGORY_COLORS[i])
+    pdf.setFillColor(color[0], color[1], color[2])
+    pdf.roundedRect(margin, y, 2, 10, 1, 1, "F")
+
     pdf.setFontSize(11)
     pdf.setFont("helvetica", "bold")
-    pdf.text(`${AREAS[i].name} (${resp.score}/10)`, margin, y)
-    y += 6
+    setColor(BRAND.charcoal)
+    pdf.text(AREAS[i].name, margin + 6, y + 4)
 
+    pdf.setFontSize(10)
+    pdf.setFont("helvetica", "bold")
+    setColor(BRAND.olive)
+    pdf.text(`${resp.score}/10`, margin + contentW, y + 4, { align: "right" })
+
+    y += 12
+
+    // Questions & Answers
     AREAS[i].questions.forEach((q, qIdx) => {
       const answer = resp.answers[qIdx]
-      if (!answer?.trim()) return
-
-      checkPage(14)
-      pdf.setFontSize(9)
-      pdf.setFont("helvetica", "italic")
-      pdf.setTextColor(100, 100, 100)
-      const qLines = pdf.splitTextToSize(q, contentW - 4)
-      pdf.text(qLines, margin + 2, y)
-      y += qLines.length * 4
-
-      pdf.setFont("helvetica", "normal")
-      pdf.setTextColor(0, 0, 0)
-      const aLines = pdf.splitTextToSize(answer, contentW - 4)
-      pdf.text(aLines, margin + 2, y)
-      y += aLines.length * 4 + 3
+      drawQuestionAnswer(q, answer)
     })
 
     y += 4
+    drawDivider(y, contentW * 0.4)
+    y += 6
   })
 
-  // ---- Deep work summary ----
+  // Closing phrase at end of rueda section
+  drawClosingPhrase()
+
+  addFooter()
+
+  /* ================================================================ */
+  /*  Deep Work / Reflexion section                                    */
+  /* ================================================================ */
+
   if (deepWork && deepWork.selectedAreas.length > 0) {
-    checkPage(12)
-    pdf.setFontSize(14)
-    pdf.setFont("helvetica", "bold")
-    pdf.text("Reflexion sobre mi rueda", margin, y)
+    pdf.addPage()
+    y = margin + 4
+
+    // Header
+    pdf.setFontSize(8)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.muted)
+    pdf.text("Johana Rios  \u2013  Coaching con PNL", margin, y)
     y += 8
 
+    pdf.setFontSize(20)
+    pdf.setFont("helvetica", "bold")
+    setColor(BRAND.charcoal)
+    pdf.text("Reflexion sobre mi Rueda", margin, y)
+    y += 7
+
+    pdf.setFontSize(9)
+    pdf.setFont("helvetica", "italic")
+    setColor(BRAND.muted)
+    pdf.text("Profundizacion y Plan de Accion", margin, y)
+    y += 5
+
+    pdf.setFontSize(8)
+    pdf.setFont("helvetica", "normal")
+    setColor(BRAND.muted)
+    pdf.text(formattedDate, margin, y)
+    y += 3
+    drawDivider(y)
+    y += 10
+
+    /* Per-area deep work */
     deepWork.selectedAreas.forEach((areaIdx) => {
       const areaData = deepWork.areas[areaIdx]
       if (!areaData) return
+      const areaScore = responses[areaIdx]?.score ?? 0
 
-      checkPage(10)
-      pdf.setFontSize(11)
+      checkPage(16)
+      const color = hexFromOklch(CATEGORY_COLORS[areaIdx])
+      pdf.setFillColor(color[0], color[1], color[2])
+      pdf.roundedRect(margin, y, 2, 10, 1, 1, "F")
+
+      pdf.setFontSize(12)
       pdf.setFont("helvetica", "bold")
-      pdf.text(`Area foco: ${AREAS[areaIdx].name}`, margin, y)
-      y += 6
+      setColor(BRAND.charcoal)
+      pdf.text(AREAS[areaIdx].name, margin + 6, y + 4)
 
-      const sections: [string, string][] = [
-        ["Estado actual", areaData.currentState],
-        ["Estado deseado", areaData.desiredState],
-        ["Creencias y recursos", areaData.beliefs],
-        ["Accion / Microaccion", areaData.action],
+      pdf.setFontSize(9)
+      pdf.setFont("helvetica", "normal")
+      setColor(BRAND.muted)
+      const scoreText =
+        areaData.desiredScore > 0
+          ? `Puntaje: ${areaScore}/10  \u2192  Deseado: ${areaData.desiredScore}/10`
+          : `Puntaje: ${areaScore}/10`
+      pdf.text(scoreText, margin + 6, y + 9)
+      y += 15
+
+      const sections: { label: string; text: string }[] = [
+        { label: "Estado actual", text: areaData.currentState },
+        { label: "Estado deseado", text: areaData.desiredState },
+        { label: "Creencias y recursos", text: areaData.beliefs },
+        { label: "Accion / Microaccion", text: areaData.action },
       ]
 
-      if (areaData.desiredScore > 0) {
-        checkPage(8)
-        pdf.setFontSize(10)
-        pdf.setFont("helvetica", "normal")
-        pdf.text(`Puntaje deseado: ${areaData.desiredScore}/10`, margin + 2, y)
-        y += 5
-      }
-
-      sections.forEach(([label, text]) => {
+      sections.forEach(({ label, text }) => {
         if (!text?.trim()) return
         checkPage(12)
-        pdf.setFontSize(9)
-        pdf.setFont("helvetica", "bold")
-        pdf.text(label, margin + 2, y)
-        y += 4
-        pdf.setFont("helvetica", "normal")
-        const lines = pdf.splitTextToSize(text, contentW - 4)
-        pdf.text(lines, margin + 2, y)
-        y += lines.length * 4 + 3
+        drawLabel(label)
+        drawBodyText(text, 2)
+        y += 3
       })
 
-      y += 4
+      y += 2
+      drawDivider(y, contentW * 0.3)
+      y += 6
     })
 
-    // Closure
+    /* Closure */
     if (deepWork.closure.takeaway) {
-      checkPage(12)
-      pdf.setFontSize(11)
-      pdf.setFont("helvetica", "bold")
-      pdf.text("Cierre reflexivo", margin, y)
-      y += 6
+      checkPage(20)
+      drawSectionTitle("Cierre reflexivo")
 
-      const closureItems: [string, string][] = [
-        ["Lo que me llevo", deepWork.closure.takeaway],
-        ["Emocion o mensaje", deepWork.closure.emotion],
-        ["Palabra o simbolo", deepWork.closure.symbol],
-        ["Mi recordatorio", deepWork.closure.reminder],
+      const closureItems: { label: string; text: string }[] = [
+        { label: "Lo que me llevo", text: deepWork.closure.takeaway },
+        { label: "Emocion o mensaje", text: deepWork.closure.emotion },
+        { label: "Palabra o simbolo", text: deepWork.closure.symbol },
+        { label: "Mi recordatorio", text: deepWork.closure.reminder },
       ]
 
-      closureItems.forEach(([label, text]) => {
+      closureItems.forEach(({ label, text }) => {
         if (!text?.trim()) return
         checkPage(10)
-        pdf.setFontSize(9)
-        pdf.setFont("helvetica", "bold")
-        pdf.text(label, margin + 2, y)
-        y += 4
-        pdf.setFont("helvetica", "normal")
-        const lines = pdf.splitTextToSize(text, contentW - 4)
-        pdf.text(lines, margin + 2, y)
-        y += lines.length * 4 + 3
+        drawLabel(label)
+        drawBodyText(text, 2)
+        y += 2
       })
+
+      // Highlight the reminder if present
+      if (deepWork.closure.reminder?.trim()) {
+        checkPage(16)
+        y += 4
+        pdf.setFillColor(BRAND.sand[0], BRAND.sand[1], BRAND.sand[2])
+        const reminderLines = wrapText(
+          `"${deepWork.closure.reminder}"`,
+          contentW - 16,
+          10
+        )
+        const boxH = reminderLines.length * 5 + 10
+        pdf.roundedRect(margin + 4, y, contentW - 8, boxH, 2, 2, "F")
+        pdf.setFontSize(10)
+        pdf.setFont("helvetica", "italic")
+        setColor(BRAND.olive)
+        let textY = y + 7
+        reminderLines.forEach((line) => {
+          pdf.text(line, pageW / 2, textY, { align: "center" })
+          textY += 5
+        })
+        y += boxH + 4
+      }
     }
+
+    // Closing phrase at end of reflexion
+    drawClosingPhrase()
+
+    addFooter()
   }
 
-  // ---- Save ----
+  /* ---- Save ---- */
   const fileName = `rueda-de-la-vida-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}.pdf`
   pdf.save(fileName)
+}
+
+/* ------------------------------------------------------------------ */
+/*  Oklch to RGB helper (approximate)                                  */
+/* ------------------------------------------------------------------ */
+
+function hexFromOklch(oklchStr: string): [number, number, number] {
+  const match = oklchStr.match(
+    /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/
+  )
+  if (!match) return [97, 117, 68] // fallback to olive
+
+  const L = parseFloat(match[1])
+  const C = parseFloat(match[2])
+  const H = parseFloat(match[3])
+  const hRad = (H * Math.PI) / 180
+  const a = C * Math.cos(hRad)
+  const b = C * Math.sin(hRad)
+
+  // OKLab to linear sRGB
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b
+  const s_ = L - 0.0894841775 * a - 1.291485548 * b
+
+  const l3 = l_ * l_ * l_
+  const m3 = m_ * m_ * m_
+  const s3 = s_ * s_ * s_
+
+  const r = +4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3
+  const g = -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3
+  const bv = -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3
+
+  const toSrgb = (x: number) => {
+    const clamped = Math.max(0, Math.min(1, x))
+    return clamped <= 0.0031308
+      ? clamped * 12.92
+      : 1.055 * Math.pow(clamped, 1 / 2.4) - 0.055
+  }
+
+  return [
+    Math.round(toSrgb(r) * 255),
+    Math.round(toSrgb(g) * 255),
+    Math.round(toSrgb(bv) * 255),
+  ]
 }

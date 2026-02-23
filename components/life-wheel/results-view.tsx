@@ -200,6 +200,13 @@ export function ResultsView({
         })}
       </div>
 
+      {/* Closing phrase */}
+      <div className="text-center py-2">
+        <p className="text-sm italic text-muted-foreground">
+          La claridad es el primer paso hacia el cambio.
+        </p>
+      </div>
+
       {/* Action buttons */}
       <div className="flex items-center justify-center gap-3 flex-wrap">
         <Button variant="outline" onClick={onRestart}>
