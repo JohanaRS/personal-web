@@ -211,7 +211,7 @@ export function ResultsView({
           Descargar PDF
         </Button>
         <Button onClick={onContinueWorking}>
-          Continuar trabajando
+          Reflexion sobre mi rueda
           <ArrowRight className="w-4 h-4" />
         </Button>
       </div>

@@ -150,6 +150,7 @@ export function LifeWheel() {
         setPhase("results")
         window.scrollTo({ top: 0, behavior: "smooth" })
       }}
+      onDownloadPdf={handleDownloadPdf}
     />
   )
 }
@@ -191,8 +192,8 @@ function IntroView({ onStart }: { onStart: () => void }) {
           },
           {
             step: "4",
-            title: "Profundiza",
-            desc: "Podras elegir areas para trabajar en profundidad y disenar acciones concretas.",
+            title: "Reflexiona",
+            desc: "Podras elegir areas para reflexionar en profundidad y disenar acciones concretas.",
           },
         ].map((item) => (
           <div

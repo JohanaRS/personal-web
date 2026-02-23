@@ -167,7 +167,7 @@ export async function generatePdf({
     checkPage(12)
     pdf.setFontSize(14)
     pdf.setFont("helvetica", "bold")
-    pdf.text("Trabajo profundo", margin, y)
+    pdf.text("Reflexion sobre mi rueda", margin, y)
     y += 8
 
     deepWork.selectedAreas.forEach((areaIdx) => {

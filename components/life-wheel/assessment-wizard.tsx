@@ -214,7 +214,7 @@ export function AssessmentWizard({
           Tu puntaje para esta area
         </label>
         <p className="text-xs text-muted-foreground mb-4">
-          Del 1 (muy insatisfecho/a) al 10 (plenamente satisfecho/a)
+          Del 1 (muy insatisfecho) al 10 (plenamente satisfecho)
         </p>
 
         <div className="flex items-center gap-4">

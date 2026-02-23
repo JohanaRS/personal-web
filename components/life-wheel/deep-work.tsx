@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp } from "lucide-react"
+import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronUp, Download } from "lucide-react"
 import {
   AREAS,
   CATEGORY_COLORS,
@@ -79,6 +79,7 @@ interface DeepWorkProps {
   onUpdate: (data: DeepWorkData) => void
   onComplete: () => void
   onBack: () => void
+  onDownloadPdf: () => void
 }
 
 export function DeepWork({
@@ -87,6 +88,7 @@ export function DeepWork({
   onUpdate,
   onComplete,
   onBack,
+  onDownloadPdf,
 }: DeepWorkProps) {
   const [step, setStep] = useState<DeepStep>(() => {
     if (deepWork.closure.takeaway) return "done"
@@ -280,7 +282,7 @@ export function DeepWork({
       <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         <StepHeader
           step={3}
-          title="Checkeo profundo"
+          title="Reflexion sobre mi rueda"
           description={`Trabajando en: ${area.name} (${areaScore}/10)`}
         />
 
@@ -480,6 +482,7 @@ export function DeepWork({
     <DeepWorkSummary
       data={deepWork}
       responses={responses}
+      onDownloadPdf={onDownloadPdf}
       onRestart={() => {
         update({
           selectedAreas: [],
@@ -521,10 +524,12 @@ function StepHeader({
 function DeepWorkSummary({
   data,
   responses,
+  onDownloadPdf,
   onRestart,
 }: {
   data: DeepWorkData
   responses: AreaResponse[]
+  onDownloadPdf: () => void
   onRestart: () => void
 }) {
   const [expandedAreas, setExpandedAreas] = useState<Record<number, boolean>>({})
@@ -540,11 +545,11 @@ function DeepWorkSummary({
           Proceso completado
         </span>
         <h2 className="text-2xl font-bold text-foreground text-balance">
-          Resumen de tu trabajo profundo
+          Resumen de tu reflexion
         </h2>
         <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty">
-          Aqui tenes un resumen de todo lo que reflexionaste. Podes volver a
-          este material cuando lo necesites.
+          Aqui tenes un resumen de toda tu reflexion. Podes volver a
+          este material cuando lo necesites o descargarlo como PDF.
         </p>
       </div>
 
@@ -637,7 +642,11 @@ function DeepWorkSummary({
       {/* Actions */}
       <div className="flex items-center justify-center gap-3 flex-wrap">
         <Button variant="outline" onClick={onRestart}>
-          Reiniciar trabajo profundo
+          Reiniciar reflexion
+        </Button>
+        <Button variant="secondary" onClick={onDownloadPdf}>
+          <Download className="w-4 h-4" />
+          Descargar PDF
         </Button>
         <Button asChild>
           <a

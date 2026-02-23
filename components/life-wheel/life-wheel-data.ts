@@ -58,7 +58,7 @@ export const AREAS: AreaDefinition[] = [
     name: "Desarrollo Personal / Espiritualidad",
     questions: [
       "Estoy aprendiendo o desarrollando habilidades nuevas?",
-      "Dedico tiempo para conectar conmigo misma?",
+      "Dedico tiempo para conectar conmigo?",
       "Tengo momentos de pausa o reflexion?",
       "Siento que tengo un proposito o direccion?",
       "Practico la gratitud, la meditacion u otra forma de conexion interna?",
@@ -67,37 +67,37 @@ export const AREAS: AreaDefinition[] = [
   {
     name: "Relaciones y Vida Social",
     questions: [
-      "Como estan mis vinculos mas cercanos? Me siento cuidada y valorada?",
+      "Como estan mis vinculos mas cercanos? Siento que me cuidan y me valoran?",
       "Estoy cultivando amistades o relaciones significativas?",
       "Hay alguna relacion que necesite sanar, soltar o fortalecer?",
-      "Estoy siendo autentica en mis relaciones?",
+      "Estoy siendo genuino en mis relaciones?",
       "Estoy dedicando tiempo de calidad a mi vida social?",
     ],
   },
   {
     name: "Pareja / Amor",
     questions: [
-      "Me siento conectad@ emocional y fisicamente con mi pareja?",
+      "Siento conexion emocional y fisica con mi pareja?",
       "Nuestra relacion me suma y me inspira a crecer?",
       "Nos estamos comunicando bien?",
       "Estoy mostrando y recibiendo amor como necesito?",
-      "Que necesito para sentirme mas plen@ en esta area?",
+      "Que necesito para sentir mas plenitud en esta area?",
     ],
   },
   {
     name: "Carrera / Proposito Profesional",
     questions: [
-      "Estoy disfrutando lo que hago? Me siento motivad@?",
+      "Estoy disfrutando lo que hago? Siento motivacion?",
       "Siento que mi trabajo refleja mis valores?",
       "Estoy desarrollandome profesionalmente?",
-      "Estoy siendo reconocid@ por mi aporte?",
+      "Siento reconocimiento por mi aporte?",
       "Que me gustaria cambiar o potenciar en esta area?",
     ],
   },
   {
     name: "Finanzas",
     questions: [
-      "Me siento tranquil@ con mi situacion financiera?",
+      "Siento tranquilidad con mi situacion financiera?",
       "Estoy gestionando mi dinero de forma consciente?",
       "Tengo claridad sobre ingresos, egresos y ahorros?",
       "Tengo metas financieras definidas?",
