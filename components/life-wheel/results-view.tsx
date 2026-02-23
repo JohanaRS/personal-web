@@ -65,7 +65,7 @@ export function ResultsView({
           Tu Rueda de la Vida
         </h2>
         <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty max-w-xl mx-auto">
-          Este es el reflejo de c\u00f3mo te sent\u00eds hoy en cada \u00e1rea. Observ\u00e1 tu rueda con curiosidad y sin juicio.
+          Este es el reflejo de cómo te sentís hoy en cada área. Observá tu rueda con curiosidad y sin juicio.
         </p>
       </div>
 
@@ -92,7 +92,7 @@ export function ResultsView({
           <div className="flex items-center gap-2 mb-3">
             <TrendingDown className="w-4 h-4 text-destructive" />
             <h3 className="text-sm font-semibold text-foreground">
-              {"\u00c1reas con menor puntaje"}
+              Áreas con menor puntaje
             </h3>
           </div>
           <div className="flex flex-col gap-2">
@@ -118,7 +118,7 @@ export function ResultsView({
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp className="w-4 h-4 text-primary" />
             <h3 className="text-sm font-semibold text-foreground">
-              {"\u00c1reas con mayor puntaje"}
+              Áreas con mayor puntaje
             </h3>
           </div>
           <div className="flex flex-col gap-2">
@@ -143,7 +143,7 @@ export function ResultsView({
       {/* Per-area summary with expandable answers */}
       <div className="flex flex-col gap-3 max-w-3xl mx-auto w-full">
         <h3 className="text-lg font-semibold text-foreground mb-1">
-          Resumen por \u00e1rea
+          Resumen por área
         </h3>
         {responses.map((resp, i) => {
           const expanded = expandedAreas[i] ?? false
@@ -152,9 +152,9 @@ export function ResultsView({
             .map((q, qIdx) => ({ question: q, answer: resp.answers[qIdx] }))
             .filter((qa) => qa.answer?.trim())
 
-          // Conditional answers (Amor y Vinculos)
+          // Conditional answers (Amor y Vínculos)
           const hasConditional = !!area.conditionalBlock
-          const showConditional = hasConditional && resp.conditionalAnswer === "S\u00ed"
+          const showConditional = hasConditional && resp.conditionalAnswer === "Sí"
           const conditionalAnswered = showConditional
             ? area.conditionalBlock!.questions
                 .map((q, qIdx) => ({
@@ -200,7 +200,7 @@ export function ResultsView({
                   {conditionalAnswered.length > 0 && (
                     <>
                       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                        V\u00ednculos amorosos / pareja
+                        Vínculos amorosos / pareja
                       </p>
                       {conditionalAnswered.map((qa, idx) => (
                         <div key={`c-${idx}`}>
@@ -255,7 +255,7 @@ export function ResultsView({
           Descargar PDF
         </Button>
         <Button onClick={onContinueWorking}>
-          {"Reflexi\u00f3n sobre mi rueda"}
+          Reflexión sobre mi rueda
           <ArrowRight className="w-4 h-4" />
         </Button>
       </div>

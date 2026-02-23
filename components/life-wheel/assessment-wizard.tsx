@@ -68,7 +68,7 @@ function ScoreSlider({
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-2.5 rounded-full appearance-none cursor-pointer"
         style={{ background: trackBg }}
-        aria-label="Puntaje del \u00e1rea"
+        aria-label="Puntaje del área"
       />
     </>
   )
@@ -100,7 +100,7 @@ export function AssessmentWizard({
 
   const hasConditional = !!area.conditionalBlock
   const showConditionalQuestions =
-    hasConditional && resp.conditionalAnswer === "S\u00ed"
+    hasConditional && resp.conditionalAnswer === "Sí"
 
   const updateAnswer = useCallback(
     (qIdx: number, text: string) => {
@@ -120,9 +120,8 @@ export function AssessmentWizard({
       updated[currentArea] = {
         ...updated[currentArea],
         conditionalAnswer: option,
-        // Clear conditional answers if not "Si"
         conditionalAnswers:
-          option === "S\u00ed"
+          option === "Sí"
             ? updated[currentArea].conditionalAnswers
             : area.conditionalBlock!.questions.map(() => ""),
       }
@@ -166,7 +165,7 @@ export function AssessmentWizard({
   const handleNext = () => {
     if (!canAdvance()) {
       setValidationError(
-        "Complet\u00e1 tu puntaje (1\u201310) y respond\u00e9 al menos una pregunta para continuar."
+        "Completá tu puntaje (1\u201310) y respondé al menos una pregunta para continuar."
       )
       return
     }
@@ -197,7 +196,7 @@ export function AssessmentWizard({
       <div>
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <span className="font-medium">
-            {"\u00c1rea"} {currentArea + 1} de {AREAS.length}
+            Área {currentArea + 1} de {AREAS.length}
           </span>
           <span>{Math.round(progressPct)}%</span>
         </div>
@@ -226,7 +225,7 @@ export function AssessmentWizard({
                     ? "bg-primary/60"
                     : "bg-secondary"
               }`}
-              aria-label={`Ir a \u00e1rea ${i + 1}: ${AREAS[i].name}`}
+              aria-label={`Ir a área ${i + 1}: ${AREAS[i].name}`}
               disabled={i > currentArea}
             />
           ))}
@@ -245,7 +244,7 @@ export function AssessmentWizard({
         </h2>
       </div>
 
-      {/* Conditional block (Amor y Vinculos) */}
+      {/* Conditional block (Amor y Vínculos) */}
       {hasConditional && (
         <div className="bg-card border border-border rounded-xl p-6">
           <p className="text-sm font-medium text-foreground mb-4">
@@ -268,11 +267,11 @@ export function AssessmentWizard({
             ))}
           </div>
 
-          {/* Conditional questions (only if "Si") */}
+          {/* Conditional questions (only if "Sí") */}
           {showConditionalQuestions && (
             <div className="flex flex-col gap-5 mt-6 pt-6 border-t border-border">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                V\u00ednculos amorosos / pareja
+                Vínculos amorosos / pareja
               </p>
               {area.conditionalBlock!.questions.map((question, qIdx) => (
                 <div key={qIdx}>
@@ -290,7 +289,7 @@ export function AssessmentWizard({
                     }
                     rows={2}
                     className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
-                    placeholder="Escrib\u00ed tu reflexi\u00f3n aqu\u00ed..."
+                    placeholder="Escribí tu reflexión aquí..."
                   />
                 </div>
               ))}
@@ -299,7 +298,7 @@ export function AssessmentWizard({
         </div>
       )}
 
-      {/* Main questions (always shown - Amor propio block for this area) */}
+      {/* Main questions (always shown) */}
       <div className="flex flex-col gap-5">
         {hasConditional && (
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
@@ -307,7 +306,7 @@ export function AssessmentWizard({
           </p>
         )}
         <p className="text-sm font-semibold text-foreground">
-          Reflexion\u00e1 sobre estas preguntas:
+          Reflexioná sobre estas preguntas:
         </p>
         {area.questions.map((question, qIdx) => (
           <div key={qIdx} className="bg-card border border-border rounded-xl p-5">
@@ -323,7 +322,7 @@ export function AssessmentWizard({
               onChange={(e) => updateAnswer(qIdx, e.target.value)}
               rows={2}
               className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none leading-relaxed"
-              placeholder="Escrib\u00ed tu reflexi\u00f3n aqu\u00ed..."
+              placeholder="Escribí tu reflexión aquí..."
             />
           </div>
         ))}
@@ -332,7 +331,7 @@ export function AssessmentWizard({
       {/* Score selector */}
       <div className="bg-card border border-border rounded-xl p-6">
         <label className="block text-sm font-semibold text-foreground mb-2">
-          Tu puntaje para esta \u00e1rea
+          Tu puntaje para esta área
         </label>
         <p className="text-xs text-muted-foreground mb-4">
           Del 1 (muy insatisfecho) al 10 (plenamente satisfecho)

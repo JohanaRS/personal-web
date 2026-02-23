@@ -134,7 +134,7 @@ export function LifeWheel() {
     )
   }
 
-  /* ----- DEEP WORK ----- */
+  /* ----- DEEP WORK (Reflexión sobre mi rueda) ----- */
   return (
     <DeepWork
       responses={responses}
@@ -159,12 +159,12 @@ function IntroView({ onStart }: { onStart: () => void }) {
     <div className="flex flex-col items-center gap-8 max-w-2xl mx-auto text-center">
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl sm:text-3xl font-bold text-foreground text-balance">
-          {"\u00bfC\u00f3mo funciona?"}
+          ¿Cómo funciona?
         </h2>
         <p className="text-muted-foreground leading-relaxed text-pretty">
           La Rueda de la Vida es una herramienta de coaching que te invita a evaluar
-          8 \u00e1reas fundamentales de tu vida. Para cada \u00e1rea vas a reflexionar
-          con preguntas gu\u00eda y asignar un puntaje del 1 al 10.
+          8 áreas fundamentales de tu vida. Para cada área vas a reflexionar
+          con preguntas guía y asignar un puntaje del 1 al 10.
         </p>
       </div>
 
@@ -172,23 +172,23 @@ function IntroView({ onStart }: { onStart: () => void }) {
         {[
           {
             step: "1",
-            title: "Reflexion\u00e1",
-            desc: "Responder\u00e1s preguntas gu\u00eda para cada una de las 8 \u00e1reas de tu vida.",
+            title: "Reflexioná",
+            desc: "Responderás preguntas guía para cada una de las 8 áreas de tu vida.",
           },
           {
             step: "2",
-            title: "Evalu\u00e1",
-            desc: "Asignar\u00e1s un puntaje del 1 al 10 seg\u00fan c\u00f3mo te sent\u00eds hoy en cada \u00e1rea.",
+            title: "Evaluá",
+            desc: "Asignarás un puntaje del 1 al 10 según cómo te sentís hoy en cada área.",
           },
           {
             step: "3",
-            title: "Visualiz\u00e1",
-            desc: "Ver\u00e1s tu rueda completa con las \u00e1reas m\u00e1s fuertes y las que necesitan atenci\u00f3n.",
+            title: "Visualizá",
+            desc: "Verás tu rueda completa con las áreas más fuertes y las que necesitan atención.",
           },
           {
             step: "4",
-            title: "Reflexion\u00e1",
-            desc: "Podr\u00e1s elegir \u00e1reas para reflexionar en profundidad y dise\u00f1ar acciones concretas.",
+            title: "Profundizá",
+            desc: "Podrás elegir áreas para reflexionar en profundidad y diseñar acciones concretas.",
           },
         ].map((item) => (
           <div
@@ -209,7 +209,7 @@ function IntroView({ onStart }: { onStart: () => void }) {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        Tiempo estimado: 15 - 25 minutos. Tu progreso se guarda autom\u00e1ticamente.
+        Tiempo estimado: 15 - 25 minutos. Tu progreso se guarda automáticamente.
       </p>
 
       <button

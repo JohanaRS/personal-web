@@ -212,7 +212,7 @@ export async function generatePdf({
   pdf.setFontSize(10)
   pdf.setFont("helvetica", "italic")
   setColor(BRAND.muted)
-  pdf.text("Una fotograf\u00eda de tu momento actual", margin, y)
+  pdf.text("Una fotografía de tu momento actual", margin, y)
   y += 6
 
   // Date
@@ -261,7 +261,7 @@ export async function generatePdf({
   /*  Scores per area                                                  */
   /* ================================================================ */
 
-  drawSectionTitle("Puntajes por \u00e1rea")
+  drawSectionTitle("Puntajes por área")
 
   const colW = contentW / 2
   let col = 0
@@ -355,7 +355,7 @@ export async function generatePdf({
   pdf.addPage()
   y = margin
 
-  drawSectionTitle("Respuestas por \u00e1rea")
+  drawSectionTitle("Respuestas por área")
 
   responses.forEach((resp, i) => {
     const area = AREAS[i]
@@ -378,16 +378,16 @@ export async function generatePdf({
 
     y += 12
 
-    // Conditional block answers (Amor y V\u00ednculos)
+    // Conditional block answers (Amor y Vínculos)
     const hasConditional = !!area.conditionalBlock
-    const showConditional = hasConditional && resp.conditionalAnswer === "S\u00ed"
+    const showConditional = hasConditional && resp.conditionalAnswer === "Sí"
 
     if (showConditional) {
       checkPage(8)
       pdf.setFontSize(8)
       pdf.setFont("helvetica", "bold")
       setColor(BRAND.olive)
-      pdf.text("V\u00cdNCULOS AMOROSOS / PAREJA", margin + 4, y)
+      pdf.text("VÍNCULOS AMOROSOS / PAREJA", margin + 4, y)
       y += 4
 
       area.conditionalBlock!.questions.forEach((q, qIdx) => {
@@ -421,7 +421,7 @@ export async function generatePdf({
   addFooter()
 
   /* ================================================================ */
-  /*  Reflexi\u00f3n section                                               */
+  /*  Reflexión section                                                 */
   /* ================================================================ */
 
   if (deepWork && deepWork.selectedAreas.length > 0) {
@@ -433,13 +433,13 @@ export async function generatePdf({
     pdf.setFontSize(20)
     pdf.setFont("helvetica", "bold")
     setColor(BRAND.charcoal)
-    pdf.text("Reflexi\u00f3n sobre mi Rueda", margin, y)
+    pdf.text("Reflexión sobre mi Rueda", margin, y)
     y += 7
 
     pdf.setFontSize(9)
     pdf.setFont("helvetica", "italic")
     setColor(BRAND.muted)
-    pdf.text("Profundizaci\u00f3n y Plan de Acci\u00f3n", margin, y)
+    pdf.text("Profundización y Plan de Acción", margin, y)
     y += 5
 
     pdf.setFontSize(8)
@@ -480,7 +480,7 @@ export async function generatePdf({
         { label: "Estado actual", text: areaData.currentState },
         { label: "Estado deseado", text: areaData.desiredState },
         { label: "Creencias y recursos", text: areaData.beliefs },
-        { label: "Acci\u00f3n / Microacci\u00f3n", text: areaData.action },
+        { label: "Acción / Microacción", text: areaData.action },
       ]
 
       sections.forEach(({ label, text }) => {
@@ -503,8 +503,8 @@ export async function generatePdf({
 
       const closureItems: { label: string; text: string }[] = [
         { label: "Lo que me llevo", text: deepWork.closure.takeaway },
-        { label: "Emoci\u00f3n o mensaje", text: deepWork.closure.emotion },
-        { label: "Palabra o s\u00edmbolo", text: deepWork.closure.symbol },
+        { label: "Emoción o mensaje", text: deepWork.closure.emotion },
+        { label: "Palabra o símbolo", text: deepWork.closure.symbol },
         { label: "Mi recordatorio", text: deepWork.closure.reminder },
       ]
 

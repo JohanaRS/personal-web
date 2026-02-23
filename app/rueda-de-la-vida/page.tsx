@@ -9,11 +9,11 @@ import { Button } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Rueda de la Vida | Johana Rios",
   description:
-    "Herramienta interactiva de reflexi\u00f3n personal. Evalu\u00e1 8 \u00e1reas clave de tu vida y descubr\u00ed d\u00f3nde est\u00e1s hoy y d\u00f3nde te gustar\u00eda estar.",
+    "Herramienta interactiva de reflexión personal. Evaluá 8 áreas clave de tu vida y descubrí dónde estás hoy y dónde te gustaría estar.",
   openGraph: {
     title: "Rueda de la Vida | Johana Rios",
     description:
-      "Herramienta interactiva de reflexi\u00f3n personal para evaluar las \u00e1reas clave de tu vida.",
+      "Herramienta interactiva de reflexión personal para evaluar las áreas clave de tu vida.",
     type: "website",
   },
 }
@@ -38,8 +38,8 @@ export default function RuedaDeLaVidaPage() {
             </h1>
             <p className="mt-4 text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-pretty">
               Esta herramienta interactiva te invita a hacer una pausa y reflexionar
-              sobre las \u00e1reas clave de tu vida. Evalu\u00e1 d\u00f3nde te encontr\u00e1s hoy y
-              descubr\u00ed qu\u00e9 peque\u00f1os pasos podr\u00edan acercarte a la vida que quer\u00e9s.
+              sobre las áreas clave de tu vida. Evaluá dónde te encontrás hoy y
+              descubrí qué pequeños pasos podrían acercarte a la vida que querés.
             </p>
           </div>
         </section>
@@ -55,10 +55,13 @@ export default function RuedaDeLaVidaPage() {
         <section className="py-10 lg:py-16 bg-secondary/30">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-foreground text-center mb-6 text-balance">
-              {"M\u00e1s que una autoevaluaci\u00f3n"}
+              Más que una autoevaluación
             </h2>
             <p className="text-muted-foreground text-center leading-relaxed mb-8 text-pretty">
-              {"Esta Rueda de la Vida puede ser tambi\u00e9n el punto de partida para un proceso de coaching personalizado. Al explorar cada \u00e1rea, obtendr\u00e1s claridad sobre d\u00f3nde te encontr\u00e1s, reconocer\u00e1s patrones y podr\u00e1s tomar acciones alineadas hacia tus objetivos."}
+              Esta Rueda de la Vida puede ser también el punto de partida para un
+              proceso de coaching personalizado. Al explorar cada área, obtendrás
+              claridad sobre dónde te encontrás, reconocerás patrones y podrás tomar
+              acciones alineadas hacia tus objetivos.
             </p>
             <div className="flex justify-center">
               <Button asChild size="lg">
@@ -67,7 +70,7 @@ export default function RuedaDeLaVidaPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {"Agendar sesi\u00f3n de coaching"}
+                  Agendar sesión de coaching
                 </a>
               </Button>
             </div>

@@ -17,7 +17,7 @@ export interface AreaDefinition {
 export interface AreaResponse {
   answers: string[]
   score: number
-  /** For conditional block: user's selection ("Si" / "No" / "Prefiero no responder") */
+  /** For conditional block: user's selection */
   conditionalAnswer?: string
   /** Answers for conditional block questions */
   conditionalAnswers?: string[]
@@ -51,98 +51,98 @@ export interface AssessmentState {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Area definitions with exact questions (gender-neutral, with tildes)*/
+/*  Area definitions with exact questions (gender-neutral)             */
 /* ------------------------------------------------------------------ */
 
 export const AREAS: AreaDefinition[] = [
   {
-    name: "Salud y Bienestar F\u00edsico",
+    name: "Salud y Bienestar Físico",
     questions: [
-      "\u00bfC\u00f3mo me siento con mi cuerpo? \u00bfTengo energ\u00eda y vitalidad?",
-      "\u00bfEstoy aliment\u00e1ndome de manera consciente y nutritiva?",
-      "\u00bfEstoy durmiendo bien y descansando lo suficiente?",
-      "\u00bfHago actividad f\u00edsica con regularidad? \u00bfDisfruto de moverme?",
-      "\u00bfEstoy cuidando mi salud (consultas m\u00e9dicas, chequeos, etc.)?",
+      "¿Cómo me siento con mi cuerpo? ¿Tengo energía y vitalidad?",
+      "¿Estoy alimentándome de manera consciente y nutritiva?",
+      "¿Estoy durmiendo bien y descansando lo suficiente?",
+      "¿Hago actividad física con regularidad? ¿Disfruto de moverme?",
+      "¿Estoy cuidando mi salud (consultas médicas, chequeos, etc.)?",
     ],
   },
   {
     name: "Desarrollo Personal / Espiritualidad",
     questions: [
-      "\u00bfEstoy aprendiendo o desarrollando habilidades nuevas?",
-      "\u00bfDedico tiempo para conectar conmigo?",
-      "\u00bfTengo momentos de pausa o reflexi\u00f3n?",
-      "\u00bfSiento que tengo un prop\u00f3sito o direcci\u00f3n?",
-      "\u00bfPractico la gratitud, la meditaci\u00f3n u otra forma de conexi\u00f3n interna?",
+      "¿Estoy aprendiendo o desarrollando habilidades nuevas?",
+      "¿Dedico tiempo para conectar conmigo?",
+      "¿Tengo momentos de pausa o reflexión?",
+      "¿Siento que tengo un propósito o dirección?",
+      "¿Practico la gratitud, la meditación u otra forma de conexión interna?",
     ],
   },
   {
     name: "Relaciones y Vida Social",
     questions: [
-      "\u00bfC\u00f3mo est\u00e1n mis v\u00ednculos m\u00e1s cercanos? \u00bfSiento que me cuidan y me valoran?",
-      "\u00bfEstoy cultivando amistades o relaciones significativas?",
-      "\u00bfHay alguna relaci\u00f3n que necesite sanar, soltar o fortalecer?",
-      "\u00bfEstoy siendo genuino en mis relaciones?",
-      "\u00bfEstoy dedicando tiempo de calidad a mi vida social?",
+      "¿Cómo están mis vínculos más cercanos? ¿Siento que me cuidan y me valoran?",
+      "¿Estoy cultivando amistades o relaciones significativas?",
+      "¿Hay alguna relación que necesite sanar, soltar o fortalecer?",
+      "¿Estoy siendo genuino en mis relaciones?",
+      "¿Estoy dedicando tiempo de calidad a mi vida social?",
     ],
   },
   {
-    name: "Amor y V\u00ednculos",
+    name: "Amor y Vínculos",
     questions: [
-      "\u00bfC\u00f3mo es la relaci\u00f3n que tengo conmigo?",
-      "\u00bfMe trato con respeto y compasi\u00f3n cuando cometo errores?",
-      "\u00bfEstoy respetando mis propios l\u00edmites?",
-      "\u00bfSiento que merezco amor y bienestar?",
-      "\u00bfEstoy priorizando mis necesidades emocionales?",
+      "¿Cómo es la relación que tengo conmigo?",
+      "¿Me trato con respeto y compasión cuando cometo errores?",
+      "¿Estoy respetando mis propios límites?",
+      "¿Siento que merezco amor y bienestar?",
+      "¿Estoy priorizando mis necesidades emocionales?",
     ],
     conditionalBlock: {
-      triggerQuestion: "\u00bfActualmente est\u00e1s en una relaci\u00f3n amorosa?",
-      options: ["S\u00ed", "No", "Prefiero no responder"],
+      triggerQuestion: "¿Actualmente estás en una relación amorosa?",
+      options: ["Sí", "No", "Prefiero no responder"],
       questions: [
-        "\u00bfSiento conexi\u00f3n emocional y f\u00edsica en mi relaci\u00f3n?",
-        "\u00bfNuestra relaci\u00f3n me suma y me impulsa a crecer?",
-        "\u00bfNos estamos comunicando de forma sana y clara?",
-        "\u00bfEstoy mostrando y recibiendo amor como necesito?",
+        "¿Siento conexión emocional y física en mi relación?",
+        "¿Nuestra relación me suma y me impulsa a crecer?",
+        "¿Nos estamos comunicando de forma sana y clara?",
+        "¿Estoy mostrando y recibiendo amor como necesito?",
       ],
     },
   },
   {
-    name: "Carrera / Prop\u00f3sito Profesional",
+    name: "Carrera / Propósito Profesional",
     questions: [
-      "\u00bfEstoy disfrutando lo que hago? \u00bfSiento motivaci\u00f3n?",
-      "\u00bfSiento que mi trabajo refleja mis valores?",
-      "\u00bfEstoy desarroll\u00e1ndome profesionalmente?",
-      "\u00bfSiento reconocimiento por mi aporte?",
-      "\u00bfQu\u00e9 me gustar\u00eda cambiar o potenciar en esta \u00e1rea?",
+      "¿Estoy disfrutando lo que hago? ¿Siento motivación?",
+      "¿Siento que mi trabajo refleja mis valores?",
+      "¿Estoy desarrollándome profesionalmente?",
+      "¿Siento reconocimiento por mi aporte?",
+      "¿Qué me gustaría cambiar o potenciar en esta área?",
     ],
   },
   {
     name: "Finanzas",
     questions: [
-      "\u00bfSiento tranquilidad con mi situaci\u00f3n financiera?",
-      "\u00bfEstoy gestionando mi dinero de forma consciente?",
-      "\u00bfTengo claridad sobre ingresos, egresos y ahorros?",
-      "\u00bfTengo metas financieras definidas?",
-      "\u00bfMe doy permisos para disfrutar sin culpas?",
+      "¿Siento tranquilidad con mi situación financiera?",
+      "¿Estoy gestionando mi dinero de forma consciente?",
+      "¿Tengo claridad sobre ingresos, egresos y ahorros?",
+      "¿Tengo metas financieras definidas?",
+      "¿Me doy permisos para disfrutar sin culpas?",
     ],
   },
   {
-    name: "Tiempo Libre / Diversi\u00f3n / Creatividad",
+    name: "Tiempo Libre / Diversión / Creatividad",
     questions: [
-      "\u00bfEstoy haciendo actividades que me den placer?",
-      "\u00bfCu\u00e1ndo fue la \u00faltima vez que me re\u00ed o disfrut\u00e9 sin pensar en nada m\u00e1s?",
-      "\u00bfEstoy dedicando tiempo a hobbies o intereses personales?",
-      "\u00bfSiento que puedo desconectarme del deber y simplemente ser?",
-      "\u00bfEstoy creando algo que me entusiasme o inspire?",
+      "¿Estoy haciendo actividades que me den placer?",
+      "¿Cuándo fue la última vez que me reí o disfruté sin pensar en nada más?",
+      "¿Estoy dedicando tiempo a hobbies o intereses personales?",
+      "¿Siento que puedo desconectarme del deber y simplemente ser?",
+      "¿Estoy creando algo que me entusiasme o inspire?",
     ],
   },
   {
     name: "Entorno / Hogar / Espacios",
     questions: [
-      "\u00bfMi entorno me transmite calma, orden y bienestar?",
-      "\u00bfC\u00f3mo me siento en mi casa? \u00bfRefleja qui\u00e9n soy?",
-      "\u00bfTengo espacios que me inspiren o me ayuden a enfocarme?",
-      "\u00bfEstoy cuidando mis espacios f\u00edsicos y digitales?",
-      "\u00bfQu\u00e9 peque\u00f1os cambios podr\u00eda hacer para sentirme mejor en mi entorno?",
+      "¿Mi entorno me transmite calma, orden y bienestar?",
+      "¿Cómo me siento en mi casa? ¿Refleja quién soy?",
+      "¿Tengo espacios que me inspiren o me ayuden a enfocarme?",
+      "¿Estoy cuidando mis espacios físicos y digitales?",
+      "¿Qué pequeños cambios podría hacer para sentirme mejor en mi entorno?",
     ],
   },
 ]
