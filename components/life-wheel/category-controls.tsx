@@ -25,6 +25,66 @@ const CATEGORY_COLORS = [
   "oklch(0.50 0.10 125)",
 ]
 
+function SliderInput({
+  value,
+  color,
+  onChange,
+  ariaLabel,
+}: {
+  value: number
+  color: string
+  onChange: (val: number) => void
+  ariaLabel: string
+}) {
+  const id = `slider-${ariaLabel.replace(/\s+/g, "-")}`
+  const pct = ((value - 1) / 9) * 100
+
+  return (
+    <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            #${CSS.escape(id)}::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 16px;
+              height: 16px;
+              border-radius: 9999px;
+              border: 2px solid white;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+              cursor: pointer;
+              background: ${color};
+            }
+            #${CSS.escape(id)}::-moz-range-thumb {
+              width: 16px;
+              height: 16px;
+              border-radius: 9999px;
+              border: 2px solid white;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+              cursor: pointer;
+              background: ${color};
+            }
+          `,
+        }}
+      />
+      <input
+        id={id}
+        type="range"
+        min={1}
+        max={10}
+        step={1}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full h-2 rounded-full appearance-none cursor-pointer"
+        style={{
+          background: `linear-gradient(to right, ${color} ${pct}%, oklch(0.92 0.01 85) ${pct}%)`,
+        }}
+        aria-label={ariaLabel}
+      />
+    </>
+  )
+}
+
 export function CategoryControls({
   categories,
   onValueChange,
@@ -108,34 +168,14 @@ export function CategoryControls({
           </div>
 
           {/* Slider */}
-          <input
-            type="range"
-            min={1}
-            max={10}
-            step={1}
+          <SliderInput
             value={cat.value}
-            onChange={(e) => onValueChange(i, Number(e.target.value))}
-            className="w-full h-2 rounded-full appearance-none cursor-pointer
-              [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer
-              [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, ${CATEGORY_COLORS[i % CATEGORY_COLORS.length]} ${((cat.value - 1) / 9) * 100}%, oklch(0.92 0.01 85) ${((cat.value - 1) / 9) * 100}%)`,
-              // thumb color via CSS variable
-              ["--thumb-color" as string]: CATEGORY_COLORS[i % CATEGORY_COLORS.length],
-            }}
-            aria-label={`Valor de ${cat.name}: ${cat.value} de 10`}
+            color={CATEGORY_COLORS[i % CATEGORY_COLORS.length]}
+            onChange={(val) => onValueChange(i, val)}
+            ariaLabel={`Valor de ${cat.name}: ${cat.value} de 10`}
           />
         </div>
       ))}
-
-      <style jsx>{`
-        input[type="range"]::-webkit-slider-thumb {
-          background: var(--thumb-color, oklch(0.45 0.08 125));
-        }
-        input[type="range"]::-moz-range-thumb {
-          background: var(--thumb-color, oklch(0.45 0.08 125));
-        }
-      `}</style>
     </div>
   )
 }
