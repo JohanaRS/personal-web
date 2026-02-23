@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { LifeWheel } from "@/components/life-wheel/life-wheel"
+import { HeroWheel } from "@/components/life-wheel/hero-wheel"
 import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = {
@@ -25,21 +26,43 @@ export default function RuedaDeLaVidaPage() {
       <main className="min-h-screen bg-background">
         {/* Hero section */}
         <section className="pt-24 pb-10 lg:pt-32 lg:pb-14 bg-secondary/40">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors mb-6"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Volver al inicio
-            </Link>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground text-balance leading-tight">
-              Rueda de la Vida
-            </h1>
-            <p className="mt-4 text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-pretty">
-              Herramienta interactiva de reflexión personal. Evaluá 8 áreas clave
-              de tu vida y descubrí dónde estás hoy y dónde te gustaría estar.
-            </p>
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors mb-6"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Volver al inicio
+              </Link>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground text-balance leading-tight">
+                Rueda de la Vida
+              </h1>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              {/* Example wheel */}
+              <div className="flex-shrink-0 opacity-90">
+                <HeroWheel />
+                <p className="text-xs text-muted-foreground text-center mt-2 italic">
+                  Ejemplo visual de la herramienta
+                </p>
+              </div>
+
+              {/* Description */}
+              <div className="flex flex-col gap-3 text-center md:text-left">
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-pretty">
+                  Herramienta interactiva de reflexión personal. Evaluá 8 áreas clave
+                  de tu vida y descubrí dónde estás hoy y dónde te gustaría estar.
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed text-pretty">
+                  Cada sección del círculo representa un aspecto de tu vida: salud,
+                  desarrollo personal, relaciones, amor, carrera, finanzas, tiempo libre
+                  y entorno. Tu rueda te muestra de forma clara en qué áreas te sentís
+                  bien y cuáles necesitan más atención.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
