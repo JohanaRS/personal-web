@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from "react"
 import { WheelChart } from "./wheel-chart"
 import { CategoryControls } from "./category-controls"
+import { DeepWork } from "./deep-work"
 import { Button } from "@/components/ui/button"
-import { RotateCcw, Download } from "lucide-react"
+import { RotateCcw, Download, ArrowRight } from "lucide-react"
 
 const DEFAULT_CATEGORIES = [
   { name: "Salud y Bienestar", value: 5 },
@@ -60,6 +61,8 @@ function saveToStorage(data: { name: string; value: number }[]) {
 export function LifeWheel() {
   const [categories, setCategories] = useState(DEFAULT_CATEGORIES)
   const [loaded, setLoaded] = useState(false)
+  const [showDeepWork, setShowDeepWork] = useState(false)
+  const [deepWorkCompleted, setDeepWorkCompleted] = useState(false)
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -153,7 +156,46 @@ export function LifeWheel() {
           <Download className="w-4 h-4" />
           Descargar imagen
         </Button>
+        <Button onClick={() => setShowDeepWork(true)}>
+          Continuar trabajando
+          <ArrowRight className="w-4 h-4" />
+        </Button>
       </div>
+
+      {/* Deep work section */}
+      {showDeepWork && (
+        <div className="pt-4 border-t border-border">
+          <DeepWork
+            categories={categories}
+            onComplete={() => setDeepWorkCompleted(true)}
+            onBack={() => setShowDeepWork(false)}
+          />
+        </div>
+      )}
+
+      {/* Deep work completed CTA */}
+      {deepWorkCompleted && !showDeepWork && (
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center">
+          <p className="text-sm text-foreground font-medium mb-2">Proceso de profundizacion completado</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            Podes volver a revisar tu trabajo profundo o agendar una sesion de coaching personalizado.
+          </p>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <Button variant="outline" onClick={() => setShowDeepWork(true)}>
+              Ver mi trabajo profundo
+            </Button>
+            <Button asChild>
+              <a
+                href="https://calendly.com/johanapaolarios/coaching-con-joha"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Agendar sesion de coaching
+              </a>
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
