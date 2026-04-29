@@ -7,6 +7,7 @@ import { Mail, Instagram, Calendar, Send, MessageCircle } from "lucide-react"
 const contactReasons = [
   "Coaching individual",
   "Talleres para equipos",
+  "Consultoría para equipos / cultura de calidad",
   "Consulta general",
   "Otro",
 ]

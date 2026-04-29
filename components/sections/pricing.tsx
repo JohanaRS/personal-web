@@ -44,6 +44,9 @@ export function Pricing() {
           <p className="mt-3 text-sm text-muted-foreground">
             Los valores expresados están en pesos uruguayos.
           </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Las propuestas para talleres, consultoría y acompañamiento organizacional se cotizan a medida según alcance, duración y necesidades del equipo.
+          </p>
         </div>
 
         {/* Pricing Cards */}
