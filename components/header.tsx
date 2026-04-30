@@ -65,25 +65,34 @@ export function Header() {
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between lg:h-20">
+        <div className="flex h-16 items-center justify-between lg:h-24">
           {/* Logo */}
-          <Link href="#inicio" className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
-            {/* Logo principal para desktop */}
+          <Link href="#inicio" className="flex-shrink-0 transition-opacity duration-300 hover:opacity-85">
+            {/* Logo principal para desktop - versión vertical con nombre completo */}
             <Image
               src="/images/logo-principal.png"
               alt="Johana Ríos - Liderazgo, Coaching, Calidad"
-              width={160}
-              height={80}
-              className="hidden lg:block h-14 w-auto"
+              width={180}
+              height={90}
+              className="hidden lg:block h-16 w-auto object-contain"
               priority
             />
-            {/* Isotipo para mobile */}
+            {/* Isotipo circular para tablet */}
             <Image
               src="/images/logo-isotipo.png"
               alt="Johana Ríos"
               width={48}
               height={48}
-              className="lg:hidden h-10 w-10"
+              className="hidden md:block lg:hidden h-12 w-12 object-contain"
+              priority
+            />
+            {/* Isotipo más pequeño para mobile */}
+            <Image
+              src="/images/logo-isotipo.png"
+              alt="Johana Ríos"
+              width={44}
+              height={44}
+              className="md:hidden h-11 w-11 object-contain"
               priority
             />
           </Link>

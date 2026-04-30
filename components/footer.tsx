@@ -18,13 +18,22 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid md:grid-cols-3 gap-10 lg:gap-16">
           {/* Brand */}
-          <div>
+          <div className="flex flex-col items-start">
+            {/* Logo secundario para desktop */}
             <Image
               src="/images/logo-secundario.png"
               alt="Johana Ríos - Liderazgo, Coaching, Calidad"
-              width={180}
-              height={90}
-              className="h-20 w-auto mb-4"
+              width={160}
+              height={80}
+              className="hidden sm:block h-16 w-auto object-contain mb-5"
+            />
+            {/* Isotipo para mobile */}
+            <Image
+              src="/images/logo-isotipo.png"
+              alt="Johana Ríos"
+              width={56}
+              height={56}
+              className="sm:hidden h-14 w-14 object-contain mb-4"
             />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Acompaño procesos de cambio personal, profesional y organizacional 

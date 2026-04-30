@@ -5,7 +5,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center pt-16 lg:pt-20"
+      className="relative min-h-screen flex items-center justify-center pt-16 lg:pt-24"
     >
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background" />
