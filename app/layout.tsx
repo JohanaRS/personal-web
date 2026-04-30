@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   keywords: ['coaching', 'liderazgo', 'mejora continua', 'desarrollo personal', 'coaching organizacional', 'neurociencia', 'comunicación efectiva'],
   authors: [{ name: 'Johana Ríos' }],
   metadataBase: new URL('https://johanarios.com'),
+  icons: {
+    icon: '/images/logo-isotipo.png',
+    shortcut: '/images/logo-isotipo.png',
+    apple: '/images/logo-isotipo.png',
+  },
   openGraph: {
     title: 'Johana Ríos | Coaching, Liderazgo y Mejora Continua',
     description: 'Acompaño procesos de cambio personal, profesional y organizacional desde un enfoque humano e integral.',

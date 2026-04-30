@@ -20,11 +20,11 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Image
-              src="/images/image.png"
-              alt="Johana Ríos - JR Logo"
-              width={56}
-              height={56}
-              className="h-12 w-12 mb-4"
+              src="/images/logo-secundario.png"
+              alt="Johana Ríos - Liderazgo, Coaching, Calidad"
+              width={180}
+              height={90}
+              className="h-20 w-auto mb-4"
             />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Acompaño procesos de cambio personal, profesional y organizacional 

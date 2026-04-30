@@ -68,12 +68,23 @@ export function Header() {
         <div className="flex h-16 items-center justify-between lg:h-20">
           {/* Logo */}
           <Link href="#inicio" className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
+            {/* Logo principal para desktop */}
             <Image
-              src="/images/image.png"
-              alt="Johana Ríos - JR Logo"
+              src="/images/logo-principal.png"
+              alt="Johana Ríos - Liderazgo, Coaching, Calidad"
+              width={160}
+              height={80}
+              className="hidden lg:block h-14 w-auto"
+              priority
+            />
+            {/* Isotipo para mobile */}
+            <Image
+              src="/images/logo-isotipo.png"
+              alt="Johana Ríos"
               width={48}
               height={48}
-              className="h-10 w-10 lg:h-12 lg:w-12"
+              className="lg:hidden h-10 w-10"
+              priority
             />
           </Link>
 
