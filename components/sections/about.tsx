@@ -1,12 +1,32 @@
 import { Heart, Eye, Lightbulb, Target } from "lucide-react"
+import Image from "next/image"
 
 export function About() {
   return (
     <section id="sobre-mi" className="py-20 lg:py-32 bg-card">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Image */}
+          <div className="flex justify-center lg:justify-start order-1 lg:order-1">
+            <div className="relative">
+              {/* Decorative ring */}
+              <div className="absolute -inset-3 border-2 border-primary/20 rounded-2xl" />
+              
+              {/* Image container */}
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                <Image
+                  src="/images/johana-about.jpg"
+                  alt="Johana Ríos, coach certificada y facilitadora de procesos de cambio"
+                  width={450}
+                  height={550}
+                  className="object-cover object-top w-72 h-80 sm:w-80 sm:h-96 lg:w-[380px] lg:h-[480px]"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Content */}
-          <div>
+          <div className="order-2 lg:order-2">
             <span className="text-primary font-medium text-sm uppercase tracking-wider">
               Sobre mí
             </span>
