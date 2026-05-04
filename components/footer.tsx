@@ -3,38 +3,46 @@ import Link from "next/link"
 import { Mail, Instagram, MessageCircle } from "lucide-react"
 
 const quickLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Sobre mí", href: "#sobre-mi" },
-  { label: "Cómo acompaño", href: "#como-acompano" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Talleres & Charlas", href: "#talleres" },
-  { label: "Rueda de la Vida", href: "/rueda-de-la-vida" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Inicio", href: "/" },
+  { label: "Sobre mí", href: "/sobre-mi" },
+  { label: "Servicios", href: "/servicios" },
+  { label: "Recursos", href: "/recursos/rueda-de-la-vida" },
+  { label: "Contacto", href: "/contacto" },
+]
+
+const serviceLinks = [
+  { label: "Coaching personal", href: "/servicios/coaching-personal" },
+  { label: "Coaching ejecutivo", href: "/servicios/coaching-ejecutivo" },
+  { label: "Consultoría organizacional", href: "/servicios/consultoria-organizacional" },
+  { label: "Talleres y charlas", href: "/servicios/talleres-charlas" },
+  { label: "Formación QA", href: "/servicios/formacion-qa" },
 ]
 
 export function Footer() {
   return (
     <footer className="bg-background border-t border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid md:grid-cols-3 gap-10 lg:gap-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Brand */}
-          <div className="flex flex-col items-start">
-            {/* Logo secundario para desktop */}
-            <Image
-              src="/images/logo-secundario.png"
-              alt="Johana Ríos - Liderazgo, Coaching, Calidad"
-              width={160}
-              height={80}
-              className="hidden sm:block h-16 w-auto object-contain mb-5"
-            />
-            {/* Isotipo para mobile */}
-            <Image
-              src="/images/logo-isotipo.png"
-              alt="Johana Ríos"
-              width={56}
-              height={56}
-              className="sm:hidden h-14 w-14 object-contain mb-4"
-            />
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link href="/" className="inline-block mb-5">
+              {/* Logo secundario para desktop */}
+              <Image
+                src="/images/logo-secundario.png"
+                alt="Johana Ríos - Liderazgo, Coaching, Calidad"
+                width={140}
+                height={70}
+                className="hidden sm:block h-14 w-auto object-contain"
+              />
+              {/* Isotipo para mobile */}
+              <Image
+                src="/images/logo-isotipo.png"
+                alt="Johana Ríos"
+                width={48}
+                height={48}
+                className="sm:hidden h-12 w-12 object-contain"
+              />
+            </Link>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Acompaño procesos de cambio personal, profesional y organizacional 
               desde un enfoque humano e integral.
@@ -44,10 +52,29 @@ export function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className="font-semibold text-foreground mb-4">
-              Enlaces rápidos
+              Navegación
             </h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">
+              Servicios
+            </h4>
+            <ul className="space-y-2">
+              {serviceLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

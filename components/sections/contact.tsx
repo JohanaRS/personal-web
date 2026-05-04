@@ -51,23 +51,8 @@ export function Contact() {
   }
 
   return (
-    <section id="contacto" className="py-20 lg:py-32 bg-card">
+    <section className="py-16 lg:py-24 bg-card">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          {/* Header */}
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
-            Contacto
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            El primer paso es conversar
-          </h2>
-          <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Si algo de lo que leíste resonó con vos, escribime. No hay 
-            compromiso, solo una conversación para conocernos y ver si puedo 
-            acompañarte en lo que necesitás.
-          </p>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
           {/* Contact Form */}
           <div className="bg-background rounded-2xl p-8 lg:p-10 border border-border transition-all duration-300 hover:shadow-lg order-2 lg:order-1">

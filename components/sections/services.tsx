@@ -137,20 +137,8 @@ export function Services() {
   ]
 
   return (
-    <section id="servicios" className="py-20 lg:py-32">
+    <section className="py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">
-            Servicios
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground leading-tight text-balance">
-            Formas de acompañarte
-          </h2>
-          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Cada persona, equipo u organización tiene necesidades únicas. Elijo acompañar procesos desde una mirada humana, estructurada y orientada a cambios sostenibles.
-          </p>
-        </div>
 
         {/* Services Grid - 4 cards */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
