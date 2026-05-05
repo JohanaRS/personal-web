@@ -11,12 +11,13 @@ export const metadata: Metadata = {
 }
 
 const benefits = [
-  "Comunicación efectiva con equipos y stakeholders",
-  "Feedback constructivo y conversaciones difíciles",
-  "Gestión del estrés y la presión",
-  "Toma de decisiones más consciente y estratégica",
-  "Liderazgo consciente y auténtico",
-  "Equilibrio entre resultados y bienestar",
+  "Autoconocimiento como líder",
+  "Toma de decisiones consciente y estratégica",
+  "Comunicación efectiva y conversaciones difíciles",
+  "Gestión emocional bajo presión",
+  "Feedback constructivo y vínculos de confianza",
+  "Claridad de rol e influencia",
+  "Liderazgo humano orientado a resultados",
 ]
 
 const forWhom = [
@@ -32,13 +33,23 @@ const forWhom = [
   },
   {
     icon: Users,
-    title: "Managers y directivos",
+    title: "Managers y Tech Leads",
     description: "Que enfrentan desafíos de gestión, cambio organizacional o equipos complejos.",
   },
   {
     icon: Shield,
     title: "Líderes bajo presión",
     description: "Que necesitan herramientas para sostener su rol sin desgastarse.",
+  },
+  {
+    icon: MessageSquare,
+    title: "Perfiles técnicos",
+    description: "Que necesitan fortalecer comunicación, influencia y autoliderazgo.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Nuevos desafíos",
+    description: "Personas asumiendo roles de liderazgo por primera vez o en transición.",
   },
 ]
 
@@ -59,7 +70,7 @@ export default function CoachingEjecutivoPage() {
                 Coaching Ejecutivo y Liderazgo
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-                Acompañamiento para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicación, feedback, gestión del estrés, toma de decisiones y liderazgo consciente.
+                Para líderes y profesionales que quieren tomar mejores decisiones, liderar con más consciencia y generar impacto sostenible en sus equipos.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2">
@@ -95,10 +106,10 @@ export default function CoachingEjecutivoPage() {
                     Es un proceso de acompañamiento diseñado para líderes, profesionales y equipos directivos que quieren mejorar su desempeño, desarrollar competencias de liderazgo y atravesar desafíos con mayor consciencia.
                   </p>
                   <p>
-                    Trabajo con un enfoque que integra <strong className="text-foreground">coaching ontológico, PNL y neurociencia aplicada</strong> al contexto organizacional. No es solo sobre resultados; es sobre cómo lográs esos resultados siendo fiel a tus valores.
+                    Soy <strong className="text-foreground">Coach Ejecutiva certificada por la Academia de Laura Bicondoa</strong>, y aplico herramientas de coaching organizacional, PNL y neurociencia para acompañar a líderes y profesionales en su proceso de desarrollo.
                   </p>
                   <p>
-                    Mi experiencia en liderazgo tech y gestión de equipos me permite entender los desafíos reales que enfrentás día a día.
+                    Mi background como <strong className="text-foreground">manager en una empresa de tecnología</strong> me permite acompañarte desde la experiencia y la empatía. Entiendo la presión, los deadlines, las conversaciones difíciles y el desafío de equilibrar resultados con bienestar.
                   </p>
                 </div>
               </div>
@@ -132,7 +143,7 @@ export default function CoachingEjecutivoPage() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {forWhom.map((item) => (
                 <div
                   key={item.title}
@@ -159,13 +170,18 @@ export default function CoachingEjecutivoPage() {
                   <h3 className="text-xl font-semibold text-foreground mb-2">
                     Mi enfoque
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Combino mi formación en coaching con mi experiencia real liderando equipos de tecnología. Entiendo la presión, los deadlines, las conversaciones difíciles y el desafío de equilibrar resultados con bienestar.
-                  </p>
+                  <div className="text-muted-foreground leading-relaxed space-y-3">
+                    <p>
+                      Integro mi certificación como <strong className="text-foreground">Coach Ejecutiva</strong> con herramientas de <strong className="text-foreground">coaching organizacional, PNL y neurociencia aplicada</strong> al liderazgo.
+                    </p>
+                    <p>
+                      Mi experiencia real como manager en tecnología me permite acompañarte desde un lugar de empatía genuina. No te hablo desde la teoría, sino desde haber transitado los mismos desafíos que vos enfrentás.
+                    </p>
+                  </div>
                 </div>
               </div>
               <blockquote className="border-l-4 border-primary pl-4 italic text-foreground/80">
-                {`"Liderar no es solo lograr resultados. Es hacerlo de una manera que te permita sostener el camino sin romperte en el intento."`}
+                {`"El liderazgo no es solo lograr resultados. Es construir las condiciones humanas, relacionales y sistémicas para que esos resultados sean posibles y sostenibles."`}
               </blockquote>
             </div>
           </div>
@@ -175,7 +191,7 @@ export default function CoachingEjecutivoPage() {
         <section className="py-20 lg:py-24 bg-primary/5">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-4 text-balance">
-              {"¿Querés desarrollar tu liderazgo?"}
+              Quiero trabajar mi liderazgo
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
               Agendá una conversación exploratoria para conocernos y ver si el coaching ejecutivo es lo que necesitás en este momento.
