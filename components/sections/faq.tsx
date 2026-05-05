@@ -6,9 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
 
 const faqs = [
   {
@@ -78,18 +75,6 @@ export function FAQ() {
           ))}
         </Accordion>
 
-        {/* CTA */}
-        <div className="mt-12 text-center">
-          <p className="text-muted-foreground mb-6">
-            ¿Tenés otra pregunta? Escribime sin compromiso.
-          </p>
-          <Button asChild size="lg" className="gap-2">
-            <Link href="/contacto">
-              Contactar
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
       </div>
     </section>
   )

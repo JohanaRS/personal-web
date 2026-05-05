@@ -3,7 +3,7 @@ import { Hero } from "@/components/sections/hero"
 import { FAQ } from "@/components/sections/faq"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, User, Briefcase, Building2, UsersRound } from "lucide-react"
+import { ArrowRight, User, Briefcase, Building2, UsersRound, GraduationCap } from "lucide-react"
 import Link from "next/link"
 
 const featuredServices = [
@@ -31,6 +31,12 @@ const featuredServices = [
     description: "Instancias formativas para equipos y organizaciones.",
     href: "/servicios/talleres-charlas",
   },
+  {
+    icon: GraduationCap,
+    title: "Formación y Mentoring QA",
+    description: "Acompañamiento para talento QA y equipos de calidad.",
+    href: "/servicios/formacion-qa",
+  },
 ]
 
 export default function Home() {
@@ -40,58 +46,8 @@ export default function Home() {
       <main>
         <Hero />
 
-        {/* Featured Services */}
-        <section className="py-20 lg:py-28 bg-card">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <span className="text-primary font-medium text-sm uppercase tracking-wider">
-                Servicios
-              </span>
-              <h2 className="mt-4 text-2xl sm:text-3xl font-semibold text-foreground leading-tight">
-                Formas de acompañarte
-              </h2>
-              <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                Cada persona, equipo u organización tiene necesidades únicas.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredServices.map((service) => (
-                <Link
-                  key={service.title}
-                  href={service.href}
-                  className="group bg-background rounded-xl p-6 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary/20">
-                    <service.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {service.description}
-                  </p>
-                  <span className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Ver más
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="text-center mt-10">
-              <Button asChild variant="outline" size="lg" className="gap-2">
-                <Link href="/servicios">
-                  Ver todos los servicios
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
         {/* About Preview */}
-        <section className="py-20 lg:py-28">
+        <section className="py-20 lg:py-28 bg-card">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -119,7 +75,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="bg-card rounded-2xl p-8 border border-border">
+              <div className="bg-background rounded-2xl p-8 border border-border">
                 <h3 className="text-lg font-semibold text-foreground mb-6">
                   Mi enfoque integra
                 </h3>
@@ -142,24 +98,53 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Resource CTA */}
-        <section className="py-16 lg:py-20 bg-primary/5">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
-              Recurso gratuito
-            </span>
-            <h2 className="mt-4 text-2xl sm:text-3xl font-semibold text-foreground mb-4 text-balance">
-              La Rueda de la Vida
-            </h2>
-            <p className="text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
-              Descubrí tu nivel de equilibrio actual en las áreas clave de tu vida con esta herramienta de autoconocimiento.
-            </p>
-            <Button asChild size="lg" className="gap-2">
-              <Link href="/recursos/rueda-de-la-vida">
-                Hacer el ejercicio
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
+        {/* Featured Services */}
+        <section className="py-20 lg:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <span className="text-primary font-medium text-sm uppercase tracking-wider">
+                Servicios
+              </span>
+              <h2 className="mt-4 text-2xl sm:text-3xl font-semibold text-foreground leading-tight">
+                Formas de acompañarte
+              </h2>
+              <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+                Cada persona, equipo u organización tiene necesidades únicas.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+              {featuredServices.map((service) => (
+                <Link
+                  key={service.title}
+                  href={service.href}
+                  className="group bg-card rounded-xl p-6 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-primary/20">
+                    <service.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {service.description}
+                  </p>
+                  <span className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Ver más
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-10">
+              <Button asChild variant="outline" size="lg" className="gap-2">
+                <Link href="/servicios">
+                  Ver todos los servicios
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </section>
 

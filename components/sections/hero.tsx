@@ -15,10 +15,21 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <div className="text-center lg:text-left order-2 lg:order-1">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 transition-all duration-300 hover:bg-primary/20 hover:scale-105 cursor-default">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Coaching con PNL
+            {/* Badges */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-8">
+              {[
+                "Liderazgo",
+                "Coaching con programación neurolingüística",
+                "Calidad",
+                "Coaching ejecutivo y organizacional",
+              ].map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium"
+                >
+                  {badge}
+                </span>
+              ))}
             </div>
 
             {/* Main Headline */}
