@@ -125,6 +125,7 @@ export default function Home() {
                 </h3>
                 <ul className="space-y-4">
                   {[
+                    "Coaching ejecutivo y organizacional",
                     "Coaching con PNL y neurociencia aplicada",
                     "Experiencia real en liderazgo y gestión de equipos",
                     "Mirada sistémica de procesos y cultura organizacional",
