@@ -44,13 +44,13 @@ export function Hero() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4">
               <Button asChild size="lg" className="text-base px-8 group">
-                <a href="#como-acompano">
+                <a href="/sobre-mi#como-acompano">
                   Conocer cómo acompaño
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-base px-8">
-                <a href="#contacto">
+                <a href="/contacto">
                   Conversemos
                 </a>
               </Button>
