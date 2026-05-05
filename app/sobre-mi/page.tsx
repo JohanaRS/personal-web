@@ -1,8 +1,9 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { About } from "@/components/sections/about"
-import { Process } from "@/components/sections/process"
+import { Challenges } from "@/components/sections/challenges"
 import { Experience } from "@/components/sections/experience"
+import { Process } from "@/components/sections/process"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar } from "lucide-react"
 import type { Metadata } from "next"
@@ -22,10 +23,10 @@ export default function SobreMiPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center">
               <span className="text-primary font-medium text-sm uppercase tracking-wider">
-                Sobre mí
+                Conocé mi historia
               </span>
               <h1 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground leading-tight text-balance">
-                Mi camino hasta acá
+                Soy Joha, y este es mi camino
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
                 Desde la tecnología y la calidad de software hasta el coaching y la transformación organizacional. Un recorrido que integra lo técnico con lo humano.
@@ -34,9 +35,17 @@ export default function SobreMiPage() {
           </div>
         </section>
 
+        {/* 1. Sobre mí - Soy Johana Ríos */}
         <About />
-        <Process />
+
+        {/* 2. Cómo miro los desafíos */}
+        <Challenges />
+
+        {/* 3. Experiencias y saberes */}
         <Experience />
+
+        {/* 4. Cómo acompaño */}
+        <Process />
 
         {/* CTA Section */}
         <section className="py-20 lg:py-24 bg-primary/5">
