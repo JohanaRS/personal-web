@@ -1,5 +1,6 @@
 import { Header } from "@/components/header"
 import { Hero } from "@/components/sections/hero"
+import { FAQ } from "@/components/sections/faq"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, User, Briefcase, Building2, UsersRound } from "lucide-react"
@@ -161,8 +162,11 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FAQ */}
+        <FAQ />
+
         {/* Final CTA */}
-        <section className="py-20 lg:py-28">
+        <section className="py-20 lg:py-28 bg-card">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold text-foreground mb-4 text-balance">
               {"¿Listo/a para dar el primer paso?"}
