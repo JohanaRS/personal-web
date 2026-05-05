@@ -1,7 +1,6 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Services } from "@/components/sections/services"
-import { Pricing } from "@/components/sections/pricing"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function ServiciosPage() {
         </section>
 
         <Services />
-        <Pricing />
       </main>
       <Footer />
     </>

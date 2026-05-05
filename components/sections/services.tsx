@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { User, Briefcase, UsersRound, Building2, ArrowRight, CheckCircle2, Lightbulb, Users, Cog, Quote, Sparkles, GraduationCap } from "lucide-react"
+import { User, Briefcase, UsersRound, Building2, ArrowRight, GraduationCap } from "lucide-react"
 
 export function Services() {
   const services = [
@@ -18,7 +18,7 @@ export function Services() {
         "Bienestar integral",
       ],
       cta: {
-        label: "Ver servicio",
+        label: "Conocer más",
         href: "/servicios/coaching-personal",
       },
     },
@@ -36,7 +36,7 @@ export function Services() {
         "Liderazgo consciente",
       ],
       cta: {
-        label: "Ver servicio",
+        label: "Conocer más",
         href: "/servicios/coaching-ejecutivo",
       },
     },
@@ -72,7 +72,7 @@ export function Services() {
         "Trabajo colaborativo",
       ],
       cta: {
-        label: "Quiero saber más",
+        label: "Conocer más",
         href: "/servicios/talleres-charlas",
       },
     },
@@ -90,7 +90,7 @@ export function Services() {
         "Planes de crecimiento",
       ],
       cta: {
-        label: "Ver servicio",
+        label: "Conocer más",
         href: "/servicios/formacion-qa",
       },
     },
@@ -99,34 +99,6 @@ export function Services() {
   return (
     <section className="py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
-        {/* AI Quote - Highlighted */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-primary/5 rounded-2xl p-8 lg:p-10 border border-primary/20">
-            <div className="flex items-start gap-4">
-              <Sparkles className="w-8 h-8 text-primary shrink-0 mt-1" />
-              <div className="space-y-4">
-                <p className="text-lg text-foreground leading-relaxed">
-                  La inteligencia artificial no transforma una organización por sí sola. La transformación ocurre cuando las personas entienden cómo integrarla con criterio, procesos claros, colaboración y foco en calidad.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Mi trabajo es acompañar esa adopción desde una mirada técnica, humana y organizacional.
-                </p>
-                <div className="flex flex-wrap gap-3 pt-2">
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    AI como herramienta
-                  </span>
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    Calidad como criterio
-                  </span>
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    Personas como centro del cambio
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Services Grid - 5 cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
