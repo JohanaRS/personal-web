@@ -340,7 +340,7 @@ export default function ConsultoriaOrganizacionalPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild size="lg" className="gap-2">
                 <Link href="/contacto">
-                  Quiero acompañamiento para adoptar IA en mi organización
+                  Quiero acompañamiento
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
