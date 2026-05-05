@@ -1,16 +1,30 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Calendar, CheckCircle2, Building2, Cog, Users, Lightbulb, Quote } from "lucide-react"
+import { ArrowRight, Calendar, CheckCircle2, Building2, Cog, Users, Lightbulb, Quote, Sparkles } from "lucide-react"
 import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Consultoría Organizacional | Johana Ríos",
-  description: "Consultoría para equipos y organizaciones. Cultura de calidad, procesos QA, transformación organizacional y mejora continua.",
+  description: "Consultoría para equipos y organizaciones. Cultura de calidad, procesos QA, adopción de IA con criterio, transformación organizacional y mejora continua.",
 }
 
 const consultingBlocks = [
+  {
+    icon: Sparkles,
+    title: "Adopción de IA con Criterio y Contexto",
+    description: "Para equipos y organizaciones que quieren integrar inteligencia artificial de forma estratégica, responsable y alineada con su cultura.",
+    features: [
+      "Diagnóstico de madurez y oportunidades de IA",
+      "Identificación de casos de uso con impacto real",
+      "Acompañamiento en la adopción gradual de herramientas",
+      "Gestión del cambio y resistencias",
+      "Integración de IA en procesos de QA y desarrollo",
+      "Formación práctica para equipos",
+    ],
+    result: "Equipos que adoptan IA como herramienta potenciadora, con criterio, contexto y sin perder el factor humano.",
+  },
   {
     icon: Cog,
     title: "Cultura de Calidad y Procesos QA",
@@ -21,7 +35,7 @@ const consultingBlocks = [
       "Estrategia de testing funcional y no funcional",
       "Definición de roles, responsabilidades y acuerdos",
       "Métricas e indicadores de calidad",
-      "Adopción de herramientas, automatización e IA",
+      "Adopción de herramientas e integración de IA en testing",
     ],
     result: "Procesos QA más claros, mejor colaboración entre áreas, reducción de retrabajo y una cultura de calidad más compartida.",
   },
@@ -72,7 +86,7 @@ export default function ConsultoriaOrganizacionalPage() {
                 Consultoría Organizacional
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-                Acompaño empresas, equipos y líderes a revisar, ordenar y transformar su forma de trabajar. Integro experiencia en liderazgo tech, calidad de software, coaching organizacional y mejora continua.
+                Acompaño empresas, equipos y líderes a revisar, ordenar y transformar su forma de trabajar. Integro experiencia en liderazgo tech, calidad de software, adopción de IA, coaching organizacional y gestión del cambio.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2">
@@ -108,7 +122,10 @@ export default function ConsultoriaOrganizacionalPage() {
                   Muchas veces los problemas de una organización no aparecen por falta de talento, sino por <strong className="text-foreground">falta de claridad</strong>: procesos poco definidos, roles difusos, comunicación fragmentada, cambios que no terminan de adoptarse o equipos que trabajan en modo reactivo.
                 </p>
                 <p>
-                  Mi trabajo es acompañar a empresas y equipos a ordenar esa complejidad, integrando una <strong className="text-foreground">mirada técnica, humana y sistémica</strong> del cambio.
+                  Hoy, a esto se suma el desafío de <strong className="text-foreground">adoptar nuevas tecnologías como la IA</strong> sin perder el foco en las personas, la calidad y la colaboración.
+                </p>
+                <p>
+                  Mi trabajo es acompañar a empresas y equipos a ordenar esa complejidad, integrando una <strong className="text-foreground">mirada técnica, humana y sistémica</strong> del cambio. La IA puede ser una herramienta poderosa, pero solo cuando se adopta con criterio, contexto y cuidado por el equipo.
                 </p>
               </div>
             </div>
@@ -124,7 +141,7 @@ export default function ConsultoriaOrganizacionalPage() {
               </h2>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
               {consultingBlocks.map((block) => (
                 <div
                   key={block.title}
@@ -171,7 +188,7 @@ export default function ConsultoriaOrganizacionalPage() {
             <div className="bg-primary/5 rounded-2xl p-8 border border-primary/20 text-center">
               <Quote className="w-8 h-8 text-primary/40 mx-auto mb-4" />
               <blockquote className="text-lg font-medium text-foreground leading-relaxed text-balance">
-                Transformar equipos no es solo cambiar procesos. Es acompañar personas, conversaciones y decisiones para que el sistema completo pueda evolucionar.
+                La tecnología potencia, pero son las personas las que transforman. Adoptar IA o mejorar procesos sin cuidar al equipo es construir sobre arena.
               </blockquote>
             </div>
           </div>
