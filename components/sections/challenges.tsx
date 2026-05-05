@@ -1,6 +1,6 @@
 "use client"
 
-import { Compass, Bridge, Layers, Brain } from "lucide-react"
+import { Compass, Link2, Layers, Brain } from "lucide-react"
 
 export function Challenges() {
   const challenges = [
@@ -10,7 +10,7 @@ export function Challenges() {
       desc: "Cada dificultad contiene información valiosa para crecer. No huyo de la incomodidad, la uso como brújula.",
     },
     {
-      icon: Bridge,
+      icon: Link2,
       title: "Soy puente entre mundos",
       desc: "Entre lo humano y los procesos. Entre la emoción y la evidencia. Entre el bienestar y los resultados.",
     },
