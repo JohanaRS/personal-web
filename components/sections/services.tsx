@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { User, Briefcase, UsersRound, Building2, ArrowRight, CheckCircle2, Lightbulb, Users, Cog, Quote } from "lucide-react"
+import Link from "next/link"
+import { User, Briefcase, UsersRound, Building2, ArrowRight, CheckCircle2, Lightbulb, Users, Cog, Quote, Sparkles, GraduationCap } from "lucide-react"
 
 export function Services() {
   const services = [
@@ -17,14 +18,13 @@ export function Services() {
         "Bienestar integral",
       ],
       cta: {
-        label: "Agendar sesión",
-        href: "https://calendly.com/johanapaolarios/coaching-con-joha",
-        external: true,
+        label: "Ver servicio",
+        href: "/servicios/coaching-personal",
       },
     },
     {
       icon: Briefcase,
-      title: "Coaching Profesional y Liderazgo",
+      title: "Coaching Ejecutivo y Liderazgo",
       subtitle: "Para líderes y profesionales",
       description:
         "Para quienes lideran equipos o buscan crecer profesionalmente. Trabajamos comunicación, feedback, gestión del estrés, toma de decisiones y liderazgo consciente.",
@@ -36,103 +36,63 @@ export function Services() {
         "Liderazgo consciente",
       ],
       cta: {
-        label: "Contactar",
-        href: "#contacto",
-        external: false,
-      },
-    },
-    {
-      icon: UsersRound,
-      title: "Talleres y Charlas",
-      subtitle: "Para equipos y organizaciones",
-      description:
-        "Instancias formativas con enfoque práctico, humano y aplicable. Diseñadas para generar impacto real en la cultura, las conversaciones y las dinámicas de trabajo.",
-      features: [
-        "Liderazgo y comunicación",
-        "Cultura de calidad",
-        "Mejora continua",
-        "Trabajo colaborativo",
-        "Bienestar organizacional",
-      ],
-      cta: {
-        label: "Solicitar propuesta",
-        href: "#contacto",
-        external: false,
+        label: "Ver servicio",
+        href: "/servicios/coaching-ejecutivo",
       },
     },
     {
       icon: Building2,
-      title: "Transformación de Equipos y Cultura de Calidad",
+      title: "Consultoría organizacional y transformación con AI",
       subtitle: "Para empresas y equipos",
       description:
-        "Acompaño empresas, equipos y líderes a revisar, ordenar y transformar su forma de trabajar. Integro experiencia en liderazgo tech, calidad de software, desarrollo de talento, coaching organizacional, PNL y neurociencia aplicada al cambio.",
+        "Acompaño equipos y organizaciones a ordenar procesos, mejorar dinámicas de trabajo y adoptar inteligencia artificial de forma clara, responsable y alineada a la calidad, la colaboración y los objetivos del negocio.",
       features: [
-        "Assessment de procesos y cultura de calidad",
-        "Mejora de procesos QA y formas de trabajo",
-        "Desarrollo e implantación de talento QA junior",
-        "Transformación organizacional y mejora continua",
-        "Adopción de herramientas, agilidad e IA",
+        "Cultura de calidad y procesos QA",
+        "Adopción de AI con criterio y contexto",
+        "Transformación organizacional",
+        "Mejora de procesos y dinámicas",
+        "Gestión del cambio",
       ],
       cta: {
-        label: "Solicitar propuesta",
-        href: "#contacto",
-        external: false,
+        label: "Conocer más",
+        href: "/servicios/consultoria-organizacional",
       },
     },
-  ]
-
-  const consultingBlocks = [
     {
-      icon: Cog,
-      title: "Cultura de Calidad y Procesos QA",
+      icon: UsersRound,
+      title: "Talleres sobre liderazgo, calidad y adopción de AI",
+      subtitle: "Para equipos y organizaciones",
       description:
-        "Para equipos tech, startups, software factories o áreas de producto que necesitan revisar, ordenar o evolucionar su forma de trabajar la calidad.",
+        "Diseño y facilito charlas y workshops sobre liderazgo, comunicación, cultura de calidad, nuevo mindset de trabajo y adopción práctica de AI en equipos de tecnología.",
       features: [
-        "Assessment de madurez QA",
-        "Revisión de procesos de testing",
-        "Estrategia de testing funcional y no funcional",
-        "Definición de roles, responsabilidades y acuerdos de trabajo",
-        "Métricas e indicadores de calidad",
-        "Adopción de herramientas, automatización e inteligencia artificial",
-        "Workshops de alineación entre QA, desarrollo, producto y liderazgo",
+        "Liderazgo y comunicación",
+        "Cultura de calidad",
+        "Adopción práctica de AI",
+        "Nuevo mindset de trabajo",
+        "Trabajo colaborativo",
       ],
-      result:
-        "Procesos QA más claros, mejor colaboración entre áreas, reducción de retrabajo y una cultura de calidad más compartida.",
+      cta: {
+        label: "Quiero saber más",
+        href: "/servicios/talleres-charlas",
+      },
     },
     {
-      icon: Users,
-      title: "Desarrollo e Implantación de Talento QA Junior",
+      icon: GraduationCap,
+      title: "Mentoring de QA y AI aplicada",
+      subtitle: "Para talento QA y equipos de calidad",
       description:
-        "Para empresas que quieren incorporar talento QA trainee o junior con acompañamiento técnico, desarrollo de soft skills y liderazgo experto.",
+        "Acompaño la formación de talento QA y equipos de calidad, integrando fundamentos de testing, criterio analítico, comunicación y uso responsable de AI para potenciar procesos de QA.",
       features: [
-        "Evaluación y preparación de perfiles",
-        "Mentoría en testing funcional y no funcional",
-        "Desarrollo de criterio QA",
-        "Comunicación profesional y reporte de bugs",
-        "Planes de crecimiento individual",
-        "Seguimiento semanal o quincenal",
-        "Acompañamiento como tech lead durante la inserción",
+        "Fundamentos de testing",
+        "Criterio analítico y reporte",
+        "Comunicación profesional",
+        "AI aplicada a QA",
+        "Planes de crecimiento",
       ],
-      result:
-        "Talento junior más preparado, acompañado en su curva de aprendizaje y con mayor capacidad de aportar valor real al proyecto.",
-    },
-    {
-      icon: Lightbulb,
-      title: "Transformación Organizacional y Mejora de Procesos",
-      description:
-        "Para organizaciones, áreas o equipos que necesitan definir procesos, mejorar dinámicas, ordenar responsabilidades o atravesar cambios culturales, operativos o tecnológicos.",
-      features: [
-        "Diagnóstico organizacional",
-        "Mapeo de procesos y fricciones",
-        "Definición de roles y responsabilidades",
-        "Alineación de objetivos",
-        "Mejora de comunicación y coordinación",
-        "Facilitación de workshops",
-        "Coaching ejecutivo/organizacional",
-        "Seguimiento de adopción y mejora continua",
-      ],
-      result:
-        "Equipos con más claridad, mejores acuerdos, procesos sostenibles y mayor capacidad de adaptación.",
+      cta: {
+        label: "Ver servicio",
+        href: "/servicios/formacion-qa",
+      },
     },
   ]
 
@@ -140,12 +100,40 @@ export function Services() {
     <section className="py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* Services Grid - 4 cards */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+        {/* AI Quote - Highlighted */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="bg-primary/5 rounded-2xl p-8 lg:p-10 border border-primary/20">
+            <div className="flex items-start gap-4">
+              <Sparkles className="w-8 h-8 text-primary shrink-0 mt-1" />
+              <div className="space-y-4">
+                <p className="text-lg text-foreground leading-relaxed">
+                  La inteligencia artificial no transforma una organización por sí sola. La transformación ocurre cuando las personas entienden cómo integrarla con criterio, procesos claros, colaboración y foco en calidad.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Mi trabajo es acompañar esa adopción desde una mirada técnica, humana y organizacional.
+                </p>
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    AI como herramienta
+                  </span>
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    Calidad como criterio
+                  </span>
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    Personas como centro del cambio
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Services Grid - 5 cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service) => (
             <div
               key={service.title}
-              className="relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group bg-card border-border hover:border-primary hover:shadow-xl hover:-translate-y-2 hover:bg-primary/5"
+              className="relative rounded-2xl p-6 lg:p-8 border transition-all duration-300 group bg-card border-border hover:border-primary hover:shadow-xl hover:-translate-y-2 hover:bg-primary/5 flex flex-col"
             >
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 bg-primary/10 group-hover:bg-primary/20 group-hover:scale-110">
                 <service.icon className="w-6 h-6 transition-transform duration-300 text-primary group-hover:scale-110" />
@@ -163,7 +151,7 @@ export function Services() {
                 {service.description}
               </p>
 
-              <ul className="space-y-2 mb-8">
+              <ul className="space-y-2 mb-8 flex-grow">
                 {service.features.map((feature) => (
                   <li
                     key={feature}
@@ -175,131 +163,46 @@ export function Services() {
                 ))}
               </ul>
 
-              <Button asChild className="w-full group/btn">
-                {service.cta.external ? (
-                  <a
-                    href={service.cta.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {service.cta.label}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                  </a>
-                ) : (
-                  <a href={service.cta.href}>
-                    {service.cta.label}
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                  </a>
-                )}
+              <Button asChild className="w-full group/btn mt-auto">
+                <Link href={service.cta.href}>
+                  {service.cta.label}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                </Link>
               </Button>
             </div>
           ))}
         </div>
 
-        {/* Consulting Subsection */}
-        <div className="mt-24 lg:mt-32">
-          {/* Subsection Header */}
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
-              Consultoría
-            </span>
-            <h3 className="mt-4 text-2xl sm:text-3xl font-semibold text-foreground leading-tight text-balance">
-              Consultoría para equipos, calidad y transformación organizacional
-            </h3>
-            <div className="mt-6 text-muted-foreground leading-relaxed space-y-4">
-              <p>
-                Muchas veces los problemas de una organización no aparecen por falta de talento, sino por falta de claridad: procesos poco definidos, roles difusos, comunicación fragmentada, cambios que no terminan de adoptarse o equipos que trabajan en modo reactivo.
-              </p>
-              <p>
-                Mi trabajo es acompañar a empresas y equipos a ordenar esa complejidad, integrando una mirada técnica, humana y sistémica del cambio.
-              </p>
-            </div>
-          </div>
+        {/* Final CTA */}
+        <div className="max-w-2xl mx-auto text-center mt-20">
+          <h4 className="text-xl sm:text-2xl font-semibold text-foreground mb-4 text-balance">
+            {"¿No estás seguro de qué servicio necesitás?"}
+          </h4>
+          <p className="text-muted-foreground leading-relaxed mb-8">
+            Podemos conversar para entender tu situación y encontrar la mejor forma de acompañarte.
+          </p>
 
-          {/* Consulting Blocks */}
-          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-            {consultingBlocks.map((block) => (
-              <div
-                key={block.title}
-                className="bg-card rounded-2xl p-6 lg:p-8 border border-border transition-all duration-300 hover:shadow-lg hover:border-primary/30 flex flex-col"
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button asChild size="lg" className="w-full sm:w-auto group">
+              <Link href="/contacto">
+                Escribime
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
+              <a
+                href="https://calendly.com/johanapaolarios/coaching-con-joha"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/10 mb-5">
-                  <block.icon className="w-5 h-5 text-primary" />
-                </div>
-
-                <h4 className="text-lg font-semibold text-foreground mb-3">
-                  {block.title}
-                </h4>
-
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                  {block.description}
-                </p>
-
-                <ul className="space-y-2 mb-6 flex-grow">
-                  {block.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-2 text-sm text-foreground/80"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="bg-primary/5 rounded-xl p-4 border border-primary/15">
-                  <p className="text-xs font-medium text-primary uppercase tracking-wider mb-1">
-                    Resultado esperado
-                  </p>
-                  <p className="text-sm text-foreground/90 leading-relaxed">
-                    {block.result}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Highlighted Quote */}
-          <div className="max-w-3xl mx-auto mt-12">
-            <div className="bg-primary/5 rounded-2xl p-8 border border-primary/20 text-center">
-              <Quote className="w-8 h-8 text-primary/40 mx-auto mb-4" />
-              <blockquote className="text-lg font-medium text-foreground leading-relaxed text-balance">
-                Transformar equipos no es solo cambiar procesos. Es acompañar personas, conversaciones y decisiones para que el sistema completo pueda evolucionar.
-              </blockquote>
-            </div>
-          </div>
-
-          {/* Final CTA */}
-          <div className="max-w-2xl mx-auto text-center mt-16">
-            <h4 className="text-xl sm:text-2xl font-semibold text-foreground mb-4 text-balance">
-              {"¿Tu equipo necesita ordenar procesos, desarrollar talento o transformar su forma de trabajar?"}
-            </h4>
-            <p className="text-muted-foreground leading-relaxed mb-8">
-              Podemos conversar para entender el contexto, detectar necesidades y diseñar una propuesta a medida.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button asChild size="lg" className="w-full sm:w-auto group">
-                <a href="#contacto">
-                  Solicitar propuesta
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto"
-              >
-                <a
-                  href="https://calendly.com/johanapaolarios/coaching-con-joha"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Agendar llamada exploratoria
-                </a>
-              </Button>
-            </div>
+                Agendar conversación
+              </a>
+            </Button>
           </div>
         </div>
       </div>
