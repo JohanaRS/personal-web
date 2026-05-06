@@ -19,35 +19,26 @@ export function Contact() {
     reason: "",
     message: "",
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
     setError("")
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
+    const { name, email, reason, message } = formData
+    const subject = encodeURIComponent(`Contacto desde web: ${reason}`)
+    const body = encodeURIComponent(
+      `Hola Johana,\n\nMi nombre es ${name} y te escribo porque estoy interesado/a en: ${reason}\n\n${message}\n\nMi email de contacto es: ${email}\n\nSaludos,\n${name}`
+    )
 
-      if (!response.ok) {
-        throw new Error("Error al enviar el mensaje")
-      }
-
-      setIsSubmitted(true)
-      setFormData({ name: "", email: "", reason: "", message: "" })
-    } catch {
-      setError("Hubo un error al enviar el mensaje. Por favor intentá nuevamente.")
-    } finally {
-      setIsSubmitting(false)
-    }
+    const mailtoLink = `mailto:johanapaolarios@gmail.com?subject=${subject}&body=${body}`
+    
+    window.open(mailtoLink, "_blank")
+    
+    setIsSubmitted(true)
+    setFormData({ name: "", email: "", reason: "", message: "" })
   }
 
   return (
@@ -190,17 +181,10 @@ export function Contact() {
 
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
                   className="w-full"
                 >
-                  {isSubmitting ? (
-                    "Enviando..."
-                  ) : (
-                    <>
-                      <Send className="mr-2 h-4 w-4" />
-                      Enviar mensaje
-                    </>
-                  )}
+                  <Send className="mr-2 h-4 w-4" />
+                  Enviar mensaje
                 </Button>
               </form>
             )}
