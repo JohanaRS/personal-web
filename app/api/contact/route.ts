@@ -2,54 +2,42 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   try {
-    const { name, email, reason, message } = await request.json()
+    const body = await request.json()
+    const { name, email, reason, message } = body
 
-    if (!name || !email || !reason || !message) {
-      return NextResponse.json(
-        { error: "Todos los campos son requeridos" },
-        { status: 400 }
-      )
-    }
+    const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL
 
-    const accessKey = process.env.WEB3FORMS_ACCESS_KEY
-    if (!accessKey) {
-      console.error("WEB3FORMS_ACCESS_KEY is not set")
+    if (!GOOGLE_SCRIPT_URL) {
+      console.error("GOOGLE_SCRIPT_URL not configured")
       return NextResponse.json(
-        { error: "Error de configuración del servidor" },
+        { error: "Server configuration error" },
         { status: 500 }
       )
     }
 
-    const response = await fetch("https://api.web3forms.com/submit", {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
       },
       body: JSON.stringify({
-        access_key: accessKey,
-        subject: `Nuevo contacto desde joharios.com: ${reason}`,
-        from_name: "Formulario joharios.com",
         name,
         email,
         reason,
         message,
-        replyto: email,
+        timestamp: new Date().toISOString(),
       }),
     })
 
-    const result = await response.json()
-
-    if (!result.success) {
-      console.error("Web3Forms error:", result)
-      throw new Error("Error al enviar el mensaje")
+    if (!response.ok) {
+      throw new Error("Failed to submit to Google Sheets")
     }
 
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Contact form error:", error)
     return NextResponse.json(
-      { error: "Error al enviar el mensaje" },
+      { error: "Failed to submit form" },
       { status: 500 }
     )
   }

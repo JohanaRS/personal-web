@@ -19,6 +19,7 @@ export function Contact() {
     reason: "",
     message: "",
   })
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState("")
@@ -44,7 +45,7 @@ export function Contact() {
       setIsSubmitted(true)
       setFormData({ name: "", email: "", reason: "", message: "" })
     } catch {
-      setError("Hubo un error al enviar el mensaje. Por favor intentá nuevamente.")
+      setError("Hubo un error al enviar el mensaje. Por favor intenta nuevamente.")
     } finally {
       setIsSubmitting(false)
     }
@@ -59,9 +60,11 @@ export function Contact() {
             <h3 className="text-xl font-semibold text-foreground mb-2">
               Contactame
             </h3>
-            <p className="text-muted-foreground mb-8">
-              Contame un poco sobre vos y en qué te gustaría trabajar.
-            </p>
+            {!isSubmitted && (
+              <p className="text-muted-foreground mb-8">
+                Contame un poco sobre vos y en qué te gustaría trabajar.
+              </p>
+            )}
 
             {isSubmitted ? (
               <div className="text-center py-8">
