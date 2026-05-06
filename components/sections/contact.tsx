@@ -60,9 +60,11 @@ export function Contact() {
             <h3 className="text-xl font-semibold text-foreground mb-2">
               Contactame
             </h3>
-            <p className="text-muted-foreground mb-8">
-              Contame un poco sobre vos y en qué te gustaría trabajar.
-            </p>
+            {!isSubmitted && (
+              <p className="text-muted-foreground mb-8">
+                Contame un poco sobre vos y en qué te gustaría trabajar.
+              </p>
+            )}
 
             {isSubmitted ? (
               <div className="text-center py-8">
