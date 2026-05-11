@@ -5,7 +5,7 @@ import { Challenges } from "@/components/sections/challenges"
 import { Experience } from "@/components/sections/experience"
 import { Process } from "@/components/sections/process"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Calendar, ExternalLink } from "lucide-react"
+import { ArrowRight, Calendar, ExternalLink, Linkedin } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -31,15 +31,26 @@ export default function SobreMiPage() {
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
                 Desde la tecnología y la calidad de software hasta el coaching y la transformación organizacional. Un recorrido que integra lo técnico con lo humano.
               </p>
-              <a 
-                href="https://medium.com/@johana_rios/storytelling-hola-soy-joha-3a07fb20a504"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
-              >
-                Leer mi historia completa en Medium
-                <ExternalLink className="h-4 w-4" />
-              </a>
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <a 
+                  href="https://medium.com/@johana_rios/storytelling-hola-soy-joha-3a07fb20a504"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+                >
+                  Leer mi historia completa en Medium
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/johana-rios/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+                >
+                  <Linkedin className="h-4 w-4" />
+                  Conectar en LinkedIn
+                </a>
+              </div>
             </div>
           </div>
         </section>
