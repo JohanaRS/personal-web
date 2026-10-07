@@ -24,6 +24,7 @@
   --border: oklch(0.90 0.015 85); /* Soft beige border */
   --input: oklch(0.94 0.01 85);
   --ring: oklch(0.45 0.08 125); /* Olive green ring */
+  --clay: oklch(0.52 0.12 45); /* Warm clay: "desired" series in the Leadership Radar */
   --chart-1: oklch(0.45 0.08 125);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -97,6 +98,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-clay: var(--clay);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -122,5 +124,89 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Leadership Radar: accessible score slider (1-10) */
+.score-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2rem;
+  background: transparent;
+  cursor: pointer;
+  --slider-color: var(--primary);
+  --slider-pct: 0%;
+}
+.score-slider[data-tone='desired'] {
+  --slider-color: var(--clay);
+}
+.score-slider::-webkit-slider-runnable-track {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--slider-color) var(--slider-pct),
+    var(--secondary) var(--slider-pct)
+  );
+  border: 1px solid var(--border);
+}
+.score-slider::-moz-range-track {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--slider-color) var(--slider-pct),
+    var(--secondary) var(--slider-pct)
+  );
+  border: 1px solid var(--border);
+}
+.score-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-top: -0.6875rem;
+  border-radius: 9999px;
+  background: var(--slider-color);
+  border: 3px solid var(--background);
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.3);
+}
+.score-slider::-moz-range-thumb {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: var(--slider-color);
+  border: 3px solid var(--background);
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.3);
+}
+.score-slider[data-unset='true'] {
+  --slider-color: var(--muted-foreground);
+  --slider-pct: 0%;
+}
+.score-slider:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--slider-color) 45%, transparent);
+  outline-offset: 4px;
+  border-radius: 9999px;
+}
+
+/* Leadership Radar: print / "Guardar como PDF" */
+@media print {
+  body:has([data-print-root]) header,
+  body:has([data-print-root]) footer {
+    display: none !important;
+  }
+  body:has([data-print-root]) main {
+    padding-top: 0 !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
