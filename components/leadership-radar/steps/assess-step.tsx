@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { scrollToTop } from "../analytics"
 import { CURRENT_ANCHORS, DESIRED_ANCHORS } from "../content"
-import { skillDefinition } from "../derived"
+import { DimensionIcon } from "../dimension-icon"
+import { skillDefinition, skillDimension, skillQuestions } from "../derived"
 import { ReflectionQuestion } from "../reflection-question"
 import { ScoreSlider } from "../score-slider"
 import { StepNav } from "../step-nav"
@@ -11,16 +12,29 @@ import type { Skill, StepProps } from "../types"
 
 export function AssessStep({ state, update, goTo }: StepProps) {
   const [error, setError] = useState("")
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
   const total = state.skills.length
   const index = Math.min(state.assessIndex, total - 1)
   const skill = state.skills[index]
 
   if (!skill) return null
 
+  const dimension = skillDimension(skill)
+  const { initial, deeper } = skillQuestions(skill)
+  const showDeeper = expanded.has(skill.id)
+
   const patchSkill = (patch: Partial<Skill>) => {
     update((s) => ({ skills: s.skills.map((k) => (k.id === skill.id ? { ...k, ...patch } : k)) }))
     setError("")
   }
+
+  const toggleDeeper = () =>
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(skill.id)) next.delete(skill.id)
+      else next.add(skill.id)
+      return next
+    })
 
   const next = () => {
     if (skill.currentScore === null || skill.desiredScore === null) {
@@ -46,9 +60,17 @@ export function AssessStep({ state, update, goTo }: StepProps) {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-8">
       <header className="flex flex-col gap-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-          Capacidad {index + 1} de {total}
-        </p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+            Capacidad {index + 1} de {total}
+          </p>
+          {dimension && (
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-foreground">
+              <DimensionIcon id={dimension.id} className="size-3.5" />
+              {dimension.relation}
+            </p>
+          )}
+        </div>
         <h2 className="text-2xl font-bold leading-tight text-foreground text-balance sm:text-3xl">{skill.name}</h2>
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">{skillDefinition(skill)}</p>
         {skill.note && (
@@ -58,10 +80,57 @@ export function AssessStep({ state, update, goTo }: StepProps) {
         )}
       </header>
 
+      <section aria-labelledby="guiding-title" className="flex flex-col gap-3">
+        <div>
+          <h3 id="guiding-title" className="text-sm font-semibold text-foreground">
+            Primero reflexioná
+          </h3>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+            Pensá en situaciones recientes antes de puntuar. Tu evaluación va a ser más honesta.
+          </p>
+        </div>
+        <ul className="flex flex-col gap-2">
+          {initial.map((q) => (
+            <li key={q} className="rounded-lg bg-secondary/60 px-4 py-3 text-sm leading-relaxed text-foreground">
+              {q}
+            </li>
+          ))}
+        </ul>
+        {deeper.length > 0 && (
+          <>
+            {showDeeper && (
+              <ul id={`deeper-${skill.id}`} className="flex flex-col gap-2">
+                {deeper.map((q) => (
+                  <li key={q} className="rounded-lg bg-secondary/60 px-4 py-3 text-sm leading-relaxed text-foreground">
+                    {q}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button
+              type="button"
+              onClick={toggleDeeper}
+              aria-expanded={showDeeper}
+              aria-controls={`deeper-${skill.id}`}
+              className="w-fit cursor-pointer text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {showDeeper ? "Mostrar menos preguntas" : "Quiero profundizar"}
+            </button>
+          </>
+        )}
+      </section>
+
+      <ReflectionQuestion
+        id={`reflection-${skill.id}`}
+        label="¿Qué observás cuando pensás en esta capacidad? (opcional)"
+        value={skill.reflection}
+        onChange={(v) => patchSkill({ reflection: v })}
+      />
+
       <section aria-label="Situación actual" className="rounded-2xl border border-border bg-card p-5 sm:p-7">
         <ScoreSlider
           id={`current-${skill.id}`}
-          label="¿Dónde estás hoy?"
+          label="¿Dónde sentís que estás hoy?"
           helper="Sin compararte con nadie: pensá en cómo la expresás en las últimas semanas."
           tone="current"
           value={skill.currentScore}
@@ -69,26 +138,6 @@ export function AssessStep({ state, update, goTo }: StepProps) {
           anchors={CURRENT_ANCHORS}
         />
       </section>
-
-      <section aria-labelledby="guiding-title" className="flex flex-col gap-3">
-        <h3 id="guiding-title" className="text-sm font-semibold text-foreground">
-          Preguntas para pensar
-        </h3>
-        <ul className="flex flex-col gap-2">
-          {skill.guidingQuestions.map((q) => (
-            <li key={q} className="rounded-lg bg-secondary/60 px-4 py-3 text-sm leading-relaxed text-foreground">
-              {q}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <ReflectionQuestion
-        id={`reflection-${skill.id}`}
-        label="¿Qué observás cuando pensás en esta habilidad? (opcional)"
-        value={skill.reflection}
-        onChange={(v) => patchSkill({ reflection: v })}
-      />
 
       <section aria-label="Situación deseada" className="rounded-2xl border border-border bg-card p-5 sm:p-7">
         <ScoreSlider

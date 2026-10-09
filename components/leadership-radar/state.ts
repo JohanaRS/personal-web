@@ -1,5 +1,5 @@
-import { CUSTOM_GUIDING_QUESTIONS, GUIDED_SKILLS } from "./content"
-import type { ActionPlan, RadarState, Skill } from "./types"
+import { GUIDED_SKILLS } from "./content"
+import type { ActionPlan, DimensionId, RadarState, Skill } from "./types"
 
 const STORAGE_KEY = "joharios:leadership-radar:v1"
 
@@ -20,7 +20,7 @@ export function emptyActionPlan(): ActionPlan {
 
 export function createInitialState(): RadarState {
   return {
-    version: 1,
+    version: 2,
     phase: "intro",
     mode: null,
     skills: [],
@@ -44,13 +44,14 @@ export function createGuidedSkills(): Skill[] {
   }))
 }
 
-export function createCustomSkill(name = ""): Skill {
+export function createCustomSkill(name = "", dimension: DimensionId | null = null): Skill {
   const random = Math.random().toString(36).slice(2, 7)
   return {
     id: `custom-${Date.now().toString(36)}-${random}`,
     name,
     description: "",
-    guidingQuestions: CUSTOM_GUIDING_QUESTIONS,
+    dimension,
+    guidingQuestions: [],
     currentScore: null,
     desiredScore: null,
     reflection: "",
@@ -63,7 +64,8 @@ export function loadState(): RadarState | null {
     const raw = window.localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as Partial<RadarState>
-    if (parsed?.version !== 1 || !Array.isArray(parsed.skills)) return null
+    // Versions before 2 used a different model (up to 10 skills, no relations), so they are discarded.
+    if (parsed?.version !== 2 || !Array.isArray(parsed.skills)) return null
     const base = createInitialState()
     return {
       ...base,

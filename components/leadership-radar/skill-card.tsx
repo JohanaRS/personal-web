@@ -2,7 +2,8 @@
 
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { gapLabel, gapOf, skillDefinition } from "./derived"
+import { DimensionIcon } from "./dimension-icon"
+import { gapLabel, gapOf, skillDefinition, skillDimension } from "./derived"
 import type { Skill } from "./types"
 
 interface SkillCardProps {
@@ -16,6 +17,7 @@ interface SkillCardProps {
 
 export function SkillCard({ index, skill, showDefinition = false, selected = false, disabled = false, onToggle }: SkillCardProps) {
   const gap = gapOf(skill)
+  const dimension = skillDimension(skill)
 
   const body = (
     <>
@@ -29,6 +31,12 @@ export function SkillCard({ index, skill, showDefinition = false, selected = fal
         {selected ? <Check className="size-4" /> : index + 1}
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-2 text-left">
+        {dimension && (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+            <DimensionIcon id={dimension.id} className="size-3.5" />
+            {dimension.modelLabel}
+          </span>
+        )}
         <span className="text-sm font-semibold leading-snug text-foreground text-pretty">{skill.name}</span>
         {showDefinition && (
           <span className="line-clamp-3 text-xs leading-relaxed text-muted-foreground">{skillDefinition(skill)}</span>

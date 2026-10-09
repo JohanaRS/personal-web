@@ -4,8 +4,8 @@ import Link from "next/link"
 import { Pencil, Printer, Quote, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { trackRadar } from "./analytics"
-import { ACTION_QUESTIONS, CALENDAR_HREF, COACHING_HREF, LEADER_QUESTIONS, REFLECTION_GROUPS } from "./content"
-import { gapLabel, gapOf, getGaps, getStrengths, toRadarData } from "./derived"
+import { ACTION_QUESTIONS, COACHING_HREF, LEADER_QUESTIONS, REFLECTION_GROUPS } from "./content"
+import { gapLabel, gapOf, getGaps, getStrengths, groupByDimension, toRadarData } from "./derived"
 import { RadarChart } from "./radar-chart"
 import type { StepProps } from "./types"
 
@@ -68,23 +68,30 @@ export function SummaryView({ state, update, goTo, onRestart }: SummaryViewProps
                 <th scope="col" className="px-3 py-3 text-center font-semibold">Brecha</th>
               </tr>
             </thead>
-            <tbody>
-              {state.skills.map((s) => (
-                <tr key={s.id} className="border-b border-border last:border-0">
-                  <th scope="row" className="px-4 py-3 font-medium text-foreground">
-                    {s.name}
-                    {state.priorityIds.includes(s.id) && (
-                      <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
-                        {s.id === state.primaryId ? "Prioridad principal" : "Prioridad"}
-                      </span>
-                    )}
+            {groupByDimension(state.skills).map(({ dimension, items }) => (
+              <tbody key={dimension?.id ?? "unassigned"}>
+                <tr className="border-b border-border bg-secondary/30">
+                  <th colSpan={4} scope="colgroup" className="px-4 py-2 text-xs font-semibold text-primary">
+                    {dimension ? `${dimension.modelLabel} · ${dimension.name}` : "Otras capacidades"}
                   </th>
-                  <td className="px-3 py-3 text-center tabular-nums">{s.currentScore ?? "–"}</td>
-                  <td className="px-3 py-3 text-center tabular-nums">{s.desiredScore ?? "–"}</td>
-                  <td className="px-3 py-3 text-center tabular-nums">{gapLabel(gapOf(s))}</td>
                 </tr>
-              ))}
-            </tbody>
+                {items.map(({ skill: s }) => (
+                  <tr key={s.id} className="border-b border-border last:border-0">
+                    <th scope="row" className="px-4 py-3 font-medium text-foreground">
+                      {s.name}
+                      {state.priorityIds.includes(s.id) && (
+                        <span className="ml-2 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                          {s.id === state.primaryId ? "Prioridad principal" : "Prioridad"}
+                        </span>
+                      )}
+                    </th>
+                    <td className="px-3 py-3 text-center tabular-nums">{s.currentScore ?? "–"}</td>
+                    <td className="px-3 py-3 text-center tabular-nums">{s.desiredScore ?? "–"}</td>
+                    <td className="px-3 py-3 text-center tabular-nums">{gapLabel(gapOf(s))}</td>
+                  </tr>
+                ))}
+              </tbody>
+            ))}
           </table>
         </div>
       </section>
@@ -225,10 +232,12 @@ export function SummaryView({ state, update, goTo, onRestart }: SummaryViewProps
       </div>
 
       <section className="rounded-2xl bg-primary p-8 text-primary-foreground print:hidden sm:p-10">
-        <h3 className="mb-3 text-2xl font-bold leading-tight text-balance">Tu liderazgo también puede evolucionar</h3>
+        <h3 className="mb-3 text-2xl font-bold leading-tight text-balance">
+          ¿Querés trabajar sobre lo que descubriste?
+        </h3>
         <p className="mb-6 max-w-2xl text-base leading-relaxed text-primary-foreground/90 text-pretty">
-          Si querés profundizar en lo que viste, acompaño procesos de coaching ejecutivo para transformar esta
-          reflexión en cambios sostenidos.
+          Si te interesa profundizar en tu liderazgo con acompañamiento personalizado, podemos conversar sobre cómo
+          trabajarlo juntos desde un proceso de coaching ejecutivo.
         </p>
         <div className="flex flex-wrap gap-3">
           <Button
@@ -237,18 +246,19 @@ export function SummaryView({ state, update, goTo, onRestart }: SummaryViewProps
             size="lg"
             onClick={() => trackRadar("leadership_radar_coaching_cta_clicked", { cta: "coaching_ejecutivo" })}
           >
-            <Link href={COACHING_HREF}>Conocer el coaching ejecutivo</Link>
+            <Link href={COACHING_HREF}>Conocer Coaching Ejecutivo</Link>
           </Button>
           <Button
-            asChild
+            type="button"
             variant="outline"
             size="lg"
             className="border-primary-foreground/60 text-primary-foreground hover:border-primary-foreground hover:bg-primary-foreground hover:text-primary"
-            onClick={() => trackRadar("leadership_radar_coaching_cta_clicked", { cta: "agendar_llamada" })}
+            onClick={() => {
+              update({ assessIndex: 0 })
+              goTo("radar")
+            }}
           >
-            <a href={CALENDAR_HREF} target="_blank" rel="noopener noreferrer">
-              Agendar una conversación
-            </a>
+            Volver a mi Radar
           </Button>
         </div>
       </section>

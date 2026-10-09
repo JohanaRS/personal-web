@@ -1,33 +1,49 @@
 "use client"
 
-import { useState } from "react"
-import { ChevronDown, ChevronUp, GripVertical, Lightbulb, Plus, Trash2 } from "lucide-react"
+import { useRef, useState } from "react"
+import { ChevronDown, ChevronUp, GripVertical, Lightbulb, Plus, Repeat2, Search, Trash2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { IDEA_CATEGORIES, MAX_SKILLS, MIN_SKILLS, TARGET_SKILLS } from "./content"
-import { skillDefinition } from "./derived"
+import { DIMENSIONS, SKILLS_COUNT, getDimension } from "./content"
+import { DimensionIcon } from "./dimension-icon"
+import { isConcentrated, skillDefinition } from "./derived"
 import { createCustomSkill } from "./state"
-import type { Skill } from "./types"
+import type { DimensionId, Skill } from "./types"
 
 interface SkillSelectorProps {
   skills: Skill[]
   onChange: (skills: Skill[]) => void
+  showTriggers?: boolean
 }
+
+type IdeasFilter = DimensionId | "all"
 
 const normalize = (text: string) => text.trim().toLowerCase()
 
-export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
+export function SkillSelector({ skills, onChange, showTriggers = false }: SkillSelectorProps) {
   const [ideasOpen, setIdeasOpen] = useState(false)
+  const [ideasFilter, setIdeasFilter] = useState<IdeasFilter>("all")
+  const [query, setQuery] = useState("")
+  const [replacingId, setReplacingId] = useState<string | null>(null)
   const [editingDefinition, setEditingDefinition] = useState<Set<string>>(new Set())
   const [dragIndex, setDragIndex] = useState<number | null>(null)
   const [overIndex, setOverIndex] = useState<number | null>(null)
   const [lastAddedId, setLastAddedId] = useState<string | null>(null)
+  const ideasRef = useRef<HTMLDivElement>(null)
 
   const count = skills.length
-  const atMax = count >= MAX_SKILLS
+  const atMax = count >= SKILLS_COUNT
+  const missing = SKILLS_COUNT - count
+  const replacing = skills.find((s) => s.id === replacingId) ?? null
 
   const patchSkill = (id: string, patch: Partial<Skill>) =>
     onChange(skills.map((s) => (s.id === id ? { ...s, ...patch } : s)))
+
+  const revealIdeas = (filter: IdeasFilter) => {
+    setIdeasFilter(filter)
+    setIdeasOpen(true)
+    requestAnimationFrame(() => ideasRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }))
+  }
 
   const move = (from: number, to: number) => {
     if (to < 0 || to >= skills.length || from === to) return
@@ -44,14 +60,24 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
     onChange([...skills, skill])
   }
 
-  const toggleIdea = (idea: string) => {
+  const removeSkill = (id: string) => {
+    if (replacingId === id) setReplacingId(null)
+    onChange(skills.filter((s) => s.id !== id))
+  }
+
+  const toggleIdea = (idea: string, dimension: DimensionId) => {
     const existing = skills.find((s) => normalize(s.name) === normalize(idea))
     if (existing) {
-      onChange(skills.filter((s) => s.id !== existing.id))
+      removeSkill(existing.id)
+      return
+    }
+    if (replacing) {
+      onChange(skills.map((s) => (s.id === replacing.id ? createCustomSkill(idea, dimension) : s)))
+      setReplacingId(null)
       return
     }
     if (atMax) return
-    onChange([...skills, createCustomSkill(idea)])
+    onChange([...skills, createCustomSkill(idea, dimension)])
   }
 
   const toggleDefinition = (id: string) =>
@@ -62,61 +88,195 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
       return next
     })
 
+  const visibleGroups = DIMENSIONS.filter((d) => ideasFilter === "all" || d.id === ideasFilter)
+    .map((d) => ({
+      dimension: d,
+      ideas: d.ideas.filter((idea) => normalize(idea).includes(normalize(query))),
+    }))
+    .filter((g) => g.ideas.length > 0)
+
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div aria-live="polite">
-          <p className="text-base font-semibold text-foreground">
-            {count <= TARGET_SKILLS
-              ? `${count} de ${TARGET_SKILLS} capacidades definidas`
-              : `${count} capacidades definidas`}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Podés usar entre {MIN_SKILLS} y {MAX_SKILLS}. Con {TARGET_SKILLS} el radar se lee mejor.
-          </p>
+      {showTriggers && (
+        <section aria-labelledby="triggers-title" className="flex flex-col gap-3">
+          <h3 id="triggers-title" className="text-sm font-semibold text-foreground">
+            Para pensar, mirá tu liderazgo desde cuatro relaciones
+          </h3>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {DIMENSIONS.map((dimension) => (
+              <li key={dimension.id}>
+                <button
+                  type="button"
+                  onClick={() => revealIdeas(dimension.id)}
+                  className="flex h-full w-full cursor-pointer items-start gap-3 rounded-xl border border-border bg-card p-4 text-left transition-colors hover:border-primary/50"
+                >
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <DimensionIcon id={dimension.id} className="size-4" />
+                  </span>
+                  <span className="flex flex-col gap-1">
+                    <span className="text-sm font-semibold text-foreground">{dimension.triggerTitle}</span>
+                    <span className="text-sm leading-relaxed text-muted-foreground">{dimension.triggerQuestion}</span>
+                    <span className="mt-1 text-xs font-medium text-primary">Ver ideas</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <div className="flex flex-col gap-3 rounded-xl border border-border bg-secondary/40 p-4 sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div aria-live="polite">
+            <p className="text-base font-semibold text-foreground">
+              {count} de {SKILLS_COUNT} capacidades definidas
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {missing > 0
+                ? `Te ${missing === 1 ? "falta 1 capacidad" : `faltan ${missing} capacidades`} para completar tu Radar.`
+                : "Tu Radar está completo. Podés ajustarlo antes de seguir."}
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => (ideasOpen ? setIdeasOpen(false) : revealIdeas(ideasFilter))}
+            aria-expanded={ideasOpen}
+          >
+            <Lightbulb />
+            Necesito ideas
+          </Button>
         </div>
-        <Button type="button" variant="outline" size="sm" onClick={() => setIdeasOpen((v) => !v)} aria-expanded={ideasOpen}>
-          <Lightbulb />
-          Necesito ideas
-        </Button>
+
+        <ul className="flex flex-wrap gap-2" aria-label="Capacidades por relación">
+          {DIMENSIONS.map((dimension) => {
+            const n = skills.filter((s) => s.dimension === dimension.id).length
+            return (
+              <li
+                key={dimension.id}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs",
+                  n > 0 ? "border-primary/40 bg-primary/5 text-foreground" : "border-border bg-card text-muted-foreground"
+                )}
+              >
+                <DimensionIcon id={dimension.id} className="size-3.5" />
+                {dimension.modelLabel}
+                <strong className="font-semibold">{n}</strong>
+              </li>
+            )
+          })}
+        </ul>
+
+        {isConcentrated(skills) && (
+          <p role="status" className="text-sm leading-relaxed text-foreground">
+            Todas tus capacidades pertenecen a una misma relación. Si querés, mirá también las otras tres: tu liderazgo
+            se expresa en las cuatro.
+          </p>
+        )}
       </div>
 
       {ideasOpen && (
-        <div className="rounded-xl border border-border bg-secondary/40 p-5">
-          <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+        <div ref={ideasRef} className="flex flex-col gap-4 rounded-xl border border-border bg-secondary/40 p-5">
+          {replacing && (
+            <div className="flex items-start justify-between gap-3 rounded-lg bg-card px-4 py-3 text-sm text-foreground">
+              <p>
+                Elegí una idea para reemplazar <strong>{replacing.name || "esta capacidad"}</strong>.
+              </p>
+              <button
+                type="button"
+                onClick={() => setReplacingId(null)}
+                className="inline-flex shrink-0 cursor-pointer items-center gap-1 font-medium text-primary underline-offset-4 hover:underline"
+              >
+                <X className="size-4" aria-hidden="true" />
+                Cancelar
+              </button>
+            </div>
+          )}
+
+          <p className="text-sm leading-relaxed text-muted-foreground">
             Tocá las que resuenen con vos para sumarlas o quitarlas. Después podés renombrarlas.
           </p>
-          <div className="flex flex-col gap-5">
-            {IDEA_CATEGORIES.map((category) => (
-              <div key={category.title}>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  {category.title}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {category.items.map((idea) => {
-                    const selected = skills.some((s) => normalize(s.name) === normalize(idea))
-                    return (
-                      <button
-                        key={idea}
-                        type="button"
-                        aria-pressed={selected}
-                        disabled={!selected && atMax}
-                        onClick={() => toggleIdea(idea)}
-                        className={cn(
-                          "min-h-9 cursor-pointer rounded-full border px-3.5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50",
-                          selected
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-card text-foreground hover:border-primary/50"
-                        )}
-                      >
-                        {idea}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            ))}
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="relative sm:w-64">
+              <label htmlFor="ideas-search" className="sr-only">
+                Buscar ideas de capacidades
+              </label>
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <input
+                id="ideas-search"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Buscar una idea"
+                className="h-10 w-full rounded-lg border border-border bg-background pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por relación">
+              {([{ id: "all", label: "Todas" }, ...DIMENSIONS.map((d) => ({ id: d.id, label: d.modelLabel }))] as {
+                id: IdeasFilter
+                label: string
+              }[]).map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  aria-pressed={ideasFilter === option.id}
+                  onClick={() => setIdeasFilter(option.id)}
+                  className={cn(
+                    "min-h-9 cursor-pointer rounded-full border px-3.5 text-sm transition-colors",
+                    ideasFilter === option.id
+                      ? "border-primary bg-primary/10 font-medium text-primary"
+                      : "border-border bg-card text-foreground hover:border-primary/50"
+                  )}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {visibleGroups.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No encontramos ideas con esa búsqueda. Podés agregar tu propia capacidad igualmente.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-5">
+              {visibleGroups.map(({ dimension, ideas }) => (
+                <div key={dimension.id}>
+                  <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <DimensionIcon id={dimension.id} className="size-3.5" />
+                    {dimension.name} · {dimension.relation}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {ideas.map((idea) => {
+                      const selected = skills.some((s) => normalize(s.name) === normalize(idea))
+                      return (
+                        <button
+                          key={idea}
+                          type="button"
+                          aria-pressed={selected}
+                          disabled={!selected && atMax && !replacing}
+                          onClick={() => toggleIdea(idea, dimension.id)}
+                          className={cn(
+                            "min-h-9 cursor-pointer rounded-full border px-3.5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+                            selected
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-border bg-card text-foreground hover:border-primary/50"
+                          )}
+                        >
+                          {idea}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -132,6 +292,8 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
           {skills.map((skill, i) => {
             const editing = editingDefinition.has(skill.id)
             const definition = skillDefinition(skill)
+            const dimension = getDimension(skill.dimension)
+            const isReplacing = replacingId === skill.id
             return (
               <li
                 key={skill.id}
@@ -148,7 +310,11 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
                 }}
                 className={cn(
                   "rounded-xl border bg-card p-3 transition-colors sm:p-4",
-                  overIndex === i && dragIndex !== null && dragIndex !== i ? "border-primary" : "border-border",
+                  overIndex === i && dragIndex !== null && dragIndex !== i
+                    ? "border-primary"
+                    : isReplacing
+                      ? "border-primary ring-2 ring-primary/25"
+                      : "border-border",
                   dragIndex === i && "opacity-50"
                 )}
               >
@@ -194,6 +360,36 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
                       onChange={(e) => patchSkill(skill.id, { name: e.target.value, shortName: undefined })}
                       className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/30"
                     />
+
+                    {skill.custom ? (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <label htmlFor={`skill-dim-${skill.id}`} className="text-xs text-muted-foreground">
+                          Relación
+                        </label>
+                        <select
+                          id={`skill-dim-${skill.id}`}
+                          value={skill.dimension ?? ""}
+                          onChange={(e) =>
+                            patchSkill(skill.id, { dimension: (e.target.value || null) as DimensionId | null })
+                          }
+                          className="h-8 cursor-pointer rounded-md border border-border bg-background px-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        >
+                          <option value="">Sin asignar</option>
+                          {DIMENSIONS.map((d) => (
+                            <option key={d.id} value={d.id}>
+                              {d.relation}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      dimension && (
+                        <p className="inline-flex w-fit items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-foreground">
+                          <DimensionIcon id={dimension.id} className="size-3.5" />
+                          {dimension.relation}
+                        </p>
+                      )
+                    )}
 
                     {editing ? (
                       <>
@@ -247,7 +443,21 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
                       type="button"
                       variant="ghost"
                       size="icon"
-                      onClick={() => onChange(skills.filter((s) => s.id !== skill.id))}
+                      onClick={() => {
+                        setReplacingId(skill.id)
+                        revealIdeas(skill.dimension ?? "all")
+                      }}
+                      aria-label={`Reemplazar ${skill.name || `capacidad ${i + 1}`}`}
+                      aria-pressed={isReplacing}
+                      className="text-muted-foreground hover:text-primary"
+                    >
+                      <Repeat2 />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeSkill(skill.id)}
                       aria-label={`Quitar ${skill.name || `capacidad ${i + 1}`}`}
                       className="text-muted-foreground hover:text-destructive"
                     >
@@ -267,8 +477,8 @@ export function SkillSelector({ skills, onChange }: SkillSelectorProps) {
           Agregar capacidad
         </Button>
         {atMax && (
-          <p className="text-sm text-muted-foreground">
-            Llegaste al máximo de {MAX_SKILLS}. Quitá alguna si querés sumar otra.
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Tu Radar ya tiene las 8 capacidades. Si querés incluir otra, reemplazá o quitá alguna.
           </p>
         )}
       </div>

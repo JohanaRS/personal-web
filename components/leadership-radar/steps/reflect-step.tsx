@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { scrollToTop } from "../analytics"
-import { REFLECTION_GROUPS } from "../content"
+import { REFLECTION_GROUPS, getDimension } from "../content"
 import { toRadarData } from "../derived"
 import { RadarChart } from "../radar-chart"
 import { ReflectionQuestion } from "../reflection-question"
@@ -52,6 +52,7 @@ export function ReflectStep({ state, update, goTo }: StepProps) {
       <div className="flex flex-col gap-6">
         <StepHeader eyebrow={`Reflexión · ${groupIndex + 1} de ${REFLECTION_GROUPS.length}`} title={group.title}>
           <p>Respondé lo que quieras, no es obligatorio. Escribir ayuda a que lo que viste se vuelva claro.</p>
+          {group.intro && <p className="mt-2">{group.intro}</p>}
         </StepHeader>
 
         <div className="flex flex-col gap-4">
@@ -59,6 +60,7 @@ export function ReflectStep({ state, update, goTo }: StepProps) {
             <ReflectionQuestion
               key={q.id}
               id={q.id}
+              eyebrow={getDimension(q.dimension)?.relation}
               label={q.text}
               value={state.reflections[q.id] ?? ""}
               onChange={(v) => setAnswer(q.id, v)}

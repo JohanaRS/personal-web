@@ -1,5 +1,6 @@
 "use client"
 
+import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 interface ReflectionQuestionProps {
@@ -10,6 +11,7 @@ interface ReflectionQuestionProps {
   placeholder?: string
   rows?: number
   className?: string
+  eyebrow?: ReactNode
 }
 
 export function ReflectionQuestion({
@@ -20,9 +22,11 @@ export function ReflectionQuestion({
   placeholder = "Escribí lo que te surja. Es solo para vos.",
   rows = 3,
   className,
+  eyebrow,
 }: ReflectionQuestionProps) {
   return (
     <div className={cn("rounded-xl border border-border bg-card p-5", className)}>
+      {eyebrow && <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">{eyebrow}</div>}
       <label htmlFor={id} className="mb-3 block text-sm font-medium leading-relaxed text-foreground">
         {label}
       </label>

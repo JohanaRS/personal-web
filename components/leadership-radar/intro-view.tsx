@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { GUIDED_SKILLS, HOW_IT_WORKS, MODES } from "./content"
 import { RadarChart, type RadarDatum } from "./radar-chart"
+import { RelationsModel } from "./relations-model"
 import type { Mode } from "./types"
 
 const SAMPLE_SCORES: [number, number][] = [
@@ -87,7 +88,19 @@ export function IntroView({ onStart, onSelectMode }: IntroViewProps) {
         </div>
       </section>
 
-      <section id="como-funciona" className="scroll-mt-24 py-16 lg:py-20">
+      <section aria-labelledby="relaciones-title" className="py-16 lg:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <h2
+            id="relaciones-title"
+            className="mb-6 max-w-2xl text-3xl font-bold leading-tight text-foreground text-balance"
+          >
+            Cuatro relaciones que sostienen tu liderazgo
+          </h2>
+          <RelationsModel />
+        </div>
+      </section>
+
+      <section id="como-funciona" className="scroll-mt-24 bg-secondary/40 py-16 lg:py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-10 max-w-2xl text-3xl font-bold leading-tight text-foreground text-balance">
             Cómo funciona
@@ -139,14 +152,22 @@ export function IntroView({ onStart, onSelectMode }: IntroViewProps) {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="text-xl font-bold text-foreground">{data.title}</h3>
-                    {mode === "guided" && (
-                      <span className="shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                        Recomendado
-                      </span>
-                    )}
+                    <span className="shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                      {data.badge}
+                    </span>
                   </div>
-                  <p className="flex-1 text-sm leading-relaxed text-muted-foreground">{data.description}</p>
-                  {"footnote" in data && <p className="text-sm italic text-muted-foreground">{data.footnote}</p>}
+                  <p className="text-sm leading-relaxed text-muted-foreground">{data.description}</p>
+                  {"forWho" in data && (
+                    <div className="flex-1">
+                      <p className="mb-2 text-sm font-medium text-foreground">{data.forWhoTitle}</p>
+                      <ul className="flex list-disc flex-col gap-1 pl-5 text-sm leading-relaxed text-muted-foreground">
+                        {data.forWho.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {"footnote" in data && <p className="flex-1 text-sm italic text-muted-foreground">{data.footnote}</p>}
                   <Button
                     type="button"
                     size="lg"

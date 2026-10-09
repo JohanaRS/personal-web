@@ -11,12 +11,15 @@ export type Phase =
   | "action"
   | "summary"
 
+export type DimensionId = "self" | "others" | "context" | "results"
+
 export interface Skill {
   id: string
   name: string
   shortName?: string
   description: string
   note?: string
+  dimension: DimensionId | null
   guidingQuestions: string[]
   currentScore: number | null
   desiredScore: number | null
@@ -39,7 +42,7 @@ export interface ActionPlan {
 }
 
 export interface RadarState {
-  version: 1
+  version: 2
   phase: Phase
   mode: Mode | null
   skills: Skill[]

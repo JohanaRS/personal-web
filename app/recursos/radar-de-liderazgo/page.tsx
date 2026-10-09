@@ -6,7 +6,7 @@ import { LeadershipRadar } from "@/components/leadership-radar/leadership-radar"
 export const metadata: Metadata = {
   title: "Radar de Liderazgo | Johana Ríos",
   description:
-    "Herramienta gratuita de autoconocimiento: definí qué clase de líder querés ser, observá dónde estás hoy y elegí qué desarrollar.",
+    "Herramienta gratuita de autoconocimiento para observar tu liderazgo desde cuatro relaciones: con vos, con las personas, con el equipo y con el contexto. Elegí qué desarrollar.",
 }
 
 export default function RadarDeLiderazgoPage() {

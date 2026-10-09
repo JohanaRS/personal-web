@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { gapLabel, gapOf, getGaps, getStrengths, toRadarData } from "../derived"
+import { DimensionIcon } from "../dimension-icon"
+import { gapLabel, gapOf, getGaps, getStrengths, groupByDimension, toRadarData } from "../derived"
 import { RadarChart } from "../radar-chart"
 import { SkillCard } from "../skill-card"
 import { StepHeader, StepNav } from "../step-nav"
@@ -44,17 +45,31 @@ export function RadarStep({ state, update, goTo }: StepProps) {
         <RadarChart data={toRadarData(state.skills)} />
       </div>
 
-      <section aria-labelledby="skills-title" className="flex flex-col gap-4">
-        <h3 id="skills-title" className="text-lg font-semibold text-foreground">
-          Tus capacidades
-        </h3>
-        <ul className="grid gap-3 md:grid-cols-2">
-          {state.skills.map((skill, i) => (
-            <li key={skill.id}>
-              <SkillCard index={i} skill={skill} />
-            </li>
-          ))}
-        </ul>
+      <section aria-labelledby="skills-title" className="flex flex-col gap-6">
+        <div>
+          <h3 id="skills-title" className="text-lg font-semibold text-foreground">
+            Tu liderazgo desde cuatro relaciones
+          </h3>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Mirá cómo se reparten tus capacidades. Un radar equilibrado no es el objetivo: lo útil es ver dónde está tu
+            energía hoy.
+          </p>
+        </div>
+        {groupByDimension(state.skills).map(({ dimension, items }) => (
+          <div key={dimension?.id ?? "unassigned"} className="flex flex-col gap-3">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              {dimension && <DimensionIcon id={dimension.id} className="size-4 text-primary" />}
+              {dimension ? `${dimension.modelLabel} · ${dimension.name}` : "Otras capacidades"}
+            </h4>
+            <ul className="grid gap-3 md:grid-cols-2">
+              {items.map(({ skill, index }) => (
+                <li key={skill.id}>
+                  <SkillCard index={index} skill={skill} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </section>
 
       <div className="grid gap-4 md:grid-cols-3">

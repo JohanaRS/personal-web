@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { MAX_SKILLS, MIN_SKILLS } from "../content"
+import { SKILLS_COUNT } from "../content"
 import { SkillSelector } from "../skill-selector"
 import { StepHeader, StepNav } from "../step-nav"
 import type { Skill, StepProps } from "../types"
@@ -11,13 +11,16 @@ export function DefineStep({ state, update, goTo }: StepProps) {
   const isGuided = state.mode === "guided"
 
   const validate = (skills: Skill[]) => {
-    if (skills.length < MIN_SKILLS) {
-      return `Definí al menos ${MIN_SKILLS} capacidades para que tu radar tenga forma.`
+    if (skills.length < SKILLS_COUNT) {
+      const missing = SKILLS_COUNT - skills.length
+      return `Te ${missing === 1 ? "falta 1 capacidad" : `faltan ${missing} capacidades`} para completar tu Radar de ${SKILLS_COUNT}.`
     }
-    if (skills.length > MAX_SKILLS) return `Podés usar hasta ${MAX_SKILLS} capacidades.`
+    if (skills.length > SKILLS_COUNT) return `Tu Radar usa exactamente ${SKILLS_COUNT} capacidades.`
     const names = skills.map((s) => s.name.trim().toLowerCase())
     if (names.some((n) => !n)) return "Todas las capacidades necesitan un nombre."
-    if (new Set(names).size !== names.length) return "Hay capacidades con el mismo nombre. Diferenciálas para poder leerlas en el radar."
+    if (new Set(names).size !== names.length) {
+      return "Hay capacidades con el mismo nombre. Diferencialas para poder leerlas en el radar."
+    }
     return ""
   }
 
@@ -38,21 +41,24 @@ export function DefineStep({ state, update, goTo }: StepProps) {
       {isGuided ? (
         <StepHeader eyebrow="Radar guiado" title="Estas son tus 8 capacidades de partida">
           <p>
-            Son una propuesta basada en un liderazgo humano, efectivo y sostenible. No son “las características del buen
-            líder”: renombralas, adaptá su definición, quitá las que no te representen o sumá otras.
+            Son una propuesta para observar un liderazgo humano, efectivo y sostenible, repartida en las cuatro
+            relaciones del liderazgo. No son “las características del buen líder”: renombralas, adaptá su definición,
+            reemplazá las que no te representen o sumá otras.
           </p>
         </StepHeader>
       ) : (
         <StepHeader eyebrow="Radar personalizado" title="¿Qué capacidades necesita el líder que querés ser?">
           <p>
-            Elegí entre {MIN_SKILLS} y {MAX_SKILLS} capacidades que para vos son importantes. Pueden ser habilidades,
-            actitudes o formas de relacionarte. No hay respuestas correctas.
+            Elegí {SKILLS_COUNT} capacidades que para vos son importantes. Pueden ser habilidades, actitudes o formas de
+            relacionarte. Si querés inspiración, mirá tu liderazgo desde las cuatro relaciones. No hay respuestas
+            correctas.
           </p>
         </StepHeader>
       )}
 
       <SkillSelector
         skills={state.skills}
+        showTriggers={!isGuided}
         onChange={(skills) => {
           update({ skills })
           setError("")
