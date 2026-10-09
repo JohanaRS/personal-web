@@ -1,5 +1,6 @@
+import { ACTION_QUESTIONS, LEADER_QUESTIONS, REFLECTION_GROUPS } from "../content"
 import { gapLabel, gapOf, getGaps, getStrengths, groupByDimension, skillLabel } from "../derived"
-import type { Skill } from "../types"
+import type { RadarState, Skill } from "../types"
 
 const SITE_URL = "https://johanarios.com"
 const SITE_LABEL = "johanarios.com"
@@ -19,6 +20,7 @@ const COLORS = {
   border: "#e3ddd3",
   grid: "#d6cfc2",
   clay: "#a04f27",
+  accentSoft: "#b9c39a",
 }
 
 const PAGE_W = 210
@@ -107,6 +109,19 @@ async function loadLogo(src: string): Promise<Logo | null> {
   }
 }
 
+/** The built-in PDF fonts only cover Latin-1, so normalise typographic characters and drop the rest (emoji, etc.). */
+function clean(text: string) {
+  return text
+    .replace(/[\u2018\u2019\u201A]/g, "'")
+    .replace(/[\u201C\u201D\u201E]/g, '"')
+    .replace(/[\u2013\u2014]/g, "-")
+    .replace(/\u2026/g, "...")
+    .replace(/[\u2022\u25CF]/g, "·")
+    .replace(/\r\n?/g, "\n")
+    .replace(/[^\n\u0020-\u007E\u00A0-\u00FF]/g, "")
+    .trim()
+}
+
 function longDate(date = new Date()) {
   return date.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" })
 }
@@ -116,7 +131,11 @@ function isoDate(date = new Date()) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
-export async function exportRadarPdf(skills: Skill[]) {
+/**
+ * Without `report` it exports the radar snapshot only (the "Qué sigue" step).
+ * With `report` it also includes reflections, priorities, intention and next step.
+ */
+export async function exportRadarPdf(skills: Skill[], report?: RadarState) {
   const [{ jsPDF, GState }, logo, isotipo] = await Promise.all([
     import("jspdf"),
     loadLogo("/images/logo-principal.png"),
@@ -125,7 +144,7 @@ export async function exportRadarPdf(skills: Skill[]) {
 
   const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" })
   doc.setProperties({
-    title: "Mi Radar de Liderazgo",
+    title: report ? "Mi reflexión de liderazgo" : "Mi Radar de Liderazgo",
     subject: "Radar de Liderazgo - Johana Ríos",
     author: "Johana Ríos",
     creator: SITE_LABEL,
@@ -187,7 +206,7 @@ export async function exportRadarPdf(skills: Skill[]) {
   doc.line(MARGIN, y, PAGE_W - MARGIN, y)
 
   y += 11
-  eyebrow("Tu fotografía de liderazgo", MARGIN, y)
+  eyebrow(report ? "Tu reflexión de liderazgo" : "Tu fotografía de liderazgo", MARGIN, y)
   y += 9
   doc.setFont("helvetica", "bold")
   doc.setFontSize(26)
@@ -198,7 +217,9 @@ export async function exportRadarPdf(skills: Skill[]) {
   doc.setFontSize(10)
   doc.setTextColor(COLORS.muted)
   const intro = doc.splitTextToSize(
-    "No es una nota sobre tu capacidad como líder. Es una fotografía de cómo te percibís hoy y hacia dónde querés moverte.",
+    report
+      ? "Tu radar, lo que reflexionaste sobre él y el próximo paso que elegiste para ser el líder que querés ser."
+      : "No es una nota sobre tu capacidad como líder. Es una fotografía de cómo te percibís hoy y hacia dónde querés moverte.",
     140,
   ) as string[]
   intro.forEach((line, i) => doc.text(line, MARGIN, y + i * 4.8))
@@ -499,38 +520,219 @@ export async function exportRadarPdf(skills: Skill[]) {
   note.forEach((line, k) => doc.text(line, MARGIN, y + k * 4))
   y += note.length * 4 + 8
 
-  // Closing call to action
-  const ctaHeight = 44
+  /* ------------------------- Reflection report ------------------------- */
+  const sectionTitle = (title: string, subtitle?: string) => {
+    ensureSpace(subtitle ? 24 : 18)
+    y += 3
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(14)
+    doc.setTextColor(COLORS.foreground)
+    doc.text(title, MARGIN, y + 4)
+    y += 8
+    if (subtitle) {
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(8.5)
+      doc.setTextColor(COLORS.muted)
+      doc.text(subtitle, MARGIN, y + 1.5)
+      y += 5
+    }
+    doc.setDrawColor(COLORS.border)
+    doc.setLineWidth(0.3)
+    doc.line(MARGIN, y + 1, PAGE_W - MARGIN, y + 1)
+    y += 6
+  }
+
+  const groupTitle = (title: string) => {
+    ensureSpace(22)
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(9.5)
+    doc.setTextColor(COLORS.primary)
+    doc.text(clean(title), MARGIN, y + 3.5)
+    y += 8
+  }
+
+  /** A labelled answer with a thin accent bar on the left; paginates line by line. */
+  const answerBlock = (label: string, text: string, accent = COLORS.accentSoft) => {
+    const innerW = CONTENT_W - 6
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(8)
+    const labelLines = doc.splitTextToSize(clean(label), innerW) as string[]
+    doc.setFontSize(9.5)
+    const bodyLines = doc.splitTextToSize(clean(text), innerW) as string[]
+    const labelHeight = labelLines.length * 3.7
+    ensureSpace(labelHeight + Math.min(bodyLines.length, 2) * 4.7 + 3)
+
+    let segmentStart = y
+    const closeSegment = () => {
+      doc.setFillColor(accent)
+      doc.rect(MARGIN, segmentStart, 1, Math.max(0, y - segmentStart), "F")
+    }
+
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(8)
+    doc.setTextColor(COLORS.muted)
+    labelLines.forEach((line, k) => doc.text(line, MARGIN + 5, y + 3 + k * 3.7))
+    y += labelHeight + 1.5
+
+    bodyLines.forEach((line) => {
+      if (y + 4.7 > FOOTER_TOP) {
+        closeSegment()
+        doc.addPage()
+        paintPage()
+        y = MARGIN + 4
+        segmentStart = y
+      }
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(9.5)
+      doc.setTextColor(COLORS.foreground)
+      doc.text(line, MARGIN + 5, y + 3.4)
+      y += 4.7
+    })
+    y += 0.5
+    closeSegment()
+    y += 4.5
+  }
+
+  if (report) {
+    const answered = (items: { q: string; a: string | undefined }[]) =>
+      items.filter((item) => item.a && clean(item.a))
+
+    const priorities = report.skills.filter((s) => report.priorityIds.includes(s.id))
+    const intention = clean(report.intention)
+    if (priorities.length > 0 || intention) {
+      sectionTitle("Mi camino de desarrollo", "Las capacidades que elegí fortalecer y el líder que quiero ser")
+      if (priorities.length > 0) {
+        answerBlock(
+          "Mis prioridades",
+          priorities.map((s) => `· ${s.name}${s.id === report.primaryId ? "  (empiezo por acá)" : ""}`).join("\n"),
+          COLORS.primary,
+        )
+      }
+      if (intention) {
+        answerBlock("Mi intención como líder", `Quiero ser un líder que ${intention}`, COLORS.clay)
+      }
+    }
+
+    const plan = report.action
+    const planItems: { q: string; a: string | undefined }[] = [
+      { q: "Mi siguiente acción", a: plan.nextAction },
+      {
+        q: "Cuándo",
+        a: plan.when
+          ? new Date(`${plan.when}T12:00:00`).toLocaleDateString("es-AR", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })
+          : "",
+      },
+      { q: "Quién me acompaña", a: plan.companion },
+      { q: "Cómo sabré que avanzo", a: plan.progressSign },
+      ...ACTION_QUESTIONS.filter((q) => q.id !== "nextAction").map((q) => ({ q: q.text, a: plan[q.id] })),
+    ]
+    const planAnswered = answered(planItems)
+    if (planAnswered.length > 0) {
+      sectionTitle("Mi próximo paso", "Lo concreto que voy a hacer para empezar")
+      planAnswered.forEach((item) => answerBlock(item.q, item.a ?? "", COLORS.clay))
+    }
+
+    const reflectionSections = [
+      ...REFLECTION_GROUPS.map((g) => ({
+        title: g.title,
+        items: answered(g.questions.map((q) => ({ q: q.text, a: report.reflections[q.id] }))),
+      })),
+      {
+        title: "El líder que quiero ser",
+        items: answered(LEADER_QUESTIONS.map((q) => ({ q: q.text, a: report.leaderAnswers[q.id] }))),
+      },
+      {
+        title: "Observaciones por capacidad",
+        items: answered(report.skills.map((s) => ({ q: s.name, a: s.reflection }))),
+      },
+    ].filter((section) => section.items.length > 0)
+
+    if (reflectionSections.length > 0) {
+      sectionTitle("Mis reflexiones", "Lo que fui descubriendo al mirar mi radar")
+      reflectionSections.forEach((section) => {
+        groupTitle(section.title)
+        section.items.forEach((item) => answerBlock(item.q, item.a ?? ""))
+      })
+    }
+  }
+
+  /* ------------------------ Closing coaching CTA ------------------------ */
+  const ctaTitle = report ? "Sigamos trabajando tu liderazgo, juntos" : "¿Querés trabajar sobre lo que descubriste?"
+  const ctaText = report
+    ? "Este radar es un muy buen punto de partida para un proceso de coaching ejecutivo conmigo. Si querés darle continuidad a tus prioridades con acompañamiento personalizado, escribime o agendá una conversación."
+    : "Si te interesa profundizar en tu liderazgo con acompañamiento personalizado, podemos conversar sobre cómo trabajarlo juntos desde un proceso de coaching ejecutivo."
+  const ctaBullets = report
+    ? [
+        "Tomamos tu radar como punto de partida y miramos qué dice hoy de tu liderazgo.",
+        "Convertimos tus prioridades en objetivos y acciones concretas.",
+        "Te acompaño a sostener el avance, medirlo y ajustarlo en el camino.",
+      ]
+    : []
+
+  const ctaInnerW = CONTENT_W - 16
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(9)
+  const ctaLines = doc.splitTextToSize(ctaText, ctaInnerW) as string[]
+  const bulletLines = ctaBullets.map((b) => doc.splitTextToSize(b, ctaInnerW - 6) as string[])
+  const bulletsHeight = bulletLines.reduce((sum, lines) => sum + lines.length * 4.2 + 1.5, 0)
+  const ctaHeight = 11 + ctaLines.length * 4.2 + 6 + (bulletsHeight ? bulletsHeight + 3 : 0) + 6 + 9 + 18
+
+  y += report ? 4 : 0
   ensureSpace(ctaHeight)
   doc.setFillColor(COLORS.primary)
   doc.roundedRect(MARGIN, y, CONTENT_W, ctaHeight, 3, 3, "F")
   doc.setFont("helvetica", "bold")
   doc.setFontSize(13)
   doc.setTextColor(COLORS.background)
-  doc.text("¿Querés trabajar sobre lo que descubriste?", MARGIN + 8, y + 11)
+  doc.text(ctaTitle, MARGIN + 8, y + 11)
   doc.setFont("helvetica", "normal")
   doc.setFontSize(9)
-  const cta = doc.splitTextToSize(
-    "Si te interesa profundizar en tu liderazgo con acompañamiento personalizado, podemos conversar sobre cómo trabajarlo juntos desde un proceso de coaching ejecutivo.",
-    CONTENT_W - 16,
-  ) as string[]
-  cta.forEach((line, k) => doc.text(line, MARGIN + 8, y + 17.5 + k * 4.2))
-  const linksY = y + 17.5 + cta.length * 4.2 + 5
+  ctaLines.forEach((line, k) => doc.text(line, MARGIN + 8, y + 17.5 + k * 4.2))
+
+  let cy2 = y + 17.5 + ctaLines.length * 4.2 + 3
+  bulletLines.forEach((lines) => {
+    doc.setFillColor(COLORS.accentSoft)
+    doc.circle(MARGIN + 9.2, cy2 + 0.6, 0.9, "F")
+    lines.forEach((line, k) => doc.text(line, MARGIN + 14, cy2 + 1.7 + k * 4.2))
+    cy2 += lines.length * 4.2 + 1.5
+  })
+
+  const buttonY = cy2 + 3
+  const buttonLabel = "Agendar una conversación"
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(9)
+  const buttonW = doc.getTextWidth(buttonLabel) + 12
+  doc.setFillColor(COLORS.background)
+  doc.roundedRect(MARGIN + 8, buttonY, buttonW, 8.5, 4.25, 4.25, "F")
+  doc.setTextColor(COLORS.primary)
+  doc.text(buttonLabel, MARGIN + 8 + buttonW / 2, buttonY + 5.5, { align: "center" })
+  doc.link(MARGIN + 8, buttonY, buttonW, 8.5, { url: BOOKING_URL })
+
   const links: [string, string][] = [
     [SITE_LABEL, SITE_URL],
     [EMAIL, `mailto:${EMAIL}`],
     [INSTAGRAM_LABEL, INSTAGRAM_URL],
   ]
+  const linksY = buttonY + 8.5 + 13
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(7.5)
+  doc.setTextColor(COLORS.accentSoft)
+  doc.setCharSpace(0.4)
+  doc.text("CONTACTO", MARGIN + 8, linksY - 4.5)
+  doc.setCharSpace(0)
   let linkX = MARGIN + 8
   doc.setFont("helvetica", "bold")
   doc.setFontSize(9)
+  doc.setTextColor(COLORS.background)
   links.forEach(([label, url]) => {
     doc.textWithLink(label, linkX, linksY, { url })
     linkX += doc.getTextWidth(label) + 9
   })
-  doc.setFont("helvetica", "normal")
-  doc.setFontSize(8)
-  doc.textWithLink("Agendar una conversación", MARGIN + 8, linksY + 5.5, { url: BOOKING_URL })
+  y += ctaHeight
 
   /* ------------------------------ Footers ------------------------------ */
   const pages = doc.getNumberOfPages()
@@ -555,5 +757,5 @@ export async function exportRadarPdf(skills: Skill[]) {
     doc.text(`Página ${page} de ${pages}`, PAGE_W - MARGIN, PAGE_H - 8.5, { align: "right" })
   }
 
-  doc.save(`radar-de-liderazgo-${isoDate()}.pdf`)
+  doc.save(`${report ? "reflexion-de-liderazgo" : "radar-de-liderazgo"}-${isoDate()}.pdf`)
 }

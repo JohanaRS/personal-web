@@ -1,7 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
-import { Pencil, Printer, Quote, RotateCcw } from "lucide-react"
+import { FileDown, Loader2, Pencil, Quote, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { trackRadar } from "./analytics"
 import { ACTION_QUESTIONS, COACHING_HREF, LEADER_QUESTIONS, REFLECTION_GROUPS } from "./content"
@@ -13,7 +14,23 @@ interface SummaryViewProps extends StepProps {
   onRestart: () => void
 }
 
+type PdfStatus = "idle" | "loading" | "done" | "error"
+
 export function SummaryView({ state, update, goTo, onRestart }: SummaryViewProps) {
+  const [pdfStatus, setPdfStatus] = useState<PdfStatus>("idle")
+
+  const downloadReport = async () => {
+    setPdfStatus("loading")
+    try {
+      const { exportRadarPdf } = await import("./pdf/export-radar-pdf")
+      await exportRadarPdf(state.skills, state)
+      trackRadar("leadership_radar_report_downloaded", { skills: state.skills.length })
+      setPdfStatus("done")
+    } catch {
+      setPdfStatus("error")
+    }
+  }
+
   const strengths = getStrengths(state.skills)
   const gaps = getGaps(state.skills)
   const priorities = state.skills.filter((s) => state.priorityIds.includes(s.id))
@@ -209,26 +226,36 @@ export function SummaryView({ state, update, goTo, onRestart }: SummaryViewProps
         </section>
       )}
 
-      <div className="flex flex-wrap gap-3 print:hidden">
-        <Button type="button" onClick={() => window.print()}>
-          <Printer />
-          Descargar / guardar mi reflexión
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => {
-            update({ assessIndex: 0 })
-            goTo("assess")
-          }}
-        >
-          <Pencil />
-          Volver a editar mi radar
-        </Button>
-        <Button type="button" variant="ghost" onClick={onRestart}>
-          <RotateCcw />
-          Empezar de nuevo
-        </Button>
+      <div className="flex flex-col gap-3 print:hidden">
+        <div className="flex flex-wrap gap-3">
+          <Button type="button" onClick={downloadReport} disabled={pdfStatus === "loading"}>
+            {pdfStatus === "loading" ? <Loader2 className="animate-spin" /> : <FileDown />}
+            {pdfStatus === "loading" ? "Preparando tu PDF..." : "Descargar / guardar mi reflexión"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              update({ assessIndex: 0 })
+              goTo("assess")
+            }}
+          >
+            <Pencil />
+            Volver a editar mi radar
+          </Button>
+          <Button type="button" variant="ghost" onClick={onRestart}>
+            <RotateCcw />
+            Empezar de nuevo
+          </Button>
+        </div>
+        <p aria-live="polite" className="min-h-5 text-sm text-muted-foreground">
+          {pdfStatus === "done" && "Tu PDF se descargó con tu radar, tus reflexiones y mis datos de contacto."}
+          {pdfStatus === "error" && (
+            <span role="alert" className="text-destructive">
+              No pudimos generar el PDF. Probá de nuevo en unos segundos.
+            </span>
+          )}
+        </p>
       </div>
 
       <section className="rounded-2xl bg-primary p-8 text-primary-foreground print:hidden sm:p-10">
