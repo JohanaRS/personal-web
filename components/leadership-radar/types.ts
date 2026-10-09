@@ -47,6 +47,7 @@ export interface RadarState {
   mode: Mode | null
   skills: Skill[]
   assessIndex: number
+  reflectIndex: number
   maxStep: number
   reflections: Record<string, string>
   priorityIds: string[]

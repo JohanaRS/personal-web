@@ -25,6 +25,7 @@ export function createInitialState(): RadarState {
     mode: null,
     skills: [],
     assessIndex: 0,
+    reflectIndex: 0,
     maxStep: 0,
     reflections: {},
     priorityIds: [],

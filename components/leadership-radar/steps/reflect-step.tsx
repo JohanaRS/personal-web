@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { scrollToTop } from "../analytics"
 import { REFLECTION_GROUPS, getDimension } from "../content"
 import { toRadarData } from "../derived"
@@ -10,7 +9,8 @@ import { StepHeader, StepNav } from "../step-nav"
 import type { StepProps } from "../types"
 
 export function ReflectStep({ state, update, goTo }: StepProps) {
-  const [groupIndex, setGroupIndex] = useState(0)
+  const groupIndex = Math.min(Math.max(state.reflectIndex ?? 0, 0), REFLECTION_GROUPS.length - 1)
+  const setGroupIndex = (index: number) => update({ reflectIndex: index })
   const group = REFLECTION_GROUPS[groupIndex]
   const last = groupIndex === REFLECTION_GROUPS.length - 1
 
