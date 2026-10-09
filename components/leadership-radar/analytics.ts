@@ -6,6 +6,8 @@ type RadarEvent =
   | "leadership_radar_completed"
   | "leadership_radar_priority_selected"
   | "leadership_radar_coaching_cta_clicked"
+  | "leadership_radar_pdf_downloaded"
+  | "leadership_radar_reflection_continued"
 
 /** Only aggregated, anonymous usage data. Never pass what the person wrote or scored. */
 export function trackRadar(

@@ -5,6 +5,7 @@ export type Phase =
   | "define"
   | "assess"
   | "radar"
+  | "choice"
   | "reflect"
   | "prioritize"
   | "intention"

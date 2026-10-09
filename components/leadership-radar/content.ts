@@ -31,6 +31,7 @@ export const STEPS: { phase: Phase; label: string }[] = [
   { phase: "define", label: "Tus capacidades" },
   { phase: "assess", label: "Autoevaluación" },
   { phase: "radar", label: "Tu radar" },
+  { phase: "choice", label: "Qué sigue" },
   { phase: "reflect", label: "Reflexión" },
   { phase: "prioritize", label: "Prioridades" },
   { phase: "intention", label: "Tu intención" },

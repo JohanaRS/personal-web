@@ -113,8 +113,8 @@ export function RadarStep({ state, update, goTo }: StepProps) {
             update({ assessIndex: state.skills.length - 1 })
             goTo("assess")
           }}
-          onNext={() => goTo("reflect")}
-          nextLabel="Reflexionar sobre mi radar"
+          onNext={() => goTo("choice")}
+          nextLabel="Continuar"
         />
       </div>
     </div>

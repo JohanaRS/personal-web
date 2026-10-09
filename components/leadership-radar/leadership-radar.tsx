@@ -8,6 +8,7 @@ import { ProgressStepper } from "./progress-stepper"
 import { clearState, createGuidedSkills, createInitialState, loadState, saveState } from "./state"
 import { ActionStep } from "./steps/action-step"
 import { AssessStep } from "./steps/assess-step"
+import { ChoiceStep } from "./steps/choice-step"
 import { DefineStep } from "./steps/define-step"
 import { IntentionStep } from "./steps/intention-step"
 import { PrioritizeStep } from "./steps/prioritize-step"
@@ -107,6 +108,7 @@ export function LeadershipRadar() {
       {state.phase === "define" && <DefineStep {...props} />}
       {state.phase === "assess" && <AssessStep {...props} />}
       {state.phase === "radar" && <RadarStep {...props} />}
+      {state.phase === "choice" && <ChoiceStep {...props} />}
       {state.phase === "reflect" && <ReflectStep {...props} />}
       {state.phase === "prioritize" && <PrioritizeStep {...props} />}
       {state.phase === "intention" && <IntentionStep {...props} />}

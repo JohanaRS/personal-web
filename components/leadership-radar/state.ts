@@ -1,4 +1,4 @@
-import { GUIDED_SKILLS } from "./content"
+import { GUIDED_SKILLS, stepIndexOf } from "./content"
 import type { ActionPlan, DimensionId, RadarState, Skill } from "./types"
 
 const STORAGE_KEY = "joharios:leadership-radar:v1"
@@ -68,7 +68,7 @@ export function loadState(): RadarState | null {
     // Versions before 2 used a different model (up to 10 skills, no relations), so they are discarded.
     if (parsed?.version !== 2 || !Array.isArray(parsed.skills)) return null
     const base = createInitialState()
-    return {
+    const restored: RadarState = {
       ...base,
       ...parsed,
       action: { ...base.action, ...(parsed.action ?? {}) },
@@ -76,6 +76,9 @@ export function loadState(): RadarState | null {
       leaderAnswers: parsed.leaderAnswers ?? {},
       priorityIds: parsed.priorityIds ?? [],
     }
+    // Progress saved before a step was inserted must still reach the step the person is on.
+    restored.maxStep = Math.max(restored.maxStep, stepIndexOf(restored.phase))
+    return restored
   } catch {
     return null
   }

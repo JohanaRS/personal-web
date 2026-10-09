@@ -26,7 +26,7 @@ export function ReflectStep({ state, update, goTo }: StepProps) {
   }
 
   const back = () => {
-    if (groupIndex === 0) goTo("radar")
+    if (groupIndex === 0) goTo("choice")
     else {
       setGroupIndex(groupIndex - 1)
       scrollToTop()
