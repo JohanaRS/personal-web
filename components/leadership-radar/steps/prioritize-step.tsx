@@ -16,6 +16,7 @@ export function PrioritizeStep({ state, update, goTo }: StepProps) {
     setError("")
     update((s) => {
       const isOn = s.priorityIds.includes(id)
+      if (!isOn && s.priorityIds.length >= MAX_PRIORITIES) return {}
       const priorityIds = isOn ? s.priorityIds.filter((p) => p !== id) : [...s.priorityIds, id]
       let primaryId = s.primaryId
       if (!primaryId || !priorityIds.includes(primaryId)) primaryId = priorityIds.length === 1 ? priorityIds[0] : null
