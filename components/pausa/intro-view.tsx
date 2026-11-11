@@ -126,6 +126,16 @@ export function IntroView({
               })}
             </ol>
             <p className="mt-6 text-xs leading-relaxed text-muted-foreground">{DISCLAIMER}</p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              ¿Todavía no sabés en qué poner tu foco?{" "}
+              <Link
+                href="/recursos/pausa-estrategica"
+                className="font-semibold text-foreground underline underline-offset-4 hover:text-olive"
+              >
+                Empezá por la Pausa estratégica
+              </Link>
+              .
+            </p>
           </aside>
         </div>
         <p className="sr-only">Momentos: {MOMENTS.join(", ")}.</p>

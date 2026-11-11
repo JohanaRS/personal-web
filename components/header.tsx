@@ -19,6 +19,7 @@ const resourceItems = [
   { label: "Rueda de la Vida", href: "/recursos/rueda-de-la-vida" },
   { label: "Radar de Liderazgo", href: "/recursos/radar-de-liderazgo" },
   { label: "Ikigai profesional", href: "/recursos/ikigai-profesional" },
+  { label: "Pausa estratégica", href: "/recursos/pausa-estrategica" },
   { label: "PAUSA: IA con criterio", href: "/recursos/pausa" },
 ]
 
@@ -188,7 +189,14 @@ export function Header() {
               </button>
               
               {resourcesOpen && (
-                <div className="absolute top-full left-0 mt-1 w-52 bg-background border border-border rounded-xl shadow-lg py-2 z-50">
+                <div className="absolute top-full left-0 mt-1 w-60 bg-background border border-border rounded-xl shadow-lg py-2 z-50">
+                  <Link
+                    href="/recursos"
+                    className="block px-4 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-200 border-b border-border mb-1"
+                    onClick={() => setResourcesOpen(false)}
+                  >
+                    Ver todos los recursos
+                  </Link>
                   {resourceItems.map((item) => (
                     <Link
                       key={item.href}
@@ -330,8 +338,14 @@ export function Header() {
               <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
             </button>
             
-            <div className={`overflow-hidden transition-all duration-300 ${mobileResourcesOpen ? 'max-h-64' : 'max-h-0'}`}>
+            <div className={`overflow-hidden transition-all duration-300 ${mobileResourcesOpen ? 'max-h-96' : 'max-h-0'}`}>
               <div className="pl-4 py-2 space-y-1">
+                <Link
+                  href="/recursos"
+                  className="block py-2 px-4 text-sm font-medium text-primary border-l-2 border-primary"
+                >
+                  Ver todos
+                </Link>
                 {resourceItems.map((item) => (
                   <Link
                     key={item.href}
