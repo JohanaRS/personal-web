@@ -76,7 +76,47 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* PAUSA resource palette: marfil, carbón, oliva, salvia, arcilla */
+.pausa-theme {
+  --background: #f5f1e8;
+  --foreground: #303638;
+  --card: #f5f1e8;
+  --card-foreground: #303638;
+  --popover: #f5f1e8;
+  --popover-foreground: #303638;
+  --primary: #303638;
+  --primary-foreground: #f5f1e8;
+  --secondary: #d8d9c7;
+  --secondary-foreground: #303638;
+  --muted: #d8d9c7;
+  --muted-foreground: color-mix(in oklab, #303638 82%, #f5f1e8);
+  --accent: #d8d9c7;
+  --accent-foreground: #303638;
+  --border: color-mix(in oklab, #6b7c5a 35%, #f5f1e8);
+  --input: color-mix(in oklab, #6b7c5a 55%, #f5f1e8);
+  --ring: #6b7c5a;
+  --olive: #6b7c5a;
+  --sage: #d8d9c7;
+  --clay: #b8715d;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* The site's default button uses a fixed green gradient; PAUSA uses a flat carbón button for AA contrast. */
+.pausa-theme button.bg-gradient-to-br {
+  background-image: none;
+  background-color: var(--primary);
+  box-shadow: none;
+}
+.pausa-theme button.bg-gradient-to-br:hover {
+  background-color: color-mix(in oklab, var(--primary) 88%, var(--olive));
+}
+
 @theme inline {
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --color-olive: var(--olive);
+  --color-sage: var(--sage);
   --font-sans: 'Inter', 'Inter Fallback', system-ui, sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);

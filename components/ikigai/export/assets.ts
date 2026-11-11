@@ -22,7 +22,7 @@ function loadImage(src: string) {
  * The brand PNGs have a wide empty margin and a baked-in light checkerboard.
  * Crop to the artwork and flatten near-white pixels onto the page background.
  */
-async function loadLogo(src: string): Promise<Logo | null> {
+export async function loadLogo(src: string, background = COLORS.background): Promise<Logo | null> {
   try {
     const img = await loadImage(src)
     const { naturalWidth: width, naturalHeight: height } = img
@@ -34,7 +34,7 @@ async function loadLogo(src: string): Promise<Logo | null> {
     ctx.drawImage(img, 0, 0)
     const image = ctx.getImageData(0, 0, width, height)
     const px = image.data
-    const bg = hexToRgb(COLORS.background)
+    const bg = hexToRgb(background)
     let minX = width
     let minY = height
     let maxX = -1

@@ -19,6 +19,7 @@ const resourceItems = [
   { label: "Rueda de la Vida", href: "/recursos/rueda-de-la-vida" },
   { label: "Radar de Liderazgo", href: "/recursos/radar-de-liderazgo" },
   { label: "Ikigai profesional", href: "/recursos/ikigai-profesional" },
+  { label: "PAUSA: IA con criterio", href: "/recursos/pausa" },
 ]
 
 export function Header() {
@@ -329,7 +330,7 @@ export function Header() {
               <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
             </button>
             
-            <div className={`overflow-hidden transition-all duration-300 ${mobileResourcesOpen ? 'max-h-48' : 'max-h-0'}`}>
+            <div className={`overflow-hidden transition-all duration-300 ${mobileResourcesOpen ? 'max-h-64' : 'max-h-0'}`}>
               <div className="pl-4 py-2 space-y-1">
                 {resourceItems.map((item) => (
                   <Link
