@@ -18,6 +18,7 @@ const serviceItems = [
 const resourceItems = [
   { label: "Rueda de la Vida", href: "/recursos/rueda-de-la-vida" },
   { label: "Radar de Liderazgo", href: "/recursos/radar-de-liderazgo" },
+  { label: "Ikigai profesional", href: "/recursos/ikigai-profesional" },
 ]
 
 export function Header() {
