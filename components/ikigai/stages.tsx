@@ -123,7 +123,7 @@ export function IntersectionsStage({ answers, setAnswer }: StageProps) {
         {DIMENSIONS.map((d) => {
           const words = parseKeywords(answers[d.keywords.id])
           return (
-            <div key={d.id} className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5">
+            <div key={d.id} className="flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-card p-5">
               <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <DimensionMarker id={d.id} />
                 {d.name}

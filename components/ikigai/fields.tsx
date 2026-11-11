@@ -31,11 +31,11 @@ export function DimensionMarker({ id, className }: { id: DimensionId; className?
 export function KeywordChips({ dimension, keywords }: { dimension: DimensionId; keywords: string[] }) {
   if (!keywords.length) return null
   return (
-    <ul className="flex flex-wrap gap-2" aria-label={`Palabras clave de ${DIMENSION_BY_ID[dimension].name}`}>
+    <ul className="flex min-w-0 flex-wrap gap-2" aria-label={`Palabras clave de ${DIMENSION_BY_ID[dimension].name}`}>
       {keywords.map((k) => (
         <li
           key={k}
-          className="rounded-full border px-3 py-1 text-sm text-foreground"
+          className="max-w-full rounded-2xl border px-3 py-1 text-sm leading-relaxed text-foreground [overflow-wrap:anywhere]"
           style={{ borderColor: DIMENSION_STYLES[dimension].stroke, backgroundColor: `${DIMENSION_STYLES[dimension].stroke}14` }}
         >
           {k}
@@ -56,7 +56,7 @@ interface KeywordFieldProps {
 export function KeywordField({ id, label, dimension, value, onChange }: KeywordFieldProps) {
   const keywords = parseKeywords(value)
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-card p-5">
+    <div className="flex min-w-0 flex-col gap-3 rounded-xl border border-primary/30 bg-card p-5">
       <div className="flex items-center gap-2">
         <DimensionMarker id={dimension} />
         <label htmlFor={id} className="text-sm font-semibold text-foreground">

@@ -45,7 +45,7 @@ export function SynthesisStage({ answers, onEdit }: { answers: Answers; onEdit: 
 
         <div className="flex flex-col gap-4 sm:hidden">
           {DIMENSIONS.map((d) => (
-            <div key={d.id} className="flex flex-col gap-2">
+            <div key={d.id} className="flex min-w-0 flex-col gap-2">
               <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
                 <DimensionMarker id={d.id} />
                 {d.name}
@@ -89,7 +89,7 @@ export function SynthesisStage({ answers, onEdit }: { answers: Answers; onEdit: 
           {COMPASS.map((card) => {
             const values = card.fields.map((f) => ({ label: f.label, value: (answers[f.id] ?? "").trim() }))
             return (
-              <div key={card.id} className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5">
+              <div key={card.id} className="flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-card p-5 [overflow-wrap:anywhere]">
                 <p className="text-base font-semibold text-foreground">{card.title}</p>
                 {values.some((v) => v.value) ? (
                   values
